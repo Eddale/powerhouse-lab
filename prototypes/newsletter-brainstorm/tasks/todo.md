@@ -17,14 +17,14 @@ Ship a working v0.1 that Ed can use THIS WEEK to brainstorm a real newsletter ed
 ## Plays Shortlist (Riskiest Assumption First)
 
 ### Phase 1: Build the Skill
-- [ ] Write the System Prompt (the 7-phase brain - extraction → headlines → outline → content)
-- [ ] Create supporting artifact files:
-  - [ ] `idea-questions.md` - Question bank for Phase 1 extraction
-  - [ ] `outliner.md` - 10 post type formats
-  - [ ] `section-writer.md` - 14 "Magical Ways" to expand
-  - [ ] `newsletter-format.md` - Little Blue Report style guide
-- [ ] Write the User Prompt Template (the opening conversation starter)
-- [ ] Update SKILL.md with complete architecture
+- [x] Write the System Prompt (the 7-phase brain - extraction → headlines → outline → content)
+- [x] Create supporting artifact files:
+  - [x] `idea-questions.md` - Question bank for Phase 1 extraction
+  - [x] `outliner.md` - 10 post type formats
+  - [x] `section-writer.md` - 14 "Magical Ways" to expand
+  - [x] `newsletter-format.md` - Little Blue Report style guide
+- [x] Write the User Prompt Template (the opening conversation starter)
+- [x] Update SKILL.md with complete architecture
 
 ### Phase 2: Test & Validate
 - [ ] Test with one real topic Ed is considering
