@@ -1,3 +1,9 @@
+---
+name: skill-name-here
+description: What this skill does and when to use it. Include trigger words users would naturally say. Max 1024 chars.
+allowed-tools: Read, Glob, Grep
+---
+
 # [SKILL NAME]
 
 ## What This Does
@@ -11,49 +17,35 @@
 
 ---
 
-## How To Use
+## Instructions
 
-### Quick Start
-```
-[Simple usage example]
-```
-
-### Inputs
-| Input | Required | Description |
-|-------|----------|-------------|
-| | | |
-
-### Outputs
-| Output | Description |
-|--------|-------------|
-| | |
-
----
-
-## The Prompt Architecture
-
-### System Prompt
-```
-[The core instruction set]
-```
-
-### User Prompt Template
-```
-[What gets filled in per use]
-```
+<!--
+The core instructions Claude will follow when this skill is activated.
+Be specific. Use step-by-step guidance where helpful.
+-->
 
 ---
 
 ## Examples
 
 ### Example 1: [Scenario]
-**Input:**
+**User says:**
 ```
+[Example prompt that would trigger this skill]
 ```
 
-**Output:**
+**Skill does:**
 ```
+[What the skill produces]
 ```
+
+---
+
+## Guidelines
+
+- Guideline 1
+- Guideline 2
+- Guideline 3
 
 ---
 
@@ -66,4 +58,4 @@
 ---
 
 ## Notes & Learnings
-<!-- What we discovered building this -->
+<!-- What we discovered building this. Update after each use. -->
