@@ -128,9 +128,9 @@ Then upload `dist/skills-bundle.zip` to Claude.ai → Settings → Features.
 ## Phase 1: Foundation
 
 ### 1.1 Create canonical skills/ structure
-- [ ] Move `.claude/skills/newsletter-coach/` → `skills/newsletter-coach/`
-- [ ] Update `skills/README.md` with usage instructions
-- [ ] Verify SKILL.md has proper YAML frontmatter format
+- [x] Move `.claude/skills/newsletter-coach/` → `skills/newsletter-coach/`
+- [x] Update `skills/README.md` with usage instructions
+- [x] Verify SKILL.md has proper YAML frontmatter format
 
 ### 1.2 Create setup-skills.sh
 ```bash
@@ -256,14 +256,14 @@ allowed-tools: Read, Glob, Grep
 ## Phase 3: Verification
 
 ### 3.1 Run setup and verify
-- [ ] Run `./scripts/setup-skills.sh`
-- [ ] Verify symlinks created correctly
+- [x] Run `./scripts/setup-skills.sh`
+- [x] Verify symlinks created correctly
 - [ ] Test that Claude Code discovers the skill
 
 ### 3.2 Generate and test ZIP
-- [ ] Run `./scripts/package-skills.sh`
-- [ ] Verify `dist/skills-bundle.zip` contents
-- [ ] Document Claude.ai upload process
+- [x] Run `./scripts/package-skills.sh`
+- [x] Verify `dist/skills-bundle.zip` contents
+- [x] Document Claude.ai upload process
 
 ---
 
