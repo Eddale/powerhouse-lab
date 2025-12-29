@@ -1,5 +1,6 @@
 ---
 name: skill-name-here
+version: 1.0.0
 description: What this skill does and when to use it. Include trigger words users would naturally say. Max 1024 chars.
 allowed-tools: Read, Glob, Grep
 ---

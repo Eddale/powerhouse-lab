@@ -27,12 +27,23 @@ git checkout -b skill/my-skill-name
 ### 2. CREATE THE SKILL FOLDER
 
 ```bash
-mkdir -p skills/my-skill-name
+mkdir -p skills/my-skill-name/{scripts,references,resources,assets}
+touch skills/my-skill-name/{scripts,references,resources,assets}/.gitkeep
 ```
 
-**What this does:** Creates a new folder for your skill inside the `skills/` directory.
+**What this does:** Creates a new folder for your skill with all optional subdirectories.
 
-**Plain English:** You're creating a new drawer in the filing cabinet for this skill.
+**Folder structure:**
+```
+skills/my-skill-name/
+├── SKILL.md        # Required - the skill instructions
+├── scripts/        # Optional - executable Python/Bash
+├── references/     # Optional - docs Claude loads when needed
+├── resources/      # Optional - templates and data files
+└── assets/         # Optional - binary files, images, logos
+```
+
+**Plain English:** You're creating a filing cabinet with labeled drawers, ready for future expansion.
 
 ---
 
@@ -48,6 +59,7 @@ Then open it and paste this template:
 ```yaml
 ---
 name: my-skill-name
+version: 1.0.0
 description: What this skill does and when to use it. Include words users would naturally say when they need this skill. Max 1024 characters.
 allowed-tools: Read, Glob, Grep
 ---
@@ -136,19 +148,28 @@ git push origin main
 
 If you use Claude.ai web client:
 
+**Package a single skill:**
 ```bash
-./scripts/package-skills.sh
+./scripts/package-skill.sh my-skill-name
 ```
 
-Then:
+**Or package all skills at once:**
+```bash
+./scripts/package-all-skills.sh
+```
+
+Then for EACH skill:
 1. Go to claude.ai
 2. Click your profile -> Settings
 3. Go to Features section
-4. Upload `dist/skills-bundle.zip`
+4. Upload `dist/my-skill-name.zip`
+5. Toggle the skill ON
 
-**What this does:** Creates a ZIP file containing all your skills, formatted for Claude.ai upload.
+**Important:** Claude.ai requires individual skill uploads (one ZIP per skill). You cannot upload a bundle of multiple skills.
 
-**Plain English:** You're exporting your skills library so you can use it in the web browser version of Claude.
+**What this does:** Creates a ZIP file for each skill, formatted for Claude.ai upload.
+
+**Plain English:** You're exporting each skill as its own package, then uploading them one at a time.
 
 ---
 
@@ -157,12 +178,13 @@ Then:
 | Step | Command | What It Does |
 |------|---------|--------------|
 | Start clean | `git checkout main && git pull && git checkout -b skill/name` | Fresh branch from latest |
-| Create folder | `mkdir -p skills/name` | New skill directory |
+| Create folder | `mkdir -p skills/name/{scripts,references,resources,assets}` | New skill directory with all folders |
 | Wire up | `./scripts/setup-skills.sh` | Link to all AI tools |
 | Test | Ask Claude "What skills are available?" | Verify it works |
 | Save | `git add . && git commit -m "feat: Add name skill"` | Commit your work |
 | Publish | `git checkout main && git merge skill/name && git push` | Make it official |
-| Web export | `./scripts/package-skills.sh` | Create ZIP for Claude.ai |
+| Package one | `./scripts/package-skill.sh name` | Create ZIP for one skill |
+| Package all | `./scripts/package-all-skills.sh` | Create ZIPs for all skills |
 
 ---
 
@@ -175,7 +197,7 @@ skills/                    <- You edit here (source of truth)
    +-> .github/skills/     <- GitHub Copilot reads here (symlink)
    +-> .codex/skills/      <- OpenAI Codex reads here (symlink)
    +-> .agent/workflows/   <- Antigravity reads here (symlink)
-   +-> dist/skills-bundle.zip <- Claude.ai upload (generated)
+   +-> dist/<skill>.zip    <- Claude.ai upload (one ZIP per skill)
 ```
 
 **One source, multiple destinations.** Edit a skill once, all tools see the change.
@@ -212,7 +234,7 @@ I'll edit the SKILL.md file directly and handle the git workflow.
    git commit -m "update: Improve skill-name skill"
    git push
    ```
-4. **Update Claude.ai** (if needed): `./scripts/package-skills.sh` and re-upload
+4. **Update Claude.ai** (if needed): `./scripts/package-skill.sh skill-name` and re-upload
 
 ### Using Antigravity IDE Comments
 
@@ -247,6 +269,6 @@ To use these skills in your own projects:
 
 1. Clone/fork this repository
 2. Run `./scripts/setup-skills.sh`
-3. For Claude.ai: Run `./scripts/package-skills.sh` and upload the ZIP
+3. For Claude.ai: Run `./scripts/package-all-skills.sh` and upload each ZIP individually
 
 You can add your own skills to the `skills/` folder following the same pattern.

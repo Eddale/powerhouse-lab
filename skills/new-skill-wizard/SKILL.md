@@ -1,5 +1,6 @@
 ---
 name: new-skill-wizard
+version: 1.0.0
 description: Creates a new skill in the Powerhouse Lab skills library with proper git workflow. Use when the user wants to create a new skill, add a skill, build a skill, or says "new skill called X".
 allowed-tools: Read, Write, Bash, Glob, Grep
 ---
@@ -43,7 +44,14 @@ Tell them: "Created branch `skill/<name>` from latest main."
 ### Step 3: Create the Skill Files (Do This Automatically)
 
 ```bash
-mkdir -p skills/<name>
+# Create skill folder with all optional subdirectories
+mkdir -p skills/<name>/{scripts,references,resources,assets}
+
+# Add .gitkeep files so empty folders are tracked
+touch skills/<name>/scripts/.gitkeep
+touch skills/<name>/references/.gitkeep
+touch skills/<name>/resources/.gitkeep
+touch skills/<name>/assets/.gitkeep
 ```
 
 Create `skills/<name>/SKILL.md`:
@@ -51,6 +59,7 @@ Create `skills/<name>/SKILL.md`:
 ```yaml
 ---
 name: <name>
+version: 1.0.0
 description: <their description>. Use when <their trigger phrases>.
 allowed-tools: Read, Glob, Grep, WebSearch, WebFetch
 ---
@@ -71,6 +80,16 @@ allowed-tools: Read, Glob, Grep, WebSearch, WebFetch
 ## Guidelines
 
 - [To be defined]
+```
+
+**Folder structure created:**
+```
+skills/<name>/
+├── SKILL.md        # The skill instructions
+├── scripts/        # Executable Python/Bash (runs without loading into context)
+├── references/     # Docs Claude loads when needed
+├── resources/      # Templates and data files
+└── assets/         # Binary files, images, logos
 ```
 
 ### Step 4: Wire It Up (Do This Automatically)
@@ -118,16 +137,18 @@ git push origin main
 
 Tell them: "`<name>` is now live on main and available everywhere."
 
-### Step 8: Claude.ai Bundle (Ask First)
+### Step 8: Claude.ai Upload (Ask First)
 
-Ask: "Want me to update the Claude.ai bundle too?"
+Ask: "Want me to package this skill for Claude.ai?"
 
 If yes:
 ```bash
-./scripts/package-skills.sh
+./scripts/package-skill.sh <name>
 ```
 
-Tell them: "ZIP ready at `dist/skills-bundle.zip`. Upload to Claude.ai → Settings → Features."
+Tell them: "ZIP ready at `dist/<name>.zip`. Upload to Claude.ai → Settings → Features → toggle it ON."
+
+**Note:** Claude.ai requires individual skill uploads (one ZIP per skill). Use `./scripts/package-all-skills.sh` to create ZIPs for all skills at once.
 
 ## IMPORTANT RULES
 
