@@ -136,10 +136,50 @@ skills/
 
 ---
 
+## Verification Plan
+
+### What We Can Verify Here (In This Environment)
+
+After implementation, I'll run these checks:
+
+- [ ] **ZIP Structure Check** - Unzip each file and confirm:
+  - Exactly ONE top-level folder
+  - SKILL.md exists at root of that folder
+  - All optional folders present (scripts/, references/, resources/, assets/)
+
+- [ ] **YAML Validation** - Confirm frontmatter has:
+  - `name` field (lowercase, hyphens)
+  - `description` field (under 1024 chars)
+  - `version` field added
+  - `allowed-tools` field (existing)
+
+- [ ] **Script Tests** - Run packaging scripts and confirm:
+  - `package-skill.sh <name>` creates correct individual ZIP
+  - `package-all-skills.sh` creates all individual ZIPs
+  - No errors during execution
+
+- [ ] **Template Check** - Verify updated template has all folders
+
+### What YOU Need to Verify (On Claude.ai)
+
+After I push the changes to GitHub:
+
+1. **Pull the branch** to your local machine
+2. **Run** `./scripts/package-all-skills.sh`
+3. **Upload each ZIP** to Claude.ai → Settings → Features
+4. **Confirm** no error messages on upload
+5. **Toggle ON** each skill
+6. **Test** each skill triggers correctly with a prompt
+
+I'll provide exact test prompts for each skill when we get there.
+
+---
+
 ## Success Signals
 
-- [ ] Each skill uploads successfully to Claude.ai
-- [ ] Skills toggle ON and work correctly
+- [ ] ZIP structure passes all checks here
+- [ ] Each skill uploads successfully to Claude.ai (you verify)
+- [ ] Skills toggle ON and work correctly (you verify)
 - [ ] New skills created by wizard have correct structure
 - [ ] Documentation is clear and accurate
 
