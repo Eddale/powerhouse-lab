@@ -187,6 +187,57 @@ skills/                    <- You edit here (source of truth)
 | Skill | Description |
 |-------|-------------|
 | [newsletter-coach](newsletter-coach/) | Writing coach that turns daily experiences into newsletter drafts |
+| [new-skill-wizard](new-skill-wizard/) | Automates skill creation - just say "create a new skill called X" |
+| [mission-context](mission-context/) | Ed's business context, terminology, and mission |
+
+---
+
+## UPDATING AN EXISTING SKILL
+
+When you need to improve or modify a skill:
+
+### The Easy Way (Just Ask)
+
+Say: "Update my mission-context skill to include..." or "Add X to the newsletter-coach skill"
+
+I'll edit the SKILL.md file directly and handle the git workflow.
+
+### The Manual Way
+
+1. **Edit the file directly** in `skills/skill-name/SKILL.md`
+2. **Test it** - refresh your session and try triggering the skill
+3. **Commit and push:**
+   ```bash
+   git add skills/skill-name/
+   git commit -m "update: Improve skill-name skill"
+   git push
+   ```
+4. **Update Claude.ai** (if needed): `./scripts/package-skills.sh` and re-upload
+
+### Using Antigravity IDE Comments
+
+If you're in Antigravity:
+1. Open the SKILL.md file
+2. Select the text you want to change
+3. Add a Google Docs-style comment with your edit
+4. The agent incorporates your feedback
+
+---
+
+## THE AUTOMATED WAY (Recommended)
+
+Instead of running terminal commands, just tell Claude:
+
+**To create a new skill:**
+> "I want to create a new skill called brand-voice"
+
+**To update a skill:**
+> "Update my mission-context to include my new terminology"
+
+**To publish to Claude.ai:**
+> "Package my skills for Claude.ai"
+
+The `new-skill-wizard` skill handles all the git workflow automatically.
 
 ---
 
