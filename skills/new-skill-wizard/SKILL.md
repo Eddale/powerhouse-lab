@@ -1,6 +1,5 @@
 ---
 name: new-skill-wizard
-version: 1.0.0
 description: Creates a new skill in the Powerhouse Lab skills library with proper git workflow. Use when the user wants to create a new skill, add a skill, build a skill, or says "new skill called X".
 allowed-tools: Read, Write, Bash, Glob, Grep
 ---
@@ -59,7 +58,6 @@ Create `skills/<name>/SKILL.md`:
 ```yaml
 ---
 name: <name>
-version: 1.0.0
 description: <their description>. Use when <their trigger phrases>.
 allowed-tools: Read, Glob, Grep, WebSearch, WebFetch
 ---

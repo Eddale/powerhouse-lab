@@ -1,6 +1,5 @@
 ---
 name: mission-context
-version: 1.0.0
 description: Provides context about Ed, his mission, terminology, and business. Use when working on Ed's projects, coaching business, AI Powerhouse content, BlackBelt work, or The Little Blue Report. Also use when Ed asks you to understand his business or speak in his voice.
 allowed-tools: Read, Glob, Grep, WebSearch, WebFetch, Write, Edit
 ---

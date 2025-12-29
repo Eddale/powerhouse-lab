@@ -1,6 +1,5 @@
 ---
 name: newsletter-coach
-version: 1.0.0
 description: Writing coach that extracts educational content from your daily experiences and turns it into publish-ready newsletter drafts. Use when brainstorming newsletter ideas, writing content for The Little Blue Report, or when you want help turning experiences into educational articles.
 allowed-tools: Read, Glob, WebSearch, WebFetch
 ---

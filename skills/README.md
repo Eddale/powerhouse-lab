@@ -59,7 +59,6 @@ Then open it and paste this template:
 ```yaml
 ---
 name: my-skill-name
-version: 1.0.0
 description: What this skill does and when to use it. Include words users would naturally say when they need this skill. Max 1024 characters.
 allowed-tools: Read, Glob, Grep
 ---
