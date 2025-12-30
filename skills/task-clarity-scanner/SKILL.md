@@ -16,6 +16,15 @@ Scans your daily note or task list, identifies unclear or vague tasks, suggests 
 - "Check my task list for today"
 - "What can you help me with today?"
 
+## Default Daily Note Location
+
+Ed's daily notes live in Obsidian at:
+```
+/Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/YYYY-MM-DD.md
+```
+
+When invoked without a specific file, check today's date and look for that file automatically.
+
 ## Instructions
 
 This skill uses the **Batch Pattern** - clarify all tasks first, then execute work.
@@ -25,7 +34,7 @@ This skill uses the **Batch Pattern** - clarify all tasks first, then execute wo
 ### PASS 1: Clarify (One by One)
 
 **Step 1: Read the Daily Note**
-Read the file the user specifies (typically their Obsidian daily note).
+If no file specified, use today's date to find the daily note in the Zettelkasten folder.
 Look for the `## Key Tasks` section or any markdown task list (`- [ ]` items).
 
 **Step 2: Quick Triage**
@@ -60,10 +69,23 @@ When suggesting rewrites:
 - Include context needed
 - Define the done state
 - Make it agent-handoff ready
+- **Include URLs/links** so tasks are self-contained (agents shouldn't have to ask for references)
 
 Example:
 - Before: "Make Google Drive AI Ready"
 - After: "Organize Google Drive for AI access: Create 'AI-Ready' folder, move key docs, document what each folder contains"
+
+**Step 4b: Surfaced Tasks**
+Clarifying one task often surfaces additional tasks. Track these as you go:
+- New research needed
+- Dependencies discovered
+- Related updates required
+
+These get added as a separate "Surfaced Tasks" section when updating the file.
+
+**Step 4c: Final Check**
+Before moving to PASS 2, ask: **"Did we miss anything?"**
+This catches tasks that surfaced during conversation but weren't explicitly noted.
 
 ---
 
@@ -111,6 +133,26 @@ Execute approved tasks, report back when done.
 3. **Flag unknowns honestly** - If you don't know what "CMM" means, say so
 4. **Suggest, don't assume** - Always get approval before modifying the file
 5. **Keep the human in the loop** - The goal is to help Ed move faster, not to take over
+
+## Task Grouping Patterns
+
+When updating the daily note, group tasks by type:
+
+- **Key Tasks** - Main work items for today
+- **Surfaced Tasks** - New tasks discovered during clarification (often research or dependencies)
+
+Research tasks are especially good to group separately - they can be "outsourced" to Claude Mac client, ChatGPT, or Deep Research while continuing other work.
+
+## Where Progressive Documents Live
+
+Some tasks need working documents that build up over time:
+
+| Document Type | Location | Example |
+|---------------|----------|---------|
+| **Methodology / Brainstorming** | GitHub `docs/` or prototype folder | Skill design, workflow planning |
+| **Writing (newsletters, articles)** | Obsidian Zettelkasten | Little Blue Report drafts |
+
+Rule of thumb: Building tools → GitHub. Creating content → Obsidian.
 
 ## Examples
 
