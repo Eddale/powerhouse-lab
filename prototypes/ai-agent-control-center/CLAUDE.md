@@ -100,6 +100,18 @@ prototypes/  →  skills/  →  [Own Repo]
 
 7. **Add a review section** to `tasks/todo.md` - Summary of changes and any notes
 
+### End of Session (When Ed says "wrapping up", "end of session", "syncing", etc.)
+
+8. **Complete git sync:**
+   - Check `git status` for any uncommitted changes
+   - Commit and push all work to GitHub
+   - Verify local and remote are aligned
+
+9. **Package any new/modified skills:**
+   - Run `./scripts/package-skill.sh <skill-name>` for each skill created or updated
+   - Confirm ZIPs are in `dist/` folder ready for Claude.ai upload
+   - Remind Ed which ZIPs need uploading
+
 ### When to Stop and Ask vs. Make the Call
 
 **STOP AND ASK:**
@@ -173,5 +185,5 @@ When killing a project:
 
 This file evolves. When we discover something that should be standard, I'll add it here.
 
-**Last updated:** December 2024
-**Version:** 1.0
+**Last updated:** December 2025
+**Version:** 1.1 - Added end-of-session sync protocol
