@@ -3,6 +3,29 @@
 
 ---
 
+## CURRENT STATE (Session Bookmark)
+
+**Last session:** 2025-12-30
+**Status:** MVP skill shipped, ready for testing
+
+**What's done:**
+- [x] task-clarity-scanner skill built and on main
+- [x] mission-context updated with tech stack
+- [x] Technical research on parallel processing
+- [x] Skill updated with batch pattern (one-by-one clarification)
+- [x] ZIPs packaged for Claude.ai upload
+
+**What's next:**
+- [ ] Test the new one-by-one clarification flow in a fresh session
+- [ ] Upload ZIPs to Claude.ai (mission-context.zip, task-clarity-scanner.zip)
+- [ ] Create Someday/Maybe file pattern
+- [ ] Add socials/platforms to mission-context
+
+**Resume prompt:**
+> "Let's test the task-clarity-scanner on my daily note using the new one-by-one flow"
+
+---
+
 ## THE BIG IDEA
 
 **What we're building:** A "Personal AI Operating System" - the central hub for managing multiple autonomous AI agents that work in Obsidian, pull skills from GitHub, and report back.
