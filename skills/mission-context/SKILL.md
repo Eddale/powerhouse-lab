@@ -128,6 +128,51 @@ Ed's delivery framework has three layers:
 
 ---
 
+## TECH STACK
+
+### The Vibe Coder Rule
+> "If I want it to *think* smart, use Python.
+> If I want it to *look* cool, use React."
+
+### Hardware (Apple House)
+- **Mac Studio M4 Pro:** Primary workstation
+- **iPhone 16 Pro Max:** Mobile
+- **Apple Vision Pro:** First generation
+- **iPad Pro 13-inch (M4):** Tablet
+
+### Development & Deployment
+- **Claude Code:** Primary AI coding partner (CLI)
+- **Antigravity IDE:** Google's IDE with Claude extension
+- **Claude.ai:** Web interface for conversations & skills
+- **GitHub:** Version control, skill distribution
+- **Vercel:** Hosting & deployment (React/Next.js)
+- **Google Cloud Run:** Deployment (Google stack)
+- **Google AI Studio:** AI development & testing
+
+### Content & Knowledge
+- **Obsidian:** Daily notes, content pipeline, knowledge base
+- **Substack:** The Little Blue Report publication
+- **MacWhisper:** Dictation and transcriptions
+- **Descript:** Video editing
+- **DaVinci Resolve:** Video editing (latest)
+
+### Daily Drivers
+- **Arc:** Primary browser
+- **Comet:** Secondary browser
+- **Apple Mail:** Email client
+- **Google Calendar:** Calendar
+
+### Languages
+- **Python:** When it needs to think (AI, automation)
+- **React/Next.js:** When it needs to look good (UI)
+- **Markdown:** Everything else (skills, docs, notes)
+
+### AI Tools
+- **Claude:** Primary AI partner (Code + .ai)
+- **ChatGPT:** Conversations, brainstorming
+
+---
+
 ## CURRENT FOCUS AREAS
 
 ### Powerhouse Lab (This Repo)
