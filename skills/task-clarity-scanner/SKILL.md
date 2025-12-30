@@ -18,70 +18,91 @@ Scans your daily note or task list, identifies unclear or vague tasks, suggests 
 
 ## Instructions
 
-### Step 1: Read the Daily Note
+This skill uses the **Batch Pattern** - clarify all tasks first, then execute work.
+
+---
+
+### PASS 1: Clarify (One by One)
+
+**Step 1: Read the Daily Note**
 Read the file the user specifies (typically their Obsidian daily note).
 Look for the `## Key Tasks` section or any markdown task list (`- [ ]` items).
 
-### Step 2: Analyze Each Task
-For each task, evaluate:
+**Step 2: Quick Triage**
+Briefly categorize tasks:
+- **Ready** - Clear enough to act on
+- **Unclear** - Needs clarification
+- **Question** - Not a task, just a thought
+- **Done** - Already completed, can skip
 
-| Check | Question |
-|-------|----------|
-| **Clarity** | Is it clear what needs to be done? |
-| **Context** | Is there enough info to act on it? |
-| **Actionability** | Could an agent execute this, or is it just a thought? |
-| **Success Signal** | How would you know it's done? |
-
-### Step 3: Categorize and Report
-Present findings using bullet lists (NOT tables - they render poorly in terminal):
+**Step 3: Clarify One at a Time**
+For each unclear task, present it individually (NOT a wall of text):
 
 ```
-## Task Clarity Report
+**Task:** "[the task]"
 
-### Ready to Go
-- **"[task]"** - Why it's clear, what agent could do
-
-### Needs Clarification
-- **"[task]"**
-  - Issue: [what's unclear]
-  - Suggested rewrite: "[agentic-ready version]"
-  - What's needed: [missing context, link, etc.]
-
-### Questions, Not Tasks
-- **"[item]"** - This is a question to explore, not a task to complete
+- **Issue:** [what's unclear]
+- **Suggested rewrite:** "[agentic-ready version]"
+- **What's needed:** [missing context]
 ```
 
-**Important:** Avoid markdown tables in output. Use bullets and bold for scannability.
+Then ask ONE question with options:
+1. **Clarify** - "Here's what I mean: [context]"
+2. **Accept rewrite** - Use the suggested version
+3. **Skip** - Leave as-is for now
+4. **Someday/Maybe** - Park it for later
 
-### Step 4: Suggest Rewrites
-For unclear tasks, suggest a rewrite that:
-- States the specific action
-- Includes the context needed
-- Has a clear done state
-- Could be handed to an agent
+Move to the next task after each response. Keep momentum.
 
-**Example transformation:**
+**Step 4: Rewrite Principles**
+When suggesting rewrites:
+- State the specific action
+- Include context needed
+- Define the done state
+- Make it agent-handoff ready
+
+Example:
 - Before: "Make Google Drive AI Ready"
-- After: "Organize Google Drive for AI access: Create an 'AI-Ready' folder, move key documents there, and note which files are reference vs working docs"
+- After: "Organize Google Drive for AI access: Create 'AI-Ready' folder, move key docs, document what each folder contains"
 
-### Step 5: Get Approval
-For each unclear task, offer options:
+---
 
-1. **Clarify now** - Ed provides the missing context
-2. **Accept rewrite** - Use the suggested rewrite
-3. **Skip for now** - Leave as-is, move on
-4. **Move to Someday/Maybe** - Park it in a separate file for later review
+### PASS 2: Update the File
 
-Use AskUserQuestion to confirm which tasks to update and how.
+**Step 5: Batch the Changes**
+After all tasks are clarified, summarize:
+```
+Ready to update your daily note:
+- Task 1: [original] → [rewrite]
+- Task 2: Skipped
+- Task 3: [original] → [rewrite]
+- Task 4: → Someday/Maybe
+```
 
-Present the specific changes that will be made before making them.
+Get final approval before making edits.
 
-### Step 6: Update the File
-If approved:
-- Use the Edit tool to modify the original file
-- Replace vague tasks with the approved rewrites
-- Preserve all other content exactly as-is
-- Confirm: "Updated [N] tasks in your daily note."
+**Step 6: Apply Edits**
+- Use Edit tool to modify the original file
+- Move Someday/Maybe items to designated file
+- Preserve all other content exactly
+- Confirm: "Updated [N] tasks."
+
+---
+
+### PASS 3: Execute (Future)
+
+**Step 7: Spin Up Agents**
+For tasks marked "Ready to Go", offer to spin up agents:
+```
+These tasks are ready for agents:
+- [task 1] - I can do this now
+- [task 2] - Needs a research agent
+- [task 3] - I can do this now
+
+Want me to start working on these?
+```
+
+Execute approved tasks, report back when done.
 
 ## Guidelines
 

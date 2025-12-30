@@ -93,6 +93,8 @@ Quick captures - add here as ideas surface:
 - [ ] **Idea:** "Agent Memory" - persistent context that survives session restarts
 - [ ] **Idea:** Visual status board (could be a simple Obsidian dashboard)
 - [ ] **Idea:** Standalone tool version (graduation path from prototype → own repo)
+- [ ] **Idea:** Agent SDK orchestrator (Python/TypeScript) for true parallel execution
+- [ ] **Idea:** Git worktrees pattern for running multiple Claude Code sessions simultaneously
 
 ---
 
@@ -105,6 +107,38 @@ Quick captures - add here as ideas surface:
 | 2025-12-30 | Scanner can rewrite tasks AND modify the file | Real leverage = actually fixing, not just flagging |
 | 2025-12-30 | Hybrid trigger for future research sub-agents | Scanner suggests research, Ed approves - keeps human in the loop |
 | 2025-12-30 | Use new-skill-wizard when building skills | Dogfood our own tools |
+| 2025-12-30 | One-by-one clarification, not wall of text | Better UX in terminal, less overwhelming |
+| 2025-12-30 | Batch pattern for agent execution | Claude Code can't do true parallel - clarify first, batch execute second |
+| 2025-12-30 | Skip and Someday/Maybe options in scanner | Not every task needs action today |
+| 2025-12-30 | Bullet format, not tables in terminal output | Tables render poorly in CLI |
+
+---
+
+## TECHNICAL RESEARCH
+
+### Parallel/Background Processing in Claude Code (2025-12-30)
+
+**The Goal:** Air-traffic-controller mode - clarify tasks one by one, spin up agents in background, keep moving.
+
+**What Claude Code CAN Do:**
+- **Background Bash:** Press Ctrl+B or use `run_in_background: true` - retrieve results later with BashOutput tool
+- **Subagents (Task tool):** Fire off agents, each gets unique agentId, can resume later
+- **Parallel Sessions:** Use Git worktrees to run completely separate Claude Code instances in different terminals
+
+**What Claude Code CAN'T Do (Yet):**
+- True parallel agents in same session (they run sequentially)
+- Spawn new terminal windows from CLI
+- Built-in task queue/orchestration
+
+**The Gap vs Antigravity:**
+Antigravity can spin up parallel workers and continue. Claude Code subagents block the main conversation.
+
+**Workaround - The Batch Pattern:**
+1. **Pass 1:** Clarify all tasks one-by-one (human in the loop)
+2. **Pass 2:** Batch spin up agents for all clarified tasks
+3. **Pass 3:** Check in on progress, report back
+
+**Future Option:** Use Agent SDK (Python/TypeScript) for true async orchestration.
 
 ---
 
