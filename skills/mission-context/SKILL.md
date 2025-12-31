@@ -14,6 +14,8 @@ This skill gives you everything you need to work effectively with Ed. Load this 
 
 **Ed Dale** - Vibe Coder, world-class copywriter, and coach. Founder of the 30 Day Challenge, The first ever online challenge. Author of the Book Your First Dollar
 
+**Company:** Neon Marillion Pty Ltd
+
 **Background:**
 - Senior coach at BlackBelt coaching program
 - Created the AI Amplified Coaching Powerhouse program
@@ -170,6 +172,18 @@ Ed's delivery framework has three layers:
 ### AI Tools
 - **Claude:** Primary AI partner (Code + .ai)
 - **ChatGPT:** Conversations, brainstorming
+
+### Socials & Platforms
+
+| Platform | Handle | Usage |
+|----------|--------|-------|
+| **YouTube** | [@eddale](https://youtube.com/@eddale) | Weekly long-form value content (key focus going forward) |
+| **Instagram** | [@eddale](https://instagram.com/eddale) | Daily posting: 4 days value/engagement, 1 day lead magnet handraiser (via GHL) |
+| **Twitter/X** | [@Ed_Dale](https://x.com/ed_dale) | Read daily, rarely post |
+| **Facebook** | Business + Personal pages | Experimenting with Instagram carousel reposts |
+| **LinkedIn** | Neon Marillion Pty Ltd | Recently refreshed |
+| **Linktree** | [linktr.ee/eddale](https://linktr.ee/eddale) | Link hub |
+| **Substack** | The Little Blue Report | Primary newsletter |
 
 ### Agent Capabilities (What Claude Code Can Do)
 - **Email:** Draft and open in Mac Mail via AppleScript (review before send)
