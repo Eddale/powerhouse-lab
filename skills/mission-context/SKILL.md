@@ -186,7 +186,8 @@ Ed's delivery framework has three layers:
 | **Substack** | The Little Blue Report | Primary newsletter |
 
 ### Agent Capabilities (What Claude Code Can Do)
-- **Email:** Draft and open in Mac Mail via AppleScript (review before send)
+- **Email (Send):** Draft and open in Mac Mail via AppleScript (review before send) ✓
+- **Email (Search):** Limited - AppleScript too slow for large mailboxes, Spotlight broken since Catalina. Future: Python IMAP or Gmail API
 - **Files:** Read/write to Obsidian vault and GitHub repos
 - **Web:** Fetch and analyze URLs, search the web
 - **Git:** Full version control, commits, pushes
