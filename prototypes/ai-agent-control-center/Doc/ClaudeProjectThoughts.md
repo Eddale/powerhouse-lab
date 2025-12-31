@@ -5,24 +5,26 @@
 
 ## CURRENT STATE (Session Bookmark)
 
-**Last session:** 2025-12-30
-**Status:** MVP skill shipped, ready for testing
+**Last session:** 2025-12-31
+**Status:** Scanner tested and improved, email workflow unlocked
 
 **What's done:**
-- [x] task-clarity-scanner skill built and on main
-- [x] mission-context updated with tech stack
-- [x] Technical research on parallel processing
-- [x] Skill updated with batch pattern (one-by-one clarification)
-- [x] ZIPs packaged for Claude.ai upload
+- [x] task-clarity-scanner tested on real daily note - works great
+- [x] Skill updated with learnings: "Surfaced Tasks" terminology, URL self-containment, "Did we miss anything?" check
+- [x] mission-context updated with socials, platforms, company (Neon Marillion Pty Ltd), agent capabilities
+- [x] Email workflow unlocked: Claude Code → Mac Mail via AppleScript
+- [x] CMM support email drafted and sent via AppleScript
+- [x] 11 surfaced tasks captured from scanner session
 
 **What's next:**
-- [ ] Test the new one-by-one clarification flow in a fresh session
 - [ ] Upload ZIPs to Claude.ai (mission-context.zip, task-clarity-scanner.zip)
-- [ ] Create Someday/Maybe file pattern
-- [ ] Add socials/platforms to mission-context
+- [ ] Create email-agent skill (draft, send, track "waiting for")
+- [ ] Research "Waiting For" task pattern
+- [ ] Update templater daily template (surfaced tasks carry-forward)
+- [ ] Convert Offer Diamond & Triangle Model ChatGPT projects to skills
 
 **Resume prompt:**
-> "Let's test the task-clarity-scanner on my daily note using the new one-by-one flow"
+> "Let's pick up where we left off - what's the next high-leverage task?"
 
 ---
 
