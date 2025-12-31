@@ -159,7 +159,7 @@ Ed's delivery framework has three layers:
 ### Daily Drivers
 - **Arc:** Primary browser
 - **Comet:** Secondary browser
-- **Apple Mail:** Email client
+- **Apple Mail:** Email client (Claude Code can draft/send via AppleScript)
 - **Google Calendar:** Calendar
 
 ### Languages
@@ -170,6 +170,13 @@ Ed's delivery framework has three layers:
 ### AI Tools
 - **Claude:** Primary AI partner (Code + .ai)
 - **ChatGPT:** Conversations, brainstorming
+
+### Agent Capabilities (What Claude Code Can Do)
+- **Email:** Draft and open in Mac Mail via AppleScript (review before send)
+- **Files:** Read/write to Obsidian vault and GitHub repos
+- **Web:** Fetch and analyze URLs, search the web
+- **Git:** Full version control, commits, pushes
+- **Shell:** Run scripts, package skills, system automation
 
 ---
 
