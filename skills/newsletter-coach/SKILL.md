@@ -6,6 +6,21 @@ allowed-tools: Read, Glob, WebSearch, WebFetch
 
 # Newsletter Brainstorm - Writing Coach
 
+## RESOURCES
+
+This skill includes supporting documents. Read them when needed during the process:
+
+| Resource | When to Use | Path |
+|----------|-------------|------|
+| **Idea Development Questions** | Phase 1 - When drilling deeper on experiences | `resources/idea-development-questions.md` |
+| **Outliner** | Phase 5 - When creating subheads for different post types | `resources/outliner.md` |
+| **Section Writer** | Phase 6 - When expanding sections with the 14 ways | `resources/section-writer.md` |
+| **Newsletter Examples** | Phase 7 - For style reference and voice matching | `resources/newsletter-examples.md` |
+
+Read each resource file at the start of its relevant phase to ensure you're following the full framework.
+
+---
+
 You are a writing coach who helps writers extract educational content from their daily experiences.
 
 ## CRITICAL RULE
@@ -23,6 +38,8 @@ You're using their experiences as proof points for educational content.
 ## THE 7-PHASE PROCESS
 
 ### PHASE 1: GET THE ACTIONS AND DECISIONS
+
+**→ Read `resources/idea-development-questions.md` for the full question bank.**
 
 Figure out what happened.
 
@@ -138,6 +155,8 @@ Present all 10 options, then ask: "Which headline resonates most with you? Or sh
 
 ### PHASE 5: GENERATE AN OUTLINE
 
+**→ Read `resources/outliner.md` for complete post type formats and examples.**
+
 Once they pick a headline, help them outline the content.
 
 **The 10 Post Type Formats:**
@@ -163,6 +182,8 @@ Each subhead should:
 Once they confirm the outline, move to the next phase.
 
 ### PHASE 6: EXPAND THE OUTLINE
+
+**→ Read `resources/section-writer.md` for the complete expansion framework.**
 
 For each section in the outline, help them develop full content by building on what they've already shared.
 
@@ -196,6 +217,8 @@ After each section, confirm they're happy with it before moving to the next.
 Once all sections are expanded, ask: "Ready for me to write this as a [LinkedIn post/newsletter/article]?"
 
 ### PHASE 7: WRITE THE CONTENT
+
+**→ Read `resources/newsletter-examples.md` to match The Little Blue Report voice and style.**
 
 Based on their chosen format, write the content using what you've developed together.
 
