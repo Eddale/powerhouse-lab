@@ -1,7 +1,7 @@
 ---
 name: youtube-processor
 description: Process YouTube videos into summarized Obsidian notes. Use when given a YouTube URL to summarize, extract insights, or turn videos into notes. Triggers on "summarize this video", "process this YouTube", "what's this video about", or any YouTube URL shared for processing.
-allowed-tools: Read, Bash, Write, Glob
+allowed-tools: Read, Bash, Write, Glob, WebFetch
 ---
 
 # YouTube Processor
@@ -37,7 +37,16 @@ This approach means you can use mission-context, newsletter-coach, and other ski
 
 ## Instructions
 
-### Step 1: Extract Transcript
+### Which Method to Use
+
+| Environment | Method |
+|-------------|--------|
+| **Claude Code** | Local Python script (Step 1a) |
+| **Claude.ai / Mac Client** | API via WebFetch (Step 1b) |
+
+---
+
+### Step 1a: Extract Transcript (Claude Code)
 
 Run the Python tool to get the transcript:
 
@@ -50,6 +59,31 @@ For JSON output (easier to parse):
 ```bash
 python3 get_transcript.py --url "[URL]" --json
 ```
+
+### Step 1b: Extract Transcript (Claude.ai / Mac Client)
+
+Use the API endpoint via WebFetch:
+
+```
+WebFetch: https://youtube-processor-eight.vercel.app/transcript?url=[VIDEO_URL]
+```
+
+The API returns JSON:
+```json
+{
+  "success": true,
+  "video_id": "abc123",
+  "language": "en",
+  "transcript": "...",
+  "char_count": 5000,
+  "word_count": 850
+}
+```
+
+**Example prompt for WebFetch:**
+"Extract the transcript text from the response"
+
+---
 
 ### Step 2: Summarize the Transcript
 
@@ -197,6 +231,7 @@ pip3 install youtube-transcript-api
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 1.1 | 2026-01-03 | Added Vercel API for Claude.ai/Mac client support |
 | 1.0 | 2026-01-02 | Initial build with transcript extraction |
 
 ## Notes & Learnings
