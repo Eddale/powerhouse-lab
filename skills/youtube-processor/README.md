@@ -2,22 +2,40 @@
 
 Extracts YouTube transcripts and lets Claude do the summarization. Works across all Claude environments.
 
+## Current Status: Claude Code Only
+
+**As of Jan 2026:** The API exists but Claude.ai and Mac client can't use it due to sandbox network restrictions. Those environments block outbound requests to most domains, including Vercel.
+
+**What works:**
+- Claude Code (local Python) - Full functionality
+
+**What doesn't work (yet):**
+- Claude.ai - Sandbox blocks Vercel API
+- Mac Client - Same sandbox restrictions
+
+**Future options:**
+- MCP server running locally (bypasses sandbox)
+- Wait for Anthropic to relax network restrictions
+- Manual transcript paste as workaround
+
+---
+
 ## Architecture Decision: Dual Method Approach
 
-This skill intentionally supports **two extraction methods**:
+This skill was built to support **two extraction methods**:
 
-| Method | Environment | How It Works |
-|--------|-------------|--------------|
-| **Local Python** | Claude Code | Runs `get_transcript.py` directly |
-| **API (Vercel)** | Claude.ai, Mac Client | WebFetch to hosted endpoint |
+| Method | Environment | Status |
+|--------|-------------|--------|
+| **Local Python** | Claude Code | Working |
+| **API (Vercel)** | Claude.ai, Mac Client | Blocked by sandbox |
 
-### Why Two Methods?
+### Why We Built Both
 
 We considered API-only (simpler, one code path) vs dual approach. We chose dual because:
 
 1. **Robustness** - Local script works if API is down
 2. **Speed** - Local is faster (no network round-trip)
-3. **Redundancy** - Claude Code users get the best experience, web users still work
+3. **Future-proofing** - API ready when/if sandbox restrictions change
 
 ### The Tradeoff
 
