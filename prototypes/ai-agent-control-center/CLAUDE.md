@@ -69,6 +69,8 @@ prototypes/  →  skills/  →  [Own Repo]
 | Ship This = Win Day | The only metric that matters |
 | Prompt Whispering™ | Building AI tools through conversation |
 | Prompt Wrangling™ | Debugging and refinement |
+| Ultrathink / Research Swarm | Multi-angle parallel research - attacking a question from 3-5 simultaneous perspectives |
+| Zettelkasten Integration | Knowledge capture via daily notes and research docs in Obsidian |
 
 ---
 
@@ -102,15 +104,20 @@ prototypes/  →  skills/  →  [Own Repo]
 
 ### End of Session (When Ed says "wrapping up", "end of session", "syncing", etc.)
 
-8. **Complete git sync:**
+8. **Update daily notes:**
+   - Add any research reports to Captures section
+   - Log key decisions made
+   - Flag any blockers or follow-ups
+
+9. **Complete git sync:**
    - Check `git status` for any uncommitted changes
    - Commit and push all work to GitHub
    - Verify local and remote are aligned
 
-9. **Package any new/modified skills:**
-   - Run `./scripts/package-skill.sh <skill-name>` for each skill created or updated
-   - Confirm ZIPs are in `dist/` folder ready for Claude.ai upload
-   - Remind Ed which ZIPs need uploading
+10. **Package any new/modified skills:**
+    - Run `./scripts/package-skill.sh <skill-name>` for each skill created or updated
+    - Confirm ZIPs are in `dist/` folder ready for Claude.ai upload
+    - Remind Ed which ZIPs need uploading
 
 ### When to Stop and Ask vs. Make the Call
 
@@ -128,6 +135,31 @@ prototypes/  →  skills/  →  [Own Repo]
 
 ---
 
+## ARCHITECTURE PHILOSOPHY
+
+### The Three Layers
+
+| Layer | What It Is | Who Maintains It |
+|-------|------------|------------------|
+| **Tools** | Python scripts, APIs, Bash commands | Hidden inside skills |
+| **Skills** | SKILL.md with instructions | Edit markdown to change behavior |
+| **Agents** | Orchestrators that pull skills | Reference skills, don't touch tools |
+
+### The Golden Rule
+
+```
+WRONG: Agent → has Bash → calls tool directly
+RIGHT: Agent → pulls Skill → Skill contains tool instructions → Claude executes
+```
+
+**Why:** If an API breaks, fix one skill - not 58 agents. Skills encapsulate complexity. Non-coders edit markdown, not code.
+
+### Claude IS the Runtime
+
+When a skill says "run `python3 script.py`", Claude executes it. The agent doesn't need direct tool access - the skill brings its tools with it.
+
+---
+
 ## PROJECT TYPES
 
 | Type | Location | Speed vs Polish |
@@ -136,6 +168,53 @@ prototypes/  →  skills/  →  [Own Repo]
 | `skill-build` | skills/ | Balanced - needs good docs |
 | `blackbelt-tool` | Own repo | Polish - client-facing |
 | `content-engine` | Either | Speed - function over form |
+
+---
+
+## RESEARCH WORKFLOWS
+
+### When to Use Ultrathink (Research Swarm)
+
+Use the parallel research pattern (`.claude/agents/research-swarm.md`) when:
+- Topic needs 3+ distinct research angles
+- Strategic decision with multiple valid options
+- Technology evaluation or competitive analysis
+- Time-to-insight matters (parallel beats sequential)
+
+### When to Use Single-Agent Research
+
+Use targeted research instead when:
+- You need one specific fact or piece of information
+- The question is straightforward (API docs, syntax, etc.)
+- You already know the angle you're investigating
+- Speed is critical and depth is secondary
+
+### Research Output Pattern
+
+All Ultrathink outputs:
+1. Generate markdown report in Zettelkasten: `Ultrathink - [Topic] - YYYY-MM-DD.md`
+2. Link in daily note Captures section
+3. Mark original research tasks with inline findings: `→ **Finding:** [summary]. See [[doc]]`
+4. New tasks discovered go to Surfaced Tasks section
+
+### Obsidian Integration
+
+Ed's knowledge management lives in Obsidian:
+- **Daily notes:** `/Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/YYYY-MM-DD.md`
+- **Research docs:** Same folder, named `Ultrathink - [Topic] - YYYY-MM-DD.md`
+- **Captures section:** Links to all research completed that day
+
+### Zettelkasten Rule
+
+**When saving any document to Ed's Zettelkasten, always add a link to that day's Captures section.**
+
+```
+Location: /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/YYYY-MM-DD.md
+Section: ## Captures
+Format: - [[Document Name]] - Brief description
+```
+
+This applies to: YouTube notes, research docs, project files, articles, anything saved to the vault.
 
 ---
 
@@ -164,6 +243,24 @@ Before creating documents, presentations, spreadsheets, or PDFs:
 2. Read the skill documentation FIRST
 3. Follow the established patterns
 
+### Skill Design Principles
+
+When building skills:
+1. **Tools live inside skills** - `tools/` folder with Python scripts, etc.
+2. **SKILL.md instructs Claude** - What to run, how to parse output, where to save
+3. **Agents pull skills** - Add to `skills:` list in frontmatter, not `tools:`
+4. **Package for distribution** - `./scripts/package-skill.sh <skill-name>` creates ZIP for Claude.ai
+
+### Context Propagation Pattern
+
+When a skill needs user context (like audience):
+1. Detect if provided in input
+2. If not, ask once using AskUserQuestion
+3. Store in output metadata (frontmatter)
+4. Pass to downstream skills that need it
+
+Example: newsletter-writer asks audience once, passes to hook-stack for "Speak Their Lingo" scoring.
+
 ---
 
 ## KILL RULES
@@ -185,5 +282,5 @@ When killing a project:
 
 This file evolves. When we discover something that should be standard, I'll add it here.
 
-**Last updated:** December 2025
-**Version:** 1.1 - Added end-of-session sync protocol
+**Last updated:** January 2026
+**Version:** 1.4 - Added Zettelkasten Rule (auto-link to Captures when saving to vault)

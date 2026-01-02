@@ -204,6 +204,18 @@ Ed's knowledge management lives in Obsidian:
 - **Research docs:** Same folder, named `Ultrathink - [Topic] - YYYY-MM-DD.md`
 - **Captures section:** Links to all research completed that day
 
+### Zettelkasten Rule
+
+**When saving any document to Ed's Zettelkasten, always add a link to that day's Captures section.**
+
+```
+Location: /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/YYYY-MM-DD.md
+Section: ## Captures
+Format: - [[Document Name]] - Brief description
+```
+
+This applies to: YouTube notes, research docs, project files, articles, anything saved to the vault.
+
 ---
 
 ## TECH CONTEXT
@@ -271,4 +283,4 @@ When killing a project:
 This file evolves. When we discover something that should be standard, I'll add it here.
 
 **Last updated:** January 2026
-**Version:** 1.3 - Added Architecture Philosophy (three layers, golden rule), expanded Skills Protocol with design principles and context propagation
+**Version:** 1.4 - Added Zettelkasten Rule (auto-link to Captures when saving to vault)
