@@ -1,7 +1,7 @@
 ---
 name: newsletter-writer
 description: Fully automated newsletter article writer. Use when given a topic, YouTube URL, idea, or experience to turn into a newsletter article. Can process YouTube videos directly using youtube-processor skill. Drafts, evaluates hooks, cleans for AI slop, saves to Obsidian, and links in daily note.
-tools: Read, Write, Edit, Glob, Grep, WebFetch, WebSearch
+tools: Read, Write, Edit, Glob, Grep, WebFetch, WebSearch, Bash, AskUserQuestion
 model: opus
 skills: mission-context, newsletter-coach, hook-stack-evaluator, ai-slop-detector, youtube-processor
 ---
