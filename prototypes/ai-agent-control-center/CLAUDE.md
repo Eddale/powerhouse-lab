@@ -82,6 +82,20 @@ prototypes/  →  skills/  →  [Own Repo]
 
 3. **ALWAYS EXPLAIN THE WHY.** When you make a change, tell me what you did AND why - in plain English, using copywriter/coach analogies when they fit.
 
+### Iron Rules vs. Guidelines
+
+**Iron Rules** (CRITICAL, MUST, DO NOT):
+- Use sparingly - only for known failure modes
+- Reserved for steps that actually broke something
+- The three rules above qualify - they prevent real problems
+
+**Guidelines** (should, consider, typically):
+- Default style for new instructions
+- Trust Claude to apply good judgment
+- Upgrade to Iron Rule only after something fails
+
+Pattern: Start soft, harden only where bugs bite.
+
 ---
 
 ## THE WORKFLOW
@@ -157,6 +171,19 @@ RIGHT: Agent → pulls Skill → Skill contains tool instructions → Claude exe
 ### Claude IS the Runtime
 
 When a skill says "run `python3 script.py`", Claude executes it. The agent doesn't need direct tool access - the skill brings its tools with it.
+
+### The Tool Access Rule
+
+**Skills tell Claude what to run. Agents grant permission to run it.**
+
+When an agent pulls a skill that says "run python3 script.py", the agent must have `Bash` in its tools list. The skill brings instructions, not permissions.
+
+**Checklist when building agents:**
+1. Read each skill in the `skills:` list
+2. Note what tools those skills require (Bash for scripts, WebFetch for APIs, AskUserQuestion for prompts, etc.)
+3. Add all required tools to the agent's `tools:` frontmatter
+
+Common gotcha: Skill says "run python3 script.py" but agent doesn't have `Bash` → agent fails silently or goes rogue.
 
 ---
 
@@ -278,9 +305,34 @@ When killing a project:
 
 ---
 
+## KNOWN GOTCHAS
+
+### Session Caching
+
+Claude Code caches certain definitions during a session:
+- Agent definitions (`.claude/agents/*.md`)
+- Possibly skill definitions
+
+**When changes to an agent don't take effect:**
+1. Start a new terminal session
+2. Re-test the agent
+
+This isn't a bug - it's how the runtime works. Just be aware.
+
+### Claude.ai Sandbox
+
+Claude.ai (Mac client, web) has sandbox restrictions:
+- Cannot reach external domains via WebFetch
+- Cannot run Bash commands
+- Limited filesystem access
+
+Skills that work in Claude Code may not work in Claude.ai. See mission-context for Runtime Differences.
+
+---
+
 ## LIVING DOCUMENT
 
 This file evolves. When we discover something that should be standard, I'll add it here.
 
 **Last updated:** January 2026
-**Version:** 1.4 - Added Zettelkasten Rule (auto-link to Captures when saving to vault)
+**Version:** 1.5 - Added Tool Access Rule, Known Gotchas, Iron Rules vs Guidelines (session retrospective lessons)

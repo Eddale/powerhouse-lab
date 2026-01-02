@@ -234,6 +234,27 @@ When writing content:
 7. Run through slop detector
 8. Save to Zettelkasten with metadata
 
+### Runtime Differences
+
+Skills must account for which Claude runtime executes them:
+
+| Capability | Claude Code (CLI) | Claude.ai (Mac/Web) |
+|------------|-------------------|---------------------|
+| Filesystem | Full access | Sandboxed |
+| External APIs | Yes (curl, WebFetch) | Blocked by sandbox |
+| Bash/Python | Yes | No |
+| MCP Servers | Supported | Primary method for external data |
+| Best for | Automation, building | Conversation, local-tool skills |
+
+**Design implications:**
+- Claude Code skills can use deployed APIs (Vercel, etc.)
+- Claude.ai skills should either:
+  1. Include all tools locally (`tools/` folder with scripts)
+  2. Use MCP servers for external data access
+  3. Accept manual paste as fallback
+
+Example: youtube-processor has both local Python script (Claude Code) and Vercel API (doesn't work in Claude.ai due to sandbox - future MCP solution planned).
+
 ---
 
 ## CURRENT FOCUS AREAS
