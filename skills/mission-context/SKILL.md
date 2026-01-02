@@ -201,6 +201,41 @@ Ed's delivery framework has three layers:
 
 ---
 
+## SKILL ARCHITECTURE
+
+Ed's skills follow a three-layer pattern:
+
+### The Three Layers
+
+| Layer | What It Is | Who Maintains |
+|-------|------------|---------------|
+| **Tools** | Python scripts, APIs, Bash | Hidden inside skills |
+| **Skills** | SKILL.md with instructions | Edit markdown to change |
+| **Agents** | Orchestrators pulling skills | Reference skills, not tools |
+
+### Skills Own Their Tools
+- Python scripts live in `skills/<name>/tools/`
+- SKILL.md tells Claude how to run them
+- Agents reference skills, not tools directly
+
+### Context Propagation
+When writing content:
+- Audience should be established early (ask if not specified)
+- Pass context to downstream skills (hook-stack, slop-detector)
+- Store in article frontmatter for visibility
+
+### The Newsletter Pipeline
+1. Input (YouTube URL, topic, experience)
+2. Establish audience (ask if not specified)
+3. Extract/analyze content
+4. Generate headlines with audience context
+5. Score with Hook Stack (12+ required)
+6. Draft article in Ed's voice
+7. Run through slop detector
+8. Save to Zettelkasten with metadata
+
+---
+
 ## CURRENT FOCUS AREAS
 
 ### Powerhouse Lab (This Repo)

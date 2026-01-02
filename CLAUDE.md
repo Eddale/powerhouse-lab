@@ -135,6 +135,31 @@ prototypes/  →  skills/  →  [Own Repo]
 
 ---
 
+## ARCHITECTURE PHILOSOPHY
+
+### The Three Layers
+
+| Layer | What It Is | Who Maintains It |
+|-------|------------|------------------|
+| **Tools** | Python scripts, APIs, Bash commands | Hidden inside skills |
+| **Skills** | SKILL.md with instructions | Edit markdown to change behavior |
+| **Agents** | Orchestrators that pull skills | Reference skills, don't touch tools |
+
+### The Golden Rule
+
+```
+WRONG: Agent → has Bash → calls tool directly
+RIGHT: Agent → pulls Skill → Skill contains tool instructions → Claude executes
+```
+
+**Why:** If an API breaks, fix one skill - not 58 agents. Skills encapsulate complexity. Non-coders edit markdown, not code.
+
+### Claude IS the Runtime
+
+When a skill says "run `python3 script.py`", Claude executes it. The agent doesn't need direct tool access - the skill brings its tools with it.
+
+---
+
 ## PROJECT TYPES
 
 | Type | Location | Speed vs Polish |
@@ -206,6 +231,24 @@ Before creating documents, presentations, spreadsheets, or PDFs:
 2. Read the skill documentation FIRST
 3. Follow the established patterns
 
+### Skill Design Principles
+
+When building skills:
+1. **Tools live inside skills** - `tools/` folder with Python scripts, etc.
+2. **SKILL.md instructs Claude** - What to run, how to parse output, where to save
+3. **Agents pull skills** - Add to `skills:` list in frontmatter, not `tools:`
+4. **Package for distribution** - `./scripts/package-skill.sh <skill-name>` creates ZIP for Claude.ai
+
+### Context Propagation Pattern
+
+When a skill needs user context (like audience):
+1. Detect if provided in input
+2. If not, ask once using AskUserQuestion
+3. Store in output metadata (frontmatter)
+4. Pass to downstream skills that need it
+
+Example: newsletter-writer asks audience once, passes to hook-stack for "Speak Their Lingo" scoring.
+
 ---
 
 ## KILL RULES
@@ -228,4 +271,4 @@ When killing a project:
 This file evolves. When we discover something that should be standard, I'll add it here.
 
 **Last updated:** January 2026
-**Version:** 1.2 - Added Ultrathink pattern, Zettelkasten integration, enhanced end-of-session protocol
+**Version:** 1.3 - Added Architecture Philosophy (three layers, golden rule), expanded Skills Protocol with design principles and context propagation
