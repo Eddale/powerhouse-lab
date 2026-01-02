@@ -1,0 +1,311 @@
+"""
+YouTube Transcript Processor API
+Direct pipeline: YouTube URL -> Transcript -> Claude Summary -> Obsidian-ready output
+"""
+
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel, HttpUrl
+import anthropic
+import os
+from youtube_transcript_api import YouTubeTranscriptApi
+from youtube_transcript_api._errors import (
+    TranscriptsDisabled,
+    NoTranscriptFound,
+    VideoUnavailable
+)
+import re
+from datetime import datetime
+from typing import Optional
+
+app = FastAPI(title="YouTube Processor", version="1.0")
+
+# Enable CORS for iOS Shortcuts
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+class YouTubeRequest(BaseModel):
+    url: HttpUrl
+    summary_type: Optional[str] = "detailed"  # "brief", "detailed", "bullets"
+    save_to_obsidian: Optional[bool] = False
+    obsidian_vault_path: Optional[str] = None
+
+class ProcessingResult(BaseModel):
+    success: bool
+    video_id: str
+    title: Optional[str] = None
+    summary: Optional[str] = None
+    markdown_output: Optional[str] = None
+    error: Optional[str] = None
+    saved_to: Optional[str] = None
+
+
+def extract_video_id(url: str) -> str:
+    """
+    Extract YouTube video ID from various URL formats
+    Handles: youtube.com/watch?v=ID, youtu.be/ID, youtube.com/embed/ID
+    """
+    patterns = [
+        r'(?:v=|\/)([0-9A-Za-z_-]{11}).*',
+        r'youtu\.be\/([0-9A-Za-z_-]{11})',
+        r'embed\/([0-9A-Za-z_-]{11})',
+    ]
+
+    for pattern in patterns:
+        match = re.search(pattern, url)
+        if match:
+            return match.group(1)
+
+    raise ValueError("Could not extract video ID from URL")
+
+
+def get_transcript(video_id: str) -> tuple[str, str]:
+    """
+    Fetch transcript from YouTube video
+    Returns: (transcript_text, language)
+    """
+    try:
+        # Try to get transcript (prefers English)
+        transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
+
+        # Try to get English transcript first
+        try:
+            transcript = transcript_list.find_transcript(['en'])
+        except:
+            # Fall back to any available transcript
+            transcript = transcript_list.find_generated_transcript(['en'])
+
+        # Fetch the actual transcript
+        transcript_data = transcript.fetch()
+
+        # Combine all text segments
+        full_text = " ".join([item['text'] for item in transcript_data])
+
+        return full_text, transcript.language_code
+
+    except TranscriptsDisabled:
+        raise HTTPException(
+            status_code=400,
+            detail="Transcripts are disabled for this video"
+        )
+    except NoTranscriptFound:
+        raise HTTPException(
+            status_code=404,
+            detail="No transcript found for this video"
+        )
+    except VideoUnavailable:
+        raise HTTPException(
+            status_code=404,
+            detail="Video is unavailable or does not exist"
+        )
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Error fetching transcript: {str(e)}"
+        )
+
+
+def summarize_with_claude(transcript: str, summary_type: str = "detailed") -> str:
+    """
+    Send transcript to Claude for summarization
+    """
+    client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
+
+    # Different prompt styles based on summary type
+    prompts = {
+        "brief": "Provide a concise 2-3 sentence summary of this video transcript.",
+        "detailed": """Analyze this video transcript and provide:
+1. A headline summary (1 sentence)
+2. Key points (3-5 bullets)
+3. Main takeaways
+4. Any action items or recommendations mentioned
+
+Format in clean markdown.""",
+        "bullets": "Extract the key points from this video transcript as a bulleted list. Focus on actionable insights and main ideas."
+    }
+
+    prompt = prompts.get(summary_type, prompts["detailed"])
+
+    try:
+        message = client.messages.create(
+            model="claude-sonnet-4-5-20250929",
+            max_tokens=2000,
+            messages=[
+                {
+                    "role": "user",
+                    "content": f"{prompt}\n\nTranscript:\n{transcript}"
+                }
+            ]
+        )
+
+        return message.content[0].text
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Error calling Claude API: {str(e)}"
+        )
+
+
+def format_for_obsidian(video_id: str, url: str, summary: str, transcript: str) -> str:
+    """
+    Format output as Obsidian-compatible markdown
+    """
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M")
+
+    markdown = f"""---
+source: YouTube
+video_id: {video_id}
+url: {url}
+processed: {timestamp}
+tags: [youtube, video-notes]
+---
+
+# YouTube Video Summary
+
+**Link**: [{url}]({url})
+**Processed**: {timestamp}
+
+## Summary
+
+{summary}
+
+---
+
+## Full Transcript
+
+{transcript}
+
+---
+
+**Generated by**: YouTube Processor API
+**Model**: Claude Sonnet 4.5
+"""
+
+    return markdown
+
+
+def save_to_obsidian_vault(content: str, vault_path: str, video_id: str) -> str:
+    """
+    Save markdown to Obsidian vault
+    Returns: path where file was saved
+    """
+    if not vault_path or not os.path.exists(vault_path):
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid Obsidian vault path"
+        )
+
+    # Create filename with timestamp
+    timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+    filename = f"YT-{video_id}-{timestamp}.md"
+    filepath = os.path.join(vault_path, filename)
+
+    try:
+        with open(filepath, 'w', encoding='utf-8') as f:
+            f.write(content)
+        return filepath
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Error saving to Obsidian: {str(e)}"
+        )
+
+
+@app.get("/")
+async def root():
+    """Health check endpoint"""
+    return {
+        "status": "running",
+        "service": "YouTube Processor API",
+        "version": "1.0",
+        "endpoints": {
+            "process": "/process (POST)",
+            "health": "/ (GET)"
+        }
+    }
+
+
+@app.post("/process", response_model=ProcessingResult)
+async def process_youtube_video(request: YouTubeRequest):
+    """
+    Main endpoint: Process YouTube URL and return summary
+
+    Example request:
+    {
+        "url": "https://www.youtube.com/watch?v=VIDEO_ID",
+        "summary_type": "detailed",
+        "save_to_obsidian": false
+    }
+    """
+
+    try:
+        # Step 1: Extract video ID
+        video_id = extract_video_id(str(request.url))
+
+        # Step 2: Get transcript
+        transcript, language = get_transcript(video_id)
+
+        # Step 3: Summarize with Claude
+        summary = summarize_with_claude(transcript, request.summary_type)
+
+        # Step 4: Format for Obsidian
+        markdown_output = format_for_obsidian(
+            video_id=video_id,
+            url=str(request.url),
+            summary=summary,
+            transcript=transcript
+        )
+
+        # Step 5: Optionally save to Obsidian vault
+        saved_path = None
+        if request.save_to_obsidian and request.obsidian_vault_path:
+            saved_path = save_to_obsidian_vault(
+                markdown_output,
+                request.obsidian_vault_path,
+                video_id
+            )
+
+        return ProcessingResult(
+            success=True,
+            video_id=video_id,
+            summary=summary,
+            markdown_output=markdown_output,
+            saved_to=saved_path
+        )
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        return ProcessingResult(
+            success=False,
+            video_id="unknown",
+            error=str(e)
+        )
+
+
+@app.get("/health")
+async def health_check():
+    """Detailed health check"""
+    api_key_present = bool(os.environ.get("ANTHROPIC_API_KEY"))
+
+    return {
+        "status": "healthy",
+        "timestamp": datetime.now().isoformat(),
+        "claude_api_configured": api_key_present,
+        "dependencies": {
+            "youtube_transcript_api": True,
+            "anthropic": True,
+            "fastapi": True
+        }
+    }
+
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)

@@ -1,0 +1,13 @@
+# Requirements for YouTube Transcript Extraction
+# Install with: pip install -r requirements-transcript.txt
+
+# Primary method (recommended)
+youtube-transcript-api>=0.6.2
+
+# Fallback method (optional but recommended)
+yt-dlp>=2024.0.0
+
+# Optional: For YouTube Data API v3 (official method)
+# google-api-python-client>=2.0.0
+# google-auth-httplib2>=0.2.0
+# google-auth-oauthlib>=1.0.0

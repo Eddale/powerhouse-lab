@@ -173,6 +173,12 @@ Ed's delivery framework has three layers:
 - **Claude:** Primary AI partner (Code + .ai)
 - **ChatGPT:** Conversations, brainstorming
 
+### CRM & Marketing Automation
+- **GoHighLevel (GHL):** CRM, workflows, lead capture, landing pages
+  - Ed uses **CMM (Coach Marketing Machine)** which is a white-label of GHL (identical functionality)
+  - When writing content, refer to "GHL" for audience clarity (most won't know CMM)
+  - **Integration strategy:** Direct API integration - Claude builds lead magnet sites that connect directly to GHL API for CRM updates and workflow triggers (no Zapier/n8n middleware)
+
 ### Socials & Platforms
 
 | Platform | Handle | Usage |
