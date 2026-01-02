@@ -17,19 +17,26 @@ Take any input (YouTube summary, idea, topic, experience) and produce a clean, h
 ## The Pipeline
 
 ### Step 0: Handle YouTube Input (if applicable)
-If the user provides a YouTube URL (youtube.com, youtu.be, etc.):
 
-1. Use the **youtube-processor** skill to extract the transcript
-2. Run the transcript extraction command:
-   ```bash
-   cd /Users/eddale/Documents/GitHub/powerhouse-lab/skills/youtube-processor/tools && \
-   python3 get_transcript.py --url "[URL]" --json
-   ```
-3. Parse the JSON output to get the transcript
-4. Analyze the transcript for newsletter angles (hooks, insights, story beats)
-5. Proceed to Step 1 with the video content as your source material
+**CRITICAL: For YouTube URLs, you MUST use the local Python script. DO NOT:**
+- Use WebFetch to access YouTube.com or any transcript service
+- Try to get transcripts from external APIs
+- Improvise alternative methods
 
-This allows you to write newsletters directly from YouTube videos.
+**The ONLY way to get transcripts:**
+
+```bash
+cd /Users/eddale/Documents/GitHub/powerhouse-lab/skills/youtube-processor/tools && \
+python3 get_transcript.py --url "THE_YOUTUBE_URL_HERE" --json
+```
+
+**Process:**
+1. Run the Bash command above (replace THE_YOUTUBE_URL_HERE with the actual URL)
+2. The script outputs JSON with a `transcript` field - extract that text
+3. Analyze the transcript for newsletter angles (hooks, insights, story beats)
+4. Proceed to Step 1 with the video content as your source material
+
+This local script works because it runs on Ed's machine with full network access. External services won't work.
 
 ### Step 0.5: Establish Audience
 
