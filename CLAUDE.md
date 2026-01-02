@@ -69,6 +69,8 @@ prototypes/  →  skills/  →  [Own Repo]
 | Ship This = Win Day | The only metric that matters |
 | Prompt Whispering™ | Building AI tools through conversation |
 | Prompt Wrangling™ | Debugging and refinement |
+| Ultrathink / Research Swarm | Multi-angle parallel research - attacking a question from 3-5 simultaneous perspectives |
+| Zettelkasten Integration | Knowledge capture via daily notes and research docs in Obsidian |
 
 ---
 
@@ -100,6 +102,23 @@ prototypes/  →  skills/  →  [Own Repo]
 
 7. **Add a review section** to `tasks/todo.md` - Summary of changes and any notes
 
+### End of Session (When Ed says "wrapping up", "end of session", "syncing", etc.)
+
+8. **Update daily notes:**
+   - Add any research reports to Captures section
+   - Log key decisions made
+   - Flag any blockers or follow-ups
+
+9. **Complete git sync:**
+   - Check `git status` for any uncommitted changes
+   - Commit and push all work to GitHub
+   - Verify local and remote are aligned
+
+10. **Package any new/modified skills:**
+    - Run `./scripts/package-skill.sh <skill-name>` for each skill created or updated
+    - Confirm ZIPs are in `dist/` folder ready for Claude.ai upload
+    - Remind Ed which ZIPs need uploading
+
 ### When to Stop and Ask vs. Make the Call
 
 **STOP AND ASK:**
@@ -124,6 +143,41 @@ prototypes/  →  skills/  →  [Own Repo]
 | `skill-build` | skills/ | Balanced - needs good docs |
 | `blackbelt-tool` | Own repo | Polish - client-facing |
 | `content-engine` | Either | Speed - function over form |
+
+---
+
+## RESEARCH WORKFLOWS
+
+### When to Use Ultrathink (Research Swarm)
+
+Use the parallel research pattern (`.claude/agents/research-swarm.md`) when:
+- Topic needs 3+ distinct research angles
+- Strategic decision with multiple valid options
+- Technology evaluation or competitive analysis
+- Time-to-insight matters (parallel beats sequential)
+
+### When to Use Single-Agent Research
+
+Use targeted research instead when:
+- You need one specific fact or piece of information
+- The question is straightforward (API docs, syntax, etc.)
+- You already know the angle you're investigating
+- Speed is critical and depth is secondary
+
+### Research Output Pattern
+
+All Ultrathink outputs:
+1. Generate markdown report in Zettelkasten: `Ultrathink - [Topic] - YYYY-MM-DD.md`
+2. Link in daily note Captures section
+3. Mark original research tasks with inline findings: `→ **Finding:** [summary]. See [[doc]]`
+4. New tasks discovered go to Surfaced Tasks section
+
+### Obsidian Integration
+
+Ed's knowledge management lives in Obsidian:
+- **Daily notes:** `/Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/YYYY-MM-DD.md`
+- **Research docs:** Same folder, named `Ultrathink - [Topic] - YYYY-MM-DD.md`
+- **Captures section:** Links to all research completed that day
 
 ---
 
@@ -173,5 +227,5 @@ When killing a project:
 
 This file evolves. When we discover something that should be standard, I'll add it here.
 
-**Last updated:** December 2024
-**Version:** 1.0
+**Last updated:** January 2026
+**Version:** 1.2 - Added Ultrathink pattern, Zettelkasten integration, enhanced end-of-session protocol

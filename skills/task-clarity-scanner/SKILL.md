@@ -75,7 +75,25 @@ Example:
 - Before: "Make Google Drive AI Ready"
 - After: "Organize Google Drive for AI access: Create 'AI-Ready' folder, move key docs, document what each folder contains"
 
-**Step 4b: Surfaced Tasks**
+**Setup / Configuration Tasks:**
+Clarify what "done" means - distinguish between:
+- **Just configured:** Created, not tested
+- **Verified working:** Tested, confirmed functional
+- **Fully integrated:** Working in daily workflow
+
+Example:
+- Before: "Set up Gmail App Password"
+- After: "Set up Gmail App Password: Enable 2FA, create app password, test IMAP connection works"
+
+**Step 4b: Flag Task Dependencies**
+While clarifying, watch for blocking relationships:
+```
+- [ ] Convert project to skill ← Do first
+  - [ ] Upload skill ZIP ← Blocked by above
+```
+Suggest marking these in the note during approval phase.
+
+**Step 4c: Surfaced Tasks**
 Clarifying one task often surfaces additional tasks. Track these as you go:
 - New research needed
 - Dependencies discovered
@@ -141,7 +159,43 @@ When updating the daily note, group tasks by type:
 - **Key Tasks** - Main work items for today
 - **Surfaced Tasks** - New tasks discovered during clarification (often research or dependencies)
 
-Research tasks are especially good to group separately - they can be "outsourced" to Claude Mac client, ChatGPT, or Deep Research while continuing other work.
+### Research Task Organization
+
+**Single Research Tasks:** Follow the Research Task Pattern below.
+
+**Research Swarms / Ultrathink Sessions:** When 3+ related research tasks emerge:
+- Suggest grouping under a single "Ultrathink - [Topic] Research YYYY-MM-DD" document
+- Individual research tasks reference findings in that doc
+- All discoveries + architecture decisions captured together
+- New dependencies/tasks discovered during research go to "Surfaced Tasks"
+
+Example from Ed's workflow:
+- [[Ultrathink - Agent Skills Framework Research 2026-01-02]] - bundled 5 agent/skills research tasks
+- [[Research - Parallel Agent Findings - 2026-01-02]] - bundled API research (GHL, Google, Claude)
+
+Research tasks are especially good to group - they can run in parallel (agents, Mac client, ChatGPT) while Ed continues other work.
+
+## Research Task Pattern
+
+Research tasks have a distinct completion format that captures findings inline:
+
+**Format:**
+```
+- [x] ~~[Research Topic]~~ → **Finding:** [Summary]. See [[Document Name]]
+```
+
+**When to suggest this pattern:**
+- Any task starting with "Research", "Investigate", "Explore"
+- Tasks that will produce a findings document or architecture decision
+- Multiple related research tasks (suggest grouping into "Ultrathink" session)
+
+**Example transforms:**
+- Before: `- [ ] Research Claude browser access`
+- After: `- [x] ~~Research Claude browser access~~ → **Finding:** No official MCP browser server. Best: Use API tokens (Notion, GitHub). See [[Research - Browser Access - 2026-01-02]]`
+
+**Ultrathink Bundling Suggestion:**
+When you see 3+ related research tasks, suggest:
+"These research tasks are related and could run in parallel. Consider bundling as 'Ultrathink - [Topic] Research YYYY-MM-DD'"
 
 ## Where Progressive Documents Live
 
