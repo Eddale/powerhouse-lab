@@ -143,11 +143,17 @@ Continue iterating until they're happy. Keep the energy up. Make it feel like a 
 
 ### For Agent Use (automated pipeline):
 
-When invoked by an agent (like newsletter-writer), provide:
-1. The scorecard with scores
-2. If score < 12/15: Suggest 3 improved alternatives
-3. If score >= 12/15: Confirm hook is ready
-4. Return the best hook in the final format
+When invoked by an agent (like newsletter-writer):
+
+1. **Receive audience context** - The calling agent should specify the target audience (e.g., "Target audience: coaches/consultants building with AI")
+2. Provide the scorecard with scores
+3. **Layer 4 (Speak Their Lingo)** - Evaluate specifically against the provided audience:
+   - Are examples/metaphors in their world?
+   - Would they use this language at 2am?
+   - Does it sound like insider knowledge for this group?
+4. If score < 12/15: Suggest 3 improved alternatives using audience-appropriate language
+5. If score >= 12/15: Confirm hook is ready
+6. Return the best hook in the final format
 
 ---
 

@@ -31,6 +31,30 @@ If the user provides a YouTube URL (youtube.com, youtu.be, etc.):
 
 This allows you to write newsletters directly from YouTube videos.
 
+### Step 0.5: Establish Audience
+
+Before drafting, confirm who this article is for:
+
+1. **Check the input** - Did Ed specify an audience? Look for phrases like:
+   - "for [audience]" (e.g., "Write a newsletter for developers...")
+   - "targeting [audience]"
+   - "this is for [audience]"
+
+2. **If audience specified** → Use it, no question needed
+
+3. **If no audience specified** → Ask using AskUserQuestion:
+   - "Coaches/consultants building with AI" (LBR default - recommend this)
+   - "AI enthusiasts/tech builders"
+   - "General business owners"
+   - "Other"
+
+4. **Store the audience** for use in:
+   - Headline generation (metaphors/examples in their language)
+   - Hook Stack evaluation (Layer 4: Speak Their Lingo)
+   - Article frontmatter (`audience:` field)
+
+**Why this matters:** The same insight lands differently depending on who's reading. A coach needs client-session examples. A developer needs code analogies. Get this right and the article resonates.
+
 ### Step 1: Load Context
 First, ensure you have Ed's voice and audience context from the mission-context skill:
 - His writing style (direct, practical, story-driven)
@@ -47,9 +71,13 @@ Before drafting, create 3 headline + subhead pairs for the article.
 Generate options using the hook template patterns from the hook-stack-evaluator.
 
 ### Step 3: Evaluate with Hook Stack
-Run your best headline + subhead through the hook-stack-evaluator:
+Run your best headline + subhead through the hook-stack-evaluator, passing the audience context:
+
+**Include with evaluation:** "Target audience: [audience from Step 0.5]"
+
 - Score against the 5 layers (Earn the Stop, Start at End, Three C's, Speak Their Lingo, Make It Yours)
-- If score < 12/15: Generate improved alternatives and pick the best
+- **Layer 4 (Speak Their Lingo)** should be scored against the specific audience
+- If score < 12/15: Generate improved alternatives using audience-appropriate language
 - If score >= 12/15: Proceed with this hook
 
 The headline/subhead should score at least 12/15 before moving on.
@@ -97,6 +125,8 @@ type: article
 date: YYYY-MM-DD
 status: draft
 channel: LBR
+audience: [audience from Step 0.5]
+hook_score: [score from Step 3]
 ---
 
 # [Headline]
