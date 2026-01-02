@@ -2,7 +2,6 @@
 name: hook-stack-evaluator
 description: Evaluates and sharpens content hooks using The Hook Stack™ framework. Use when scoring headlines, refining hooks for video/social/newsletter, or when asked to "evaluate this hook", "run through hook stack", or "score my headline".
 allowed-tools: Read, Write, Edit
-version: 1.0.0
 ---
 
 # Hook Stack Evaluator

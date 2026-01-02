@@ -34,7 +34,11 @@ description: What it does and when to use it  # max 1024 chars
 
 ### Optional YAML Fields
 - `allowed-tools: Read, Glob, Grep` - Restricts which tools the skill can use
-- `version: 1.0.0` - Version tracking
+- `license` - License for the skill
+- `compatibility` - Compatibility requirements
+- `metadata` - Additional metadata
+
+**Note:** `version` is NOT a valid frontmatter field. Track versions in a Version History table in the body instead.
 
 ### Best Practices
 - Keep SKILL.md under 5,000 tokens
@@ -50,7 +54,7 @@ description: What it does and when to use it  # max 1024 chars
 |---------------|----------------|
 | Bundle packages 3 skills into one ZIP | Each skill needs its own ZIP |
 | Skills have only SKILL.md file | Skills need optional folders for future expansion |
-| No `version` field in YAML | Should have `version` for tracking |
+| Version tracked in frontmatter | Version should be in body table, not frontmatter |
 | Template doesn't match spec structure | Template should include all optional folders |
 | New Skill Wizard creates minimal structure | Should create full structure with all folders |
 
@@ -71,16 +75,16 @@ For each existing skill (newsletter-coach, mission-context, new-skill-wizard):
 - [ ] Create `references/` folder with `.gitkeep`
 - [ ] Create `resources/` folder with `.gitkeep`
 - [ ] Create `assets/` folder with `.gitkeep`
-- [ ] Add `version: 1.0.0` to YAML frontmatter
+- [x] Remove `version` from YAML frontmatter (not a valid field)
 
 ### Phase 3: Update Templates
 - [ ] Update `_templates/skill-template/` to include all folders
-- [ ] Update SKILL.md template with `version` field
+- [x] Confirmed SKILL.md template does NOT include `version` field (correct)
 - [ ] Add placeholder files explaining each folder's purpose
 
 ### Phase 4: Update New Skill Wizard
 - [ ] Update wizard to create all optional folders
-- [ ] Include `version: 1.0.0` in generated SKILL.md
+- [x] Confirmed wizard does NOT include `version` in generated SKILL.md (correct)
 - [ ] Update packaging instructions in wizard
 
 ### Phase 5: Update Documentation
@@ -150,8 +154,8 @@ After implementation, I'll run these checks:
 - [ ] **YAML Validation** - Confirm frontmatter has:
   - `name` field (lowercase, hyphens)
   - `description` field (under 1024 chars)
-  - `version` field added
   - `allowed-tools` field (existing)
+  - NO `version` field (invalid - causes upload errors)
 
 - [ ] **Script Tests** - Run packaging scripts and confirm:
   - `package-skill.sh <name>` creates correct individual ZIP

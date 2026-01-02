@@ -2,7 +2,6 @@
 name: ai-slop-detector
 description: Detects and removes AI writing patterns from text. Use when polishing drafts, cleaning AI-generated content, or ensuring writing sounds authentically human. Invoke with "run through slop detector", "clean this up", or "remove AI fingerprints".
 allowed-tools: Read, Write, Edit
-version: 1.0.0
 ---
 
 # AI Slop Detector
