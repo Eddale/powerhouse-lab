@@ -1,0 +1,3 @@
+# YouTube Processor Skill Dependencies
+# Only needs transcript extraction - Claude does the summarization
+youtube-transcript-api>=1.0.0

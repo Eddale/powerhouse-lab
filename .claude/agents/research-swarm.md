@@ -1,8 +1,9 @@
 ---
 name: research-swarm
-description: Multi-angle parallel research agent. Use when you need to research a topic from multiple perspectives simultaneously. Spawns multiple sub-agents, gathers findings, and synthesizes results.
+description: Multi-angle parallel research agent. Use when you need to research a topic from multiple perspectives simultaneously. Spawns multiple sub-agents, gathers findings, and synthesizes results. Sub-agents can process YouTube videos for research.
 tools: Read, Write, Edit, Glob, Grep, WebFetch, WebSearch, Task
 model: opus
+skills: youtube-processor
 ---
 
 # Research Swarm Agent
@@ -27,6 +28,33 @@ Break the topic into independent research angles. Examples:
 - **Competitive angle:** What alternatives exist?
 - **Integration angle:** How would this fit our stack?
 - **Cost/feasibility angle:** What are the constraints?
+- **Video/media angle:** What are experts saying in recent videos? (uses youtube-processor)
+
+### Video Research (Optional Angle)
+
+For topics where video content is valuable (tutorials, announcements, expert opinions), spawn a sub-agent that uses youtube-processor:
+
+```
+Task(
+  description="Research [topic] via YouTube analysis",
+  prompt="Find relevant YouTube videos about [topic]. For each video:
+    1. Extract transcript using youtube-processor skill:
+       cd /Users/eddale/Documents/GitHub/powerhouse-lab/skills/youtube-processor/tools && \
+       python3 get_transcript.py --url '[URL]' --json
+    2. Analyze transcript for key insights
+    3. Note speaker credibility and recency
+    Return: Key findings from video research with timestamps and quotes.",
+  subagent_type="general-purpose",
+  model="haiku",
+  run_in_background=true
+)
+```
+
+This is especially useful for:
+- Recent AI announcements (Anthropic, OpenAI releases)
+- Technical tutorials and demos
+- Expert interviews and podcasts
+- Conference talks
 
 ### Step 2: Spawn Research Agents
 

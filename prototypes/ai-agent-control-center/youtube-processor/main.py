@@ -70,23 +70,23 @@ def get_transcript(video_id: str) -> tuple[str, str]:
     Returns: (transcript_text, language)
     """
     try:
-        # Try to get transcript (prefers English)
-        transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
+        # New API is instance-based (youtube-transcript-api >= 1.0)
+        ytt_api = YouTubeTranscriptApi()
 
-        # Try to get English transcript first
+        # Try to fetch English transcript directly
         try:
-            transcript = transcript_list.find_transcript(['en'])
+            transcript_data = ytt_api.fetch(video_id, languages=['en'])
+            full_text = " ".join([item.text for item in transcript_data])
+            return full_text, 'en'
         except:
-            # Fall back to any available transcript
-            transcript = transcript_list.find_generated_transcript(['en'])
+            # Fall back to listing and finding any available
+            transcript_list = ytt_api.list(video_id)
+            for transcript in transcript_list:
+                transcript_data = transcript.fetch()
+                full_text = " ".join([item.text for item in transcript_data])
+                return full_text, transcript.language_code
 
-        # Fetch the actual transcript
-        transcript_data = transcript.fetch()
-
-        # Combine all text segments
-        full_text = " ".join([item['text'] for item in transcript_data])
-
-        return full_text, transcript.language_code
+        raise NoTranscriptFound(video_id)
 
     except TranscriptsDisabled:
         raise HTTPException(
