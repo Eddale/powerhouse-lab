@@ -60,8 +60,52 @@ Then ask ONE question with options:
 2. **Accept rewrite** - Use the suggested version
 3. **Skip** - Leave as-is for now
 4. **Someday/Maybe** - Park it for later
+5. **Create project file** - Start a living doc for this task (for complex/multi-session tasks)
 
 Move to the next task after each response. Keep momentum.
+
+**Step 3a: Project File Creation**
+When user selects "Create project file":
+
+1. **Create in Obsidian Zettelkasten** at:
+   `/Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/PROJECT - [Task Name].md`
+
+2. **Seed the file** with this template:
+```markdown
+---
+type: project
+status: planning
+created: YYYY-MM-DD
+linked-from: [[YYYY-MM-DD]]
+---
+# PROJECT: [Task Name]
+
+## What We're Building
+[One paragraph describing the goal and why it matters]
+
+## Constraints & Scope
+- In scope: ...
+- Out of scope: ...
+- Dependencies: ...
+
+## Context Gathered
+[Brainstorming notes, research findings, decisions made so far]
+
+## Steps (when ready)
+- [ ] Step 1
+- [ ] Step 2
+
+## Done State
+[How we know this is complete]
+
+## Open Questions
+- [ ] Question 1
+```
+
+3. **Update daily note** - Replace original task with:
+   `- [ ] [[PROJECT - Task Name]] - [brief description]`
+
+4. **Offer to continue brainstorming** in the project file right now
 
 **Step 4: Rewrite Principles**
 When suggesting rewrites:
@@ -152,6 +196,34 @@ Execute approved tasks, report back when done.
 4. **Suggest, don't assume** - Always get approval before modifying the file
 5. **Keep the human in the loop** - The goal is to help Ed move faster, not to take over
 
+## The Project File Pattern
+
+For tasks that are too big to clarify inline, create a project file instead:
+- The file is a living document that grows over sessions
+- Daily note links to the project file (keeps it visible)
+- When ready to execute, the project file IS the spec
+- If parked for 1+ week, move to [[Someday-Maybe]] file
+
+**When to suggest a project file:**
+- Task involves multiple sub-tasks
+- Needs research before execution
+- Will take multiple sessions to complete
+- Has dependencies on other work
+- User says "let me think about this"
+
+**The GTD-inspired lifecycle:**
+```
+Daily Note Task
+    ↓ (needs breaking up)
+Project File in Obsidian
+    ↓ (active brainstorming)
+Still on daily note as link
+    ↓ (not ready for 1+ week)
+[[Someday-Maybe]] file
+    ↓ (ready to build)
+GitHub repo execution
+```
+
 ## Task Grouping Patterns
 
 When updating the daily note, group tasks by type:
@@ -201,12 +273,13 @@ When you see 3+ related research tasks, suggest:
 
 Some tasks need working documents that build up over time:
 
-| Document Type | Location | Example |
-|---------------|----------|---------|
-| **Methodology / Brainstorming** | GitHub `docs/` or prototype folder | Skill design, workflow planning |
-| **Writing (newsletters, articles)** | Obsidian Zettelkasten | Little Blue Report drafts |
+| Phase | Location | What Happens |
+|-------|----------|--------------|
+| **Brainstorming** | Obsidian Zettelkasten | Project file accumulates ideas, context, decisions |
+| **Parked (GTD)** | [[Someday-Maybe]] | Remove from daily note, park until ready |
+| **Building** | GitHub repo | Execution uses repo protocols (tasks/todo.md, etc.) |
 
-Rule of thumb: Building tools → GitHub. Creating content → Obsidian.
+Rule of thumb: **All brainstorming starts in Obsidian.** When ready to actually build, GitHub protocols take over.
 
 ## Examples
 
