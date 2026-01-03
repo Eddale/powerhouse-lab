@@ -198,27 +198,38 @@ When using Narrator Mode, include instruction: "Include the reference image of E
 
 ## Output Format
 
-Present the complete carousel as:
+Present the complete carousel with **code blocks for easy copy/paste**:
 
-```
+```markdown
 # CAROUSEL: [Title]
 
 ## SLIDE 1/7 (Hook)
 **Text:** [slide copy] _(XX chars)_
+
 **Prompt:**
-[full image prompt]
+\`\`\`
+[full image prompt - inside code block for one-click copy]
+\`\`\`
+
+---
 
 ## SLIDE 2/7 (Problem)
 **Text:** [slide copy] _(XX chars)_
+
 **Prompt:**
-[full image prompt]
+\`\`\`
+[full image prompt - inside code block for one-click copy]
+\`\`\`
 
 [...continue for all slides, always showing X/7 and character count...]
 
 ---
 
 ## INSTAGRAM CAPTION
-[full caption with hashtags]
+
+\`\`\`
+[full caption with hashtags - inside code block for one-click copy]
+\`\`\`
 
 ---
 
@@ -226,6 +237,8 @@ Present the complete carousel as:
 Score: [X]/15
 [feedback from hook-stack-evaluator]
 ```
+
+**Why code blocks matter:** Ed copies prompts directly into Google AI Studio. Code blocks = one click to copy the whole prompt.
 
 ## Guidelines
 
@@ -237,6 +250,7 @@ Score: [X]/15
 
 ## Version History
 
+- v1.3 (2026-01-03): Code blocks around prompts and caption for one-click copy workflow
 - v1.2 (2026-01-03): Added 25-char text limit enforcement, character counts in output, slide numbering (X/7)
 - v1.1 (2026-01-03): Added Phase 7 - auto-save to Zettelkasten for easy copy/paste workflow
 - v1.0 (2026-01-03): Initial release with Creative Director Framework, manga default style
