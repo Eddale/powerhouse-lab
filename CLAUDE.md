@@ -120,6 +120,7 @@ Pattern: Start soft, harden only where bugs bite.
 
 8. **Update daily notes:**
    - Add any research reports to Captures section
+   - **Mark completed tasks as done** (`- [x]`)
    - Log key decisions made
    - Flag any blockers or follow-ups
 
@@ -223,6 +224,20 @@ All Ultrathink outputs:
 2. Link in daily note Captures section
 3. Mark original research tasks with inline findings: `→ **Finding:** [summary]. See [[doc]]`
 4. New tasks discovered go to Surfaced Tasks section
+
+### The "More Planning = Less Coding" Pattern
+
+For complex skill builds or features:
+1. **Ultrathink first** - Generate research doc with open questions
+2. **Ed comments inline** - Answer questions directly in the doc using `> [!Note] AI CONTEXT` callouts
+3. **Read the commented doc** - All decisions are captured before coding starts
+4. **Build from spec** - Implementation becomes straightforward execution
+
+This pattern works because:
+- Ed's expertise is captured in writing, not lost in conversation
+- Questions get answered once, referenced forever
+- The doc becomes the spec AND the decision log
+- "More planning = less coding" - smooth builds, fewer loops
 
 ### Obsidian Integration
 
@@ -328,6 +343,14 @@ Claude.ai (Mac client, web) has sandbox restrictions:
 
 Skills that work in Claude Code may not work in Claude.ai. See mission-context for Runtime Differences.
 
+### Image Generation with Nano Banana Pro
+
+When generating carousel images or any multi-image set with a consistent character:
+1. **Reference image required** - Upload photo with first prompt
+2. **Add consistency instruction** - Include "maintain consistent character appearance from reference" in all prompts
+3. **Test before finalizing** - Generate in Google AI Studio, verify quality, then commit
+4. **API consideration** - Programmatic reference image upload is an unsolved problem for automation
+
 ---
 
 ## LIVING DOCUMENT
@@ -335,4 +358,4 @@ Skills that work in Claude Code may not work in Claude.ai. See mission-context f
 This file evolves. When we discover something that should be standard, I'll add it here.
 
 **Last updated:** January 2026
-**Version:** 1.5 - Added Tool Access Rule, Known Gotchas, Iron Rules vs Guidelines (session retrospective lessons)
+**Version:** 1.6 - Added "More Planning = Less Coding" pattern, mark tasks done in end-of-session, Nano Banana Pro image generation gotchas
