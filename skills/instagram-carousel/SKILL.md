@@ -62,15 +62,26 @@ Load `resources/carousel-formats.md` for structure options.
 
 For each slide, write the TEXT THAT APPEARS ON THE IMAGE.
 
+**CRITICAL: 25-Character Limit**
+Nano Banana Pro renders text best at ≤25 characters. Longer text = garbled rendering.
+
+| Length | Risk |
+|--------|------|
+| ≤25 chars | Safe - renders cleanly |
+| 26-40 chars | Risky - may have issues |
+| 40+ chars | Will likely fail |
+
 **Rules:**
-- Keep text SHORT - aim for 10 words or less per slide
+- **MAX 25 characters** for reliable text rendering
 - One idea per slide
 - Use punchy, scroll-stopping language
 - Front-load the most important word
+- Count characters for every slide
 
 **Examples:**
-- GOOD: "30 days to 8 months. That's how long it takes now."
-- BAD: "The average time from first contact to becoming a client has increased significantly from 30 days to 8 months"
+- GOOD: "Old advice kills businesses" (24 chars)
+- GOOD: "30 days → 8 months" (18 chars)
+- BAD: "The advice we were all taught is now destroying coaching businesses" (65 chars - TOO LONG)
 
 ### Phase 4: Generate Image Prompts
 
@@ -192,17 +203,17 @@ Present the complete carousel as:
 ```
 # CAROUSEL: [Title]
 
-## SLIDE 1 (Hook)
-**Text:** [slide copy]
+## SLIDE 1/7 (Hook)
+**Text:** [slide copy] _(XX chars)_
 **Prompt:**
 [full image prompt]
 
-## SLIDE 2 (Problem)
-**Text:** [slide copy]
+## SLIDE 2/7 (Problem)
+**Text:** [slide copy] _(XX chars)_
 **Prompt:**
 [full image prompt]
 
-[...continue for all slides...]
+[...continue for all slides, always showing X/7 and character count...]
 
 ---
 
@@ -226,5 +237,6 @@ Score: [X]/15
 
 ## Version History
 
+- v1.2 (2026-01-03): Added 25-char text limit enforcement, character counts in output, slide numbering (X/7)
 - v1.1 (2026-01-03): Added Phase 7 - auto-save to Zettelkasten for easy copy/paste workflow
 - v1.0 (2026-01-03): Initial release with Creative Director Framework, manga default style
