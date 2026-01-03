@@ -351,6 +351,15 @@ When generating carousel images or any multi-image set with a consistent charact
 3. **Test before finalizing** - Generate in Google AI Studio, verify quality, then commit
 4. **API consideration** - Programmatic reference image upload is an unsolved problem for automation
 
+**Prompt language:** Use "the man from the reference image" not "you" - Nano Banana Pro doesn't understand second person.
+
+**Saving prompts for Ed:**
+When creating image prompts (hero images, carousels, etc.), save as markdown file in Zettelkasten:
+- Location: `Hero Image Prompt - [Title] - YYYY-MM-DD.md`
+- Put the prompt in a code block for one-click copy
+- Include metadata: article, platform, aspect ratio, model
+- Add to daily note Captures section
+
 ---
 
 ## LIVING DOCUMENT
@@ -358,4 +367,4 @@ When generating carousel images or any multi-image set with a consistent charact
 This file evolves. When we discover something that should be standard, I'll add it here.
 
 **Last updated:** January 2026
-**Version:** 1.6 - Added "More Planning = Less Coding" pattern, mark tasks done in end-of-session, Nano Banana Pro image generation gotchas
+**Version:** 1.7 - Added image prompt saving pattern, Nano Banana Pro prompt language ("the man from the reference image" not "you")
