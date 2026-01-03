@@ -1,7 +1,7 @@
 ---
 name: instagram-carousel
 description: Turn articles into Instagram carousel concepts with Nano Banana Pro image prompts. Use when creating carousels, repurposing newsletter content for Instagram, or generating manga-style slide images. Triggers on "create a carousel", "turn this into slides", "Instagram carousel from article".
-allowed-tools: Read, Glob, Grep, AskUserQuestion
+allowed-tools: Read, Write, Edit, Glob, Grep, AskUserQuestion
 ---
 
 # Instagram Carousel Skill
@@ -133,6 +133,44 @@ Write the Instagram caption (the text that appears below the carousel).
 - Include "Save this" or "Share with..." CTA
 - Hashtags at the end, not inline
 
+### Phase 7: Save to Zettelkasten
+
+Save the complete carousel output as a markdown file for easy copy/paste into Google AI Studio.
+
+**File location:**
+```
+/Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/Carousel - [Short Title] - YYYY-MM-DD.md
+```
+
+**File format:**
+```markdown
+---
+type: carousel
+date: YYYY-MM-DD
+source: [article title or topic]
+status: draft
+tags: [instagram, carousel, nano-banana-pro]
+---
+
+# Carousel: [Title]
+
+[Full carousel output from Output Format section]
+```
+
+**After saving:**
+1. Add link to today's daily note Captures section
+2. Tell Ed the file path so he can open it
+
+**Daily note location:**
+```
+/Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/YYYY-MM-DD.md
+```
+
+**Captures link format:**
+```
+- [[Carousel - [Short Title] - YYYY-MM-DD]] - Instagram carousel for [topic]
+```
+
 ## Style Variants
 
 ### Default: Manga Reaction
@@ -188,4 +226,5 @@ Score: [X]/15
 
 ## Version History
 
+- v1.1 (2026-01-03): Added Phase 7 - auto-save to Zettelkasten for easy copy/paste workflow
 - v1.0 (2026-01-03): Initial release with Creative Director Framework, manga default style
