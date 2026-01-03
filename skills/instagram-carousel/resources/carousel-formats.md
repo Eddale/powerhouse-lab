@@ -1,82 +1,108 @@
 # Carousel Formats
 
-## Standard 7-Slide Structure (Default)
+## Core Principle
 
-Best for: Articles with 3+ teaching points, complex topics, maximum value delivery.
+The slide count serves the AHA moment. Use 6-8 slides - enough to deliver real value, not so many you lose them.
 
-| Slide | Purpose | Content Type | Example |
-|-------|---------|--------------|---------|
-| 1 | **Hook** | Pattern interrupt | "The advice we were all taught is now destroying coaching businesses." |
-| 2 | **Problem** | What's broken/changed | "First contact to client: 30 days → 8 months." |
-| 3 | **Value 1** | First teaching point | "Every successful coaching business has a main character." |
-| 4 | **Value 2** | Second teaching point | "They're researching YOU for months before reaching out." |
-| 5 | **Value 3** | Third teaching point | "Volume without value is noise." |
-| 6 | **Summary** | The transformation | "Being the face isn't optional anymore. It's how they decide." |
-| 7 | **CTA** | What to do next | "Save this. Share with a coach who needs to hear it." |
+---
 
-## Condensed 5-Slide Structure
+## Standard 8-Slide Structure (Default)
 
-Best for: Simple topics, single-insight content, quick wins.
+Best for: Teaching content, articles with 3+ insights, transformation stories.
 
-| Slide | Purpose | Content Type |
-|-------|---------|--------------|
-| 1 | **Hook** | The provocative claim |
-| 2 | **Problem + Context** | What's broken AND why it matters (combined) |
-| 3 | **Core Value** | The main teaching point |
-| 4 | **Summary** | The payoff |
-| 5 | **CTA** | Action to take |
+| Slide | Purpose | Char Target | What It Does |
+|-------|---------|-------------|--------------|
+| 1 | **Hook** | 80-120 | Stop the scroll, create open loop |
+| 2 | **Turn** | 10-30 | Punchy pivot, sets up the value |
+| 3-6 | **Value** | 80-180 | Deliver teaching, insights, proof |
+| 7 | **Pattern/Medicine** | 120-180 | The insight that ties it together |
+| 8 | **CTA** | 80-120 | Engagement question + follow prompt |
 
-## Listicle Structure (5-7 slides)
+**Character count philosophy:**
+- **Short slides (10-30):** Punchy impact. "Old advice kills." Stop. Let it land.
+- **Value slides (80-180):** TEACH something. This is where value lives.
+- **Hook/CTA (80-120):** Substantial but scannable.
+
+---
+
+## Condensed 6-Slide Structure
+
+Best for: Simpler topics, single insight, tighter execution.
+
+| Slide | Purpose | Char Target |
+|-------|---------|-------------|
+| 1 | **Hook** | 80-120 |
+| 2 | **Turn/Problem** | 30-60 |
+| 3-4 | **Value** | 80-180 |
+| 5 | **Insight** | 120-180 |
+| 6 | **CTA** | 80-120 |
+
+Use this when 8 slides would mean padding.
+
+---
+
+## Story Arc Structure (8 slides)
+
+Best for: Personal stories, case studies, narrative content with emotional journey.
+
+| Slide | Story Beat | Char Target |
+|-------|------------|-------------|
+| 1 | Hook: Tease the transformation | 80-120 |
+| 2 | Setup: The starting situation | 60-100 |
+| 3 | Conflict: What went wrong | 80-150 |
+| 4 | Low point: The moment of doubt | 80-150 |
+| 5 | Turning point: The realization | 80-180 |
+| 6 | Resolution: What changed | 80-150 |
+| 7 | Lesson: The takeaway | 120-180 |
+| 8 | CTA | 80-120 |
+
+---
+
+## Listicle Structure (6-8 slides)
 
 Best for: "X things you need to know", "X mistakes", "X reasons why".
 
-| Slide | Content |
-|-------|---------|
-| 1 | Hook: "5 reasons your coaching business is stalling" |
-| 2 | Reason 1 |
-| 3 | Reason 2 |
-| 4 | Reason 3 |
-| 5 | Reason 4 |
-| 6 | Reason 5 |
-| 7 | CTA |
+| Slide | Content | Char Target |
+|-------|---------|-------------|
+| 1 | Hook: "5 reasons your business is stalling" | 80-120 |
+| 2-6 | List items with VALUE (not just bullet points) | 80-180 each |
+| 7 | Summary/Pattern | 120-180 |
+| 8 | CTA | 80-120 |
 
-## Before/After Structure (5 slides)
+**Key:** Each list item should teach something, not just state something.
 
-Best for: Transformation stories, case studies, contrast-driven content.
+---
 
-| Slide | Content |
-|-------|---------|
-| 1 | Hook: "What changed in 2024" |
-| 2 | BEFORE: The old way |
-| 3 | THE SHIFT: What happened |
-| 4 | AFTER: The new reality |
-| 5 | CTA: What to do about it |
+## Visual Progression Table Template
 
-## Story Arc Structure (7 slides)
+**Use this to plan the visual story alongside the content:**
 
-Best for: Personal stories, case studies, narrative content.
+| Slide | Text Summary | Metaphor State | Character Action | Energy |
+|-------|--------------|----------------|------------------|--------|
+| 1 | [Hook] | [Start state - chaos/problem] | [Initial reaction] | High |
+| 2 | [Turn] | [Slight shift begins] | [Noticing] | Medium-High |
+| 3 | [Value 1] | [Progress visible] | [Engaging] | Medium |
+| 4 | [Value 2] | [More progress] | [Following along] | Medium |
+| 5 | [Value 3] | [Momentum building] | [Getting it] | Medium-High |
+| 6 | [Value 4] | [Near resolution] | [Anticipating] | Rising |
+| 7 | [Pattern] | [Resolution revealed] | [Aha moment] | Peak |
+| 8 | [CTA] | [Final state - clarity] | [Peaceful/satisfied] | Calm |
 
-| Slide | Story Beat |
-|-------|------------|
-| 1 | Hook: Tease the transformation |
-| 2 | Setup: The starting situation |
-| 3 | Conflict: What went wrong |
-| 4 | Turning Point: The realization |
-| 5 | Resolution: What changed |
-| 6 | Lesson: The takeaway |
-| 7 | CTA |
+**Why this matters:** Without this table, each slide is nice on its own but there's no JOURNEY. The table forces you to plan the arc.
+
+---
 
 ## Choosing the Right Format
 
 Ask these questions:
 
 1. **How many teaching points?**
-   - 1 point → 5-slide
-   - 2-3 points → 7-slide
-   - 5+ points → Listicle
+   - 1-2 points → 6-slide
+   - 3-4 points → 8-slide
+   - 5+ points → Consider splitting into two carousels
 
 2. **Is there a clear before/after?**
-   - Yes → Before/After structure
+   - Yes → Story Arc structure
    - No → Standard or Listicle
 
 3. **Is this a personal story?**
@@ -87,19 +113,49 @@ Ask these questions:
    - Yes → Listicle
    - No → Standard
 
+5. **Can I deliver the AHA in 6 slides?**
+   - Yes → Condensed
+   - No → Full 8
+
+---
+
 ## Slide Transitions
 
-Each slide should connect to the next. Use these transition patterns:
+Each slide should create pull to the next. Patterns:
 
-- **Hook → Problem:** "Here's what's happening..."
-- **Problem → Value:** "The solution is..."
-- **Value → Value:** "And that's not all..." or "Even more importantly..."
-- **Value → Summary:** "So what does this mean?"
-- **Summary → CTA:** "Here's what to do..."
+- **Hook → Turn:** "Here's what's happening..."
+- **Turn → Value:** "Let me show you..."
+- **Value → Value:** "And here's the thing..." or "Even more..."
+- **Value → Pattern:** "So what does this mean?"
+- **Pattern → CTA:** "Here's what to do about it..."
 
-## Length Guidelines
+**Open loops:** Don't resolve everything on each slide. Leave a thread that pulls them forward.
 
-- **Slide text:** 10 words or less (ideal), 15 max
-- **Caption hook:** Under 150 characters (shows in preview)
-- **Caption body:** 3-5 bullet points
-- **Hashtags:** 5-10 relevant tags
+---
+
+## Caption Structure
+
+```
+[Hook line - expand or riff on Slide 1]
+
+[Body - 3-5 bullets summarizing the value]
+→ Point 1
+→ Point 2
+→ Point 3
+
+[Insight - the "so what"]
+
+[Engagement question - status-appropriate]
+
+[CTA - save, share, follow]
+
+👇 [Pointer to slides if needed]
+
+[Hashtags - 5-10 relevant tags at the end]
+```
+
+**Rules:**
+- First line must hook (it's the preview)
+- Use → arrows for easy scanning
+- Engagement question mirrors Slide 8
+- Hashtags at the end, not inline

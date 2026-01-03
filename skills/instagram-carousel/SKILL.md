@@ -1,19 +1,27 @@
 ---
 name: instagram-carousel
-description: Turn articles into Instagram carousel concepts with Nano Banana Pro image prompts. Use when creating carousels, repurposing newsletter content for Instagram, or generating manga-style slide images. Triggers on "create a carousel", "turn this into slides", "Instagram carousel from article".
+description: Turn articles into Instagram carousel concepts with Nano Banana Pro image prompts. Creates carousels that deliver real VALUE, brighten their day, and create AHA moments - not just pretty slides. Triggers on "create a carousel", "turn this into slides", "Instagram carousel from article".
 allowed-tools: Read, Write, Edit, Glob, Grep, AskUserQuestion
+skills: hook-stack-evaluator, mission-context
 ---
 
-# Instagram Carousel Skill
+# Instagram Carousel Skill v2
 
 ## What This Does
 
-Transforms newsletter articles (or topics) into Instagram carousel concepts with image prompts optimized for Nano Banana Pro (`gemini-3-pro-image-preview`).
+Transforms newsletter articles (or topics) into Instagram carousels with:
+- **Visual storytelling** through metaphor progression
+- **Real value delivery** in every slide (not just slogans)
+- **Audience-aware engagement** that makes them look smart
+- **AHA moments** that brighten their day
 
 **Output package:**
-- 5-7 carousel slides (text + image prompt each)
-- Instagram caption with hook, body, CTA, and hashtags
-- Hook evaluation via hook-stack-evaluator
+- 6-8 carousel slides with value-rich copy
+- Image prompts optimized for Nano Banana Pro
+- Instagram caption with status-appropriate engagement
+- Hook evaluation via hook-stack-evaluator (auto-iterated if below 10/15)
+
+---
 
 ## When to Use
 
@@ -23,117 +31,241 @@ Transforms newsletter articles (or topics) into Instagram carousel concepts with
 - "Repurpose this newsletter for Instagram"
 - "Generate carousel prompts for..."
 
+---
+
+## The V2 Difference
+
+**Old approach:** Short slogans (25 chars) that looked pretty but delivered nothing.
+
+**New approach:** Value-rich teaching (80-180 chars) with visual storytelling that creates a journey.
+
+The carousel should leave them with an **AHA moment** - real insight they can use.
+
+---
+
 ## Phases
 
-### Phase 1: Parse Input
+### Phase 1: Parse Input + Detect Audience
 
 **If given an article:**
 1. Read the full article
 2. Identify the core argument/thesis
-3. Extract 3-5 key teaching points
-4. Note any surprising stats or quotes
-5. Identify the transformation promised
+3. Extract the transformation promised
+4. Note what's counterintuitive or surprising
+5. Identify the target audience from content
 
-**If given a topic:**
-1. Ask clarifying questions about the angle
-2. Identify the target audience
-3. Determine the core insight to communicate
+**Audience Detection:**
+1. Check mission-context skill for audience info
+2. If not found, use AskUserQuestion:
+   - "Who is this carousel for? (Role/level)"
+   - "Are they established experts or still learning?"
+3. Classify audience status:
+   - **High-status:** Established experts ($30K+/month, years of experience)
+   - **Low-status:** Learning, growing, building
 
-### Phase 2: Structure Carousel
+**Main Character Selection:**
+1. Ask: "Should the main character be male or female?" (Consider who the audience will most connect with)
+2. Ask: "Do you want to appear as the narrator? If yes, you'll need to attach your reference photo to Slide 1."
+3. If using reference photo: Note that all subsequent prompts will include "maintain consistent character appearance from reference"
+
+**Why this matters:** High-status audiences won't engage with questions that make them look weak. Low-status audiences want connection through shared struggle. And seeing themselves (or someone like them) in the carousel increases connection.
+
+---
+
+### Phase 2: Extract Core Message
+
+Answer these questions:
+1. What's the ONE takeaway?
+2. What transformation is promised?
+3. What's counterintuitive or surprising?
+4. What will make them go "AHA"?
+
+The carousel builds to this AHA moment. Everything serves it.
+
+---
+
+### Phase 3: Develop Hook (3 C's Framework)
+
+The hook must have:
+- **Clarity:** What value will they get?
+- **Context:** Who/what is this about?
+- **Curiosity:** What open loop forces the swipe?
+
+**Process:**
+1. Generate 3-5 hook variations
+2. Test each against the 3 C's
+3. Ensure the winning hook creates an open loop
+4. The hook is 80-120 characters (substantial but scannable)
+
+---
+
+### Phase 4: Select Visual Metaphor
+
+**Default: Use a visual metaphor** (unless user requests literal visuals)
+
+**Process:**
+1. Deeply consider the article content and target audience
+2. Look for angles, tensions, or transformations in the content itself
+3. The metaphor should EMERGE from the article's core insight
+4. Load `resources/visual-metaphors.md` for inspiration (not a menu to pick from)
+5. Define start state → end state that mirrors the article's transformation
+
+**Good metaphors are:**
+- Visual (can be drawn as a progression)
+- Universal (audience immediately gets it)
+- Resonant (feels right for THIS specific message)
+
+**Metaphor Override:** If user requests literal visuals, skip this phase and use direct imagery.
+
+---
+
+### Phase 5: Design Character Arc (Optional)
+
+Load `resources/secondary-characters.md` for options.
+
+**Ed's approved roster:**
+- Black kitten (curious → peaceful)
+- Shetland sheepdog (alert → satisfied)
+- Kangaroo (energetic → relaxed)
+- Quokka (cheerful throughout - amplifies emotion)
+- Kookaburra (watching wisely → laughs at resolution)
+- Koala (grumpy despite cute looks → won over and happy)
+
+**Process:**
+1. Select character that fits the tone
+2. Plan character reactions across slides
+3. Character amplifies emotional journey - they don't speak, they react
+
+**Skip character when:** Content is very serious, metaphor is strong enough alone, or user requests no character.
+
+---
+
+### Phase 6: Write Slide Script (6-8 slides)
 
 Load `resources/carousel-formats.md` for structure options.
 
-**Default: 7-slide structure**
+**Character count targets:**
+| Slide Type | Chars | Purpose |
+|------------|-------|---------|
+| Hook | 80-120 | Stop scroll, create open loop |
+| Turn | 10-30 | Punchy pivot, sets up value |
+| Value (body) | 80-180 | DELIVER TEACHING - this is where value lives |
+| Pattern/Medicine | 120-180 | The AHA - the insight that ties it together |
+| CTA | 80-120 | Engagement question + follow prompt |
 
-| Slide | Purpose | What to Extract |
-|-------|---------|-----------------|
-| 1 | Hook | The most provocative claim or question |
-| 2 | Problem/Context | What's broken, why this matters now |
-| 3 | Value Point 1 | First teaching insight |
-| 4 | Value Point 2 | Second teaching insight |
-| 5 | Value Point 3 | Third teaching insight |
-| 6 | Summary | The "so what" - the transformation |
-| 7 | CTA | Follow, save, link in bio |
+**Value slides must TEACH something.** Not "Old advice kills" (slogan) but "The advice we got 10 years ago assumed clients would find us. Now they research for 8 months before reaching out." (teaching)
 
-**Condensed: 5-slide structure** (for simpler topics)
-- Hook → Problem → Value (combined) → Summary → CTA
+**Engagement question (final slide):**
+- **High-status audience:** Invite expertise demonstration ("What did you STOP that made things click?")
+- **Low-status audience:** Invite connection ("Who else feels this?")
 
-### Phase 3: Write Slide Copy
+Apply the **Golden Test:** Would commenting make them look SMARTER or WEAKER to peers/clients?
 
-For each slide, write the TEXT THAT APPEARS ON THE IMAGE.
+---
 
-**CRITICAL: 25-Character Limit**
-Nano Banana Pro renders text best at ≤25 characters. Longer text = garbled rendering.
+### Phase 7: Create Visual Progression Table
 
-| Length | Risk |
-|--------|------|
-| ≤25 chars | Safe - renders cleanly |
-| 26-40 chars | Risky - may have issues |
-| 40+ chars | Will likely fail |
+**Required format:**
 
-**Rules:**
-- **MAX 25 characters** for reliable text rendering
-- One idea per slide
-- Use punchy, scroll-stopping language
-- Front-load the most important word
-- Count characters for every slide
+| Slide | Text Summary | Metaphor State | Character Action | Energy |
+|-------|--------------|----------------|------------------|--------|
+| 1 | [Hook] | [Start state] | [Initial reaction] | High |
+| 2 | [Turn] | [First shift] | [Noticing] | Medium-High |
+| 3 | [Value 1] | [Progress visible] | [Engaging] | Medium |
+| ... | ... | ... | ... | ... |
+| 7 | [Pattern] | [Resolution revealed] | [AHA moment] | Peak |
+| 8 | [CTA] | [Final peaceful state] | [Satisfied] | Calm |
 
-**Examples:**
-- GOOD: "Old advice kills businesses" (24 chars)
-- GOOD: "30 days → 8 months" (18 chars)
-- BAD: "The advice we were all taught is now destroying coaching businesses" (65 chars - TOO LONG)
+**Why this matters:** Without this table, each slide is nice on its own but there's no JOURNEY. The table forces you to plan the arc.
 
-### Phase 4: Generate Image Prompts
+**Validate:**
+- Does the metaphor reach resolution?
+- Does the character arc complete?
+- Is there a satisfying visual journey?
+
+---
+
+### Phase 8: Generate Image Prompts
 
 Load `resources/prompt-templates.md` for the Creative Director Framework.
 
-**For EACH slide, generate an image prompt using this structure:**
+**For EACH slide, generate a prompt using:**
+
+**SLIDE 1 ONLY - Reference Image Reminder:**
+```
+=== REFERENCE IMAGE REQUIRED ===
+[ATTACH: Your reference photo here before generating]
+This image will be used to maintain consistent character appearance.
+================================
+```
+
+**All prompts use this structure:**
 
 ```
-PURPOSE: Instagram carousel slide [N of 7]. The viewer must instantly understand [one idea].
+PURPOSE: Instagram carousel slide [N of 8]. [What viewer must understand]
 
 HIERARCHY:
-- Eye goes to: [text/focal point]
-- Supports that: [image element]
-- Must not compete: [what to avoid - usually "clean background, no secondary text"]
+- Eye goes to: [The ONE thing]
+- Supports that: [Metaphor state from table]
+- Must not compete: [What to exclude]
 
 COMPOSITION:
-- Text placement: [top/center/bottom]
-- Negative space: [where and why]
-- Character/visual: [supporting element]
+- Text placement: [Position]
+- Negative space: [Where and why]
+- Character: [Action from table]
+
+VISUAL STORY:
+- Metaphor state: [From progression table]
+- Character: [From progression table]
 
 STYLE: Manga illustration, high contrast linework
-TEXT TO RENDER: "[Exact slide copy]"
+CHARACTER CONSISTENCY: Maintain consistent character appearance from reference image
+TEXT TO INCLUDE: "[Full slide copy]"
+TEXT DELIVERY: [Speech bubble if talking, bold overlay if statement]
 ASPECT: 4:5
 ```
 
-**Key principle:** "The model fails when YOU haven't decided what matters."
+**Note:** The "CHARACTER CONSISTENCY" line ensures the main character looks the same across all slides when using a reference photo.
 
-### Phase 5: Evaluate Hook
+**Text delivery options:**
+- **Speech bubble:** When there's a narrator or voice speaking
+- **Bold overlay:** When it's a statement or teaching point
+- **Minimal/impact:** For punchy turn slides
+
+---
+
+### Phase 9: Evaluate Hook
 
 Run slide 1's text through hook-stack-evaluator.
 
-Provide:
+**Provide:**
 - The hook text
 - Target audience (from Phase 1)
-- Context: "Instagram carousel hook"
+- Context: "Instagram carousel for [audience type]"
 
-If score is below 10/15, iterate on the hook before finalizing.
+**If score is below 10/15:** Auto-iterate. Generate 3 new variations, evaluate, select the best, and update the slide.
 
-### Phase 6: Write Caption
+---
 
-Write the Instagram caption (the text that appears below the carousel).
+### Phase 10: Write Instagram Caption
 
 **Structure:**
 ```
-[Hook line - repeat or expand slide 1]
+[Hook line - expand or riff on Slide 1]
 
-[Body - 3-5 bullet points summarizing value]
+[Body - 3-5 bullets summarizing the value]
 → Point 1
 → Point 2
 → Point 3
 
-[CTA - what you want them to do]
+[Insight - the "so what"]
+
+[Engagement question - mirrors Slide 8]
+
+Save this for when you need it.
+Follow @[handle] for more.
+
+👇
 
 [Hashtags - 5-10 relevant tags]
 ```
@@ -141,12 +273,75 @@ Write the Instagram caption (the text that appears below the carousel).
 **Rules:**
 - First line must hook (it's the preview)
 - Use → arrows for easy scanning
-- Include "Save this" or "Share with..." CTA
+- Engagement question matches audience status
 - Hashtags at the end, not inline
 
-### Phase 7: Save to Zettelkasten
+---
 
-Save the complete carousel output as a markdown file for easy copy/paste into Google AI Studio.
+### Phase 11: Output with Code Blocks
+
+Present the complete carousel with **code blocks for easy copy/paste**:
+
+```markdown
+# CAROUSEL: [Title]
+
+**Audience:** [Who this is for]
+**Metaphor:** [Visual metaphor used]
+**Character:** [Secondary character if used]
+
+---
+
+## Visual Progression Table
+
+| Slide | Text Summary | Metaphor State | Character Action | Energy |
+|-------|--------------|----------------|------------------|--------|
+[Full table from Phase 7]
+
+---
+
+## SLIDE 1/8 (Hook)
+**Text:** [slide copy] _(XX chars)_
+
+**Prompt:**
+\`\`\`
+[full image prompt - inside code block for one-click copy]
+\`\`\`
+
+---
+
+## SLIDE 2/8 (Turn)
+**Text:** [slide copy] _(XX chars)_
+
+**Prompt:**
+\`\`\`
+[full image prompt]
+\`\`\`
+
+[...continue for all slides...]
+
+---
+
+## INSTAGRAM CAPTION
+
+\`\`\`
+[full caption with hashtags - inside code block for one-click copy]
+\`\`\`
+
+---
+
+## HOOK EVALUATION
+**Score:** [X]/15
+[feedback from hook-stack-evaluator]
+[note if auto-iterated]
+```
+
+**Why code blocks matter:** Ed copies prompts directly into Google AI Studio. Code blocks = one click to copy the whole prompt.
+
+---
+
+### Phase 12: Save to Zettelkasten
+
+Save the complete carousel output as a markdown file.
 
 **File location:**
 ```
@@ -159,13 +354,17 @@ Save the complete carousel output as a markdown file for easy copy/paste into Go
 type: carousel
 date: YYYY-MM-DD
 source: [article title or topic]
+audience: [target audience]
+metaphor: [visual metaphor used]
+character: [secondary character if used]
+hook_score: [X/15]
 status: draft
 tags: [instagram, carousel, nano-banana-pro]
 ---
 
 # Carousel: [Title]
 
-[Full carousel output from Output Format section]
+[Full carousel output from Phase 11]
 ```
 
 **After saving:**
@@ -182,75 +381,46 @@ tags: [instagram, carousel, nano-banana-pro]
 - [[Carousel - [Short Title] - YYYY-MM-DD]] - Instagram carousel for [topic]
 ```
 
-## Style Variants
+---
 
-### Default: Manga Reaction
+## Quick Reference
 
-Clean background, bold text, manga character reacting to the statement. Use for most slides.
+### Slide Count Decision
+- Can deliver AHA in 6 slides? → 6 slides
+- Need more room for value? → 8 slides
+- More than 4 teaching points? → Consider splitting into two carousels
 
-Load `resources/manga-style-guide.md` for details.
+### Audience Status Cheat Sheet
+| Audience | Engagement Style | Example Question |
+|----------|------------------|------------------|
+| High-status | Expertise invitation | "What did you stop that made things click?" |
+| Low-status | Connection invitation | "Who else feels this?" |
 
-### Variant: Narrator Mode
-
-Ed appears as an illustrated narrator within the scene. Use for explainer-style slides where personal presence adds credibility.
-
-When using Narrator Mode, include instruction: "Include the reference image of Ed as an illustrated manga character narrating the scene."
-
-## Output Format
-
-Present the complete carousel with **code blocks for easy copy/paste**:
-
-```markdown
-# CAROUSEL: [Title]
-
-## SLIDE 1/7 (Hook)
-**Text:** [slide copy] _(XX chars)_
-
-**Prompt:**
-\`\`\`
-[full image prompt - inside code block for one-click copy]
-\`\`\`
+### Character Count Cheat Sheet
+| Slide Type | Target | Min | Max |
+|------------|--------|-----|-----|
+| Hook | 100 | 80 | 120 |
+| Turn | 20 | 10 | 30 |
+| Value | 130 | 80 | 180 |
+| Pattern | 150 | 120 | 180 |
+| CTA | 100 | 80 | 120 |
 
 ---
 
-## SLIDE 2/7 (Problem)
-**Text:** [slide copy] _(XX chars)_
+## Future: API Automation Notes
 
-**Prompt:**
-\`\`\`
-[full image prompt - inside code block for one-click copy]
-\`\`\`
-
-[...continue for all slides, always showing X/7 and character count...]
+When building an API version of this skill:
+- **Reference image handling:** Need to solve programmatic upload of reference photo for character consistency
+- **Multi-image generation:** Batch generate all 8 slides with consistent character
+- **Character consistency token:** Explore Nano Banana Pro's approach to maintaining character across generations
 
 ---
-
-## INSTAGRAM CAPTION
-
-\`\`\`
-[full caption with hashtags - inside code block for one-click copy]
-\`\`\`
-
----
-
-## HOOK EVALUATION
-Score: [X]/15
-[feedback from hook-stack-evaluator]
-```
-
-**Why code blocks matter:** Ed copies prompts directly into Google AI Studio. Code blocks = one click to copy the whole prompt.
-
-## Guidelines
-
-1. **Less is more** - Short slide copy beats long explanations
-2. **Hierarchy-first** - Always specify what the eye goes to FIRST
-3. **"Must not compete"** - This constraint is the secret sauce for clean images
-4. **One idea per slide** - If you're cramming, add a slide
-5. **Test the hook** - Slide 1 makes or breaks the carousel
 
 ## Version History
 
+- v2.1 (2026-01-04): Added main character selection (male/female based on audience), reference image workflow with visual reminder, character consistency instructions
+- v2.0 (2026-01-04): Major upgrade - visual metaphor system, character arcs, audience status detection, value-focused copy (80-180 chars), 6-8 slide structure, auto-iterate hooks
 - v1.3 (2026-01-03): Code blocks around prompts and caption for one-click copy workflow
-- v1.2 (2026-01-03): Added 25-char text limit enforcement, character counts in output, slide numbering (X/7)
-- v1.1 (2026-01-03): Added Phase 7 - auto-save to Zettelkasten for easy copy/paste workflow
-- v1.0 (2026-01-03): Initial release with Creative Director Framework, manga default style
+- v1.2 (2026-01-03): Added 25-char text limit enforcement, character counts in output
+- v1.1 (2026-01-03): Added Phase 7 - auto-save to Zettelkasten
+- v1.0 (2026-01-03): Initial release with Creative Director Framework
