@@ -2,6 +2,7 @@
 name: task-clarity-scanner
 description: Scans daily notes using Personal Kanban structure. Clarifies tasks, manages Today's 3 vs Ready, flags stale items, and helps swap between columns. Use when reviewing todos, scanning task lists, or managing your Kanban board.
 allowed-tools: Read, Glob, Grep, Edit, Write, AskUserQuestion
+skills: inbox-triage
 ---
 
 # Task Clarity Scanner
@@ -55,6 +56,30 @@ The daily note has this structure:
 ## Instructions
 
 This skill uses the **Batch Pattern** - clarify all tasks first, then execute work.
+
+---
+
+### PASS 0.5: Inbox Triage (if inbox has items)
+
+**Before scanning tasks, check for new mobile captures.**
+
+1. Check inbox folder:
+   ```
+   Glob: /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/Inbox/*.md
+   ```
+
+2. **If empty:** Skip to PASS 0 (Kanban Health Check)
+
+3. **If items present:** Invoke `inbox-triage` skill
+   - Classifies each capture (TASK, IDEA, RESEARCH, etc.)
+   - Routes to appropriate destination (Ready, Captures, project files)
+   - Spawns research-swarm agents in background for research items
+   - Moves processed files to Inbox/Processed/
+   - Generates triage summary
+
+4. **After triage:** Continue to PASS 0 with freshly routed items
+
+This ensures new mobile captures are sorted BEFORE reviewing the Kanban board.
 
 ---
 
