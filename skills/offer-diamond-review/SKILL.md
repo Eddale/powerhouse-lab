@@ -1,7 +1,7 @@
 ---
 name: offer-diamond-review
 description: Evaluates Offer Diamonds for BlackBelt coaches using Ed Dale's frameworks. Produces Facebook-ready feedback comments.
-allowed-tools: Read, Glob, Grep
+allowed-tools: Read, Write, Edit, Glob, Grep
 ---
 
 # Offer Diamond Review
@@ -81,7 +81,46 @@ Before writing feedback, ask yourself:
 - Immediately postable in the BlackBelt Facebook group
 - 2-5 sharp improvements maximum
 
+**Wrap the final comment in a code block for easy copy/paste.**
+
 **This is feedback for peers, not a teardown.**
+
+---
+
+## Saving the Review
+
+After producing the feedback, save to Ed's Zettelkasten:
+
+**Filename:** `Offer Diamond Review - [Client Name] - YYYY-MM-DD.md`
+**Location:** `/Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/`
+
+**Format:**
+```yaml
+---
+type: offer-diamond-review
+client: [BlackBelt member name]
+offer: [Offer name if known]
+date: YYYY-MM-DD
+points-reviewed: [promise, guarantee, bonuses, payment-plan, urgency]
+---
+```
+
+```markdown
+# Offer Diamond Review - [Client Name]
+
+## The Feedback
+
+[The code block with Facebook comment]
+
+## Context
+
+[Any additional context provided: audience, price point, delivery format]
+```
+
+**Then add to daily note Captures:**
+```
+- [[Offer Diamond Review - [Client Name] - YYYY-MM-DD]] - Diamond review for [client]
+```
 
 ---
 
