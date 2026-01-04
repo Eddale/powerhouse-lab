@@ -59,22 +59,22 @@ This skill uses the **Batch Pattern** - clarify all tasks first, then execute wo
 
 ---
 
-### PASS 0.5: Inbox Triage (if inbox has items)
+### PASS 0.5: Captures Triage (if captures exist)
 
 **Before scanning tasks, check for new mobile captures.**
 
-1. Check inbox folder:
+1. Check captures folder:
    ```
-   Glob: /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/Inbox/*.md
+   Glob: /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/Captures/*.md
    ```
 
 2. **If empty:** Skip to PASS 0 (Kanban Health Check)
 
 3. **If items present:** Invoke `inbox-triage` skill
    - Classifies each capture (TASK, IDEA, RESEARCH, etc.)
-   - Routes to appropriate destination (Ready, Captures, project files)
+   - Routes to appropriate destination (Ready, Captures section, project files)
    - Spawns research-swarm agents in background for research items
-   - Moves processed files to Inbox/Processed/
+   - Moves processed files to Captures/Processed/
    - Generates triage summary
 
 4. **After triage:** Continue to PASS 0 with freshly routed items

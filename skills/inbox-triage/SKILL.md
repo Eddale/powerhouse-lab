@@ -1,6 +1,6 @@
 ---
 name: inbox-triage
-description: Processes Drafts Pro captures from the Inbox folder, classifies content by intent, and routes to appropriate Obsidian destinations. Use when triaging inbox, processing captures, or as part of daily task review. Triggers on "triage inbox", "process captures", "check my inbox", "what's in my inbox".
+description: Processes Drafts Pro captures from the Captures folder, classifies content by intent, and routes to appropriate Obsidian destinations. Use when triaging captures, processing mobile notes, or as part of daily task review. Triggers on "triage captures", "process captures", "check my captures", "what's waiting".
 allowed-tools: Read, Glob, Grep, Edit, Write
 skills: mission-context
 ---
@@ -18,16 +18,16 @@ Ed - capturing quick thoughts in Drafts Pro throughout the day.
 
 ## The Problem It Solves
 
-Mobile captures pile up in an inbox folder. Without triage, they become noise. This skill
-reads each capture, understands intent, and routes it where it belongs.
+Mobile captures pile up in a folder. Without triage, they become noise. This skill reads
+each capture, understands intent, and routes it where it belongs.
 
 ---
 
 ## Paths
 
 ```
-Inbox:      /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/Inbox/
-Processed:  /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/Inbox/Processed/
+Captures:   /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/Captures/
+Processed:  /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/Captures/Processed/
 Daily note: /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/YYYY-MM-DD.md
 Projects:   /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/PROJECT - *.md
 Contacts:   /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/CONTACT - *.md
@@ -37,13 +37,13 @@ Contacts:   /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/CONTACT - *.m
 
 ## Instructions
 
-### Step 1: Check Inbox
+### Step 1: Check Captures Folder
 
 ```
-Glob: /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/Inbox/*.md
+Glob: /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/Captures/*.md
 ```
 
-If empty: Report "Inbox empty" and stop.
+If empty: Report "No captures waiting" and stop.
 If items: Continue to Step 2.
 
 ### Step 2: Load Active Projects
@@ -59,7 +59,7 @@ Build a list of project names for matching (e.g., "BlackBelt", "Little Blue Repo
 
 ### Step 3: Read Each Capture
 
-For each `.md` file in Inbox:
+For each `.md` file in Captures:
 1. Read full content
 2. Check for Drafts frontmatter (captured date, tags)
 3. Extract the main content
@@ -158,10 +158,10 @@ source: inbox-triage
 After routing each capture:
 
 ```bash
-mv "[Inbox file]" "[Processed folder]"
+mv "[Captures file]" "[Processed folder]"
 ```
 
-Never delete - always move to Processed/ as safety net.
+Never delete - always move to Captures/Processed/ as safety net.
 
 ### Step 9: Generate Triage Summary
 
@@ -184,7 +184,7 @@ Never delete - always move to Processed/ as safety net.
 - [Any low-confidence routing decisions]
 
 ### Actions Taken
-- Moved N files to Inbox/Processed/
+- Moved N files to Captures/Processed/
 - Created CONTACT - [Name].md
 - Updated PROJECT - [Name].md
 ```
@@ -193,14 +193,14 @@ Never delete - always move to Processed/ as safety net.
 
 ## Examples
 
-### Example 1: Mixed Inbox
+### Example 1: Mixed Captures
 
-**Inbox contains:**
+**Captures folder contains:**
 ```
-Inbox-001.md: "Call dentist Monday about cleaning"
-Inbox-002.md: "What if we did a 5-day hook challenge?"
-Inbox-003.md: "How do successful coaches use AI for client onboarding?"
-Inbox-004.md: "for BlackBelt - new testimonial from Sarah"
+Capture-001.md: "Call dentist Monday about cleaning"
+Capture-002.md: "What if we did a 5-day hook challenge?"
+Capture-003.md: "How do successful coaches use AI for client onboarding?"
+Capture-004.md: "for BlackBelt - new testimonial from Sarah"
 ```
 
 **Skill does:**
@@ -213,9 +213,9 @@ Inbox-004.md: "for BlackBelt - new testimonial from Sarah"
 
 ### Example 2: Contact Capture
 
-**Inbox contains:**
+**Captures folder contains:**
 ```
-Inbox-005.md: "Follow up with John Smith about the proposal we discussed"
+Capture-005.md: "Follow up with John Smith about the proposal we discussed"
 ```
 
 **Skill does:**
@@ -230,7 +230,7 @@ Inbox-005.md: "Follow up with John Smith about the proposal we discussed"
 
 - Respect inline hints - they always override auto-detection
 - When confidence is low, flag with `[?]` and include in Needs Review section
-- Never delete inbox files - always move to Processed/
+- Never delete capture files - always move to Processed/
 - For CONTACT: Always create a follow-up task, even if just "Follow up with [Name]"
 - Launch all RESEARCH agents in parallel - don't wait for sequential completion
 - The triage summary IS the audit trail - log everything
