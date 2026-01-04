@@ -80,6 +80,28 @@ allowed-tools: Read, Glob, Grep, WebSearch, WebFetch
 - [To be defined]
 ```
 
+**YAML Frontmatter Rules (Anthropic Spec):**
+
+Only 4 fields are supported:
+
+| Field | Required | Notes |
+|-------|----------|-------|
+| `name` | Yes | kebab-case, match directory name |
+| `description` | Yes | What it does + when to use (max 1024 chars) |
+| `allowed-tools` | No | **Tool names only** - not other skills |
+| `model` | No | Specific Claude model if needed |
+
+**`allowed-tools` contains ONLY actual tools:**
+- Valid: `Read, Write, Edit, Glob, Grep, Bash, WebFetch, WebSearch`
+- Valid patterns: `Bash(python:*)`, `WebFetch(domain:github.com)`
+- **NOT valid**: Other skill names like `ai-slop-detector`
+
+**Skill chaining:** If a skill says "run through ai-slop-detector" in the instructions,
+Claude will invoke that skill automatically. Do NOT put other skills in `allowed-tools`.
+
+**Keep SKILL.md under 500 lines.** Use progressive disclosure: essential instructions
+in SKILL.md, detailed docs in `references/` folder.
+
 **Folder structure created:**
 ```
 skills/<name>/

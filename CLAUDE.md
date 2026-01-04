@@ -72,6 +72,12 @@ prototypes/  →  skills/  →  [Own Repo]
 | Ultrathink / Research Swarm | Multi-angle parallel research - attacking a question from 3-5 simultaneous perspectives |
 | Zettelkasten Integration | Knowledge capture via daily notes and research docs in Obsidian |
 
+### Output Formatting
+
+- Wrap prose at 90 characters with blank lines between paragraphs
+- Do not wrap tables or code blocks - keep them as-is
+- Short responses stay short; longer explanations get proper paragraph breaks
+
 ---
 
 ## THE IRON RULES
@@ -303,6 +309,35 @@ When a skill needs user context (like audience):
 
 Example: newsletter-writer asks audience once, passes to hook-stack for "Speak Their Lingo" scoring.
 
+### Iron Rule: Always Use new-skill-wizard
+
+**When creating ANY new skill:**
+1. Invoke the `new-skill-wizard` skill FIRST
+2. Let the wizard create the scaffolding
+3. THEN add your content to SKILL.md
+
+Never create skill folders or SKILL.md files manually.
+
+**YAML frontmatter (Anthropic spec):**
+```yaml
+---
+name: kebab-case-name
+description: One sentence. Use when [trigger phrases].
+allowed-tools: Read, Write, Edit, Glob, Grep
+---
+```
+
+**`allowed-tools` rules:**
+- Only actual tools: `Read, Write, Edit, Glob, Grep, Bash, WebFetch, WebSearch`
+- Patterns allowed: `Bash(python:*)`, `WebFetch(domain:example.com)`
+- **Skills do NOT go here** - skills chain via instructions in markdown body
+- Missing frontmatter = Claude.ai upload fails
+
+**Skill chaining:**
+- Put "run through ai-slop-detector skill" in the markdown instructions
+- Do NOT put `ai-slop-detector` in `allowed-tools`
+- Claude discovers and invokes referenced skills automatically
+
 ---
 
 ## KILL RULES
@@ -367,4 +402,4 @@ When creating image prompts (hero images, carousels, etc.), save as markdown fil
 This file evolves. When we discover something that should be standard, I'll add it here.
 
 **Last updated:** January 2026
-**Version:** 1.7 - Added image prompt saving pattern, Nano Banana Pro prompt language ("the man from the reference image" not "you")
+**Version:** 1.8 - Added Iron Rule for skill creation (always use new-skill-wizard), Anthropic skill spec
