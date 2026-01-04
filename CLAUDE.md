@@ -264,6 +264,17 @@ Format: - [[Document Name]] - Brief description
 
 This applies to: YouTube notes, research docs, project files, articles, anything saved to the vault.
 
+### Iron Rule: Never Write Daily Notes
+
+**When updating Ed's daily note:**
+1. **Glob first** - Search for `202*-MM-DD.md` to find the actual file (don't assume the year)
+2. **Read it** - Confirm it exists and see its structure
+3. **Edit to append** - Use Edit to add to the appropriate section (Captures, Ready, etc.)
+4. **Never use Write** - Write overwrites the entire file and destroys Ed's tasks
+
+If Read returns "file does not exist" for a daily note, something is wrong. Stop and verify
+the filename before creating anything.
+
 ### Where to Find Ed's Files
 
 When searching for files Ed mentions, check these locations in order:
@@ -417,4 +428,4 @@ When creating image prompts (hero images, carousels, etc.), save as markdown fil
 This file evolves. When we discover something that should be standard, I'll add it here.
 
 **Last updated:** January 2026
-**Version:** 1.9 - Added file location hints (Downloads, MacWhisper, MAGI)
+**Version:** 2.0 - Added Iron Rule for daily notes (never Write, always Edit)
