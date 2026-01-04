@@ -264,6 +264,21 @@ Format: - [[Document Name]] - Brief description
 
 This applies to: YouTube notes, research docs, project files, articles, anything saved to the vault.
 
+### Where to Find Ed's Files
+
+When searching for files Ed mentions, check these locations in order:
+
+| Location | What Lives There |
+|----------|------------------|
+| `~/Downloads/` | Most files end up here first |
+| `~/Documents/` | Organized project files |
+| `~/Documents/COPYobsidian/MAGI/Zettelkasten/` | Knowledge base, notes, research |
+| MacWhisper database | Audio transcriptions (search for `.txt` files from transcripts) |
+
+**MacWhisper:** Ed uses MacWhisper for all audio transcriptions. Transcripts are saved as
+`.txt` files, often in Downloads or the MacWhisper database folder at:
+`~/Library/Application Support/MacWhisper/Database/`
+
 ---
 
 ## TECH CONTEXT
@@ -402,4 +417,4 @@ When creating image prompts (hero images, carousels, etc.), save as markdown fil
 This file evolves. When we discover something that should be standard, I'll add it here.
 
 **Last updated:** January 2026
-**Version:** 1.8 - Added Iron Rule for skill creation (always use new-skill-wizard), Anthropic skill spec
+**Version:** 1.9 - Added file location hints (Downloads, MacWhisper, MAGI)
