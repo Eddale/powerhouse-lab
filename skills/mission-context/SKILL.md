@@ -30,6 +30,19 @@ This skill gives you everything you need to work effectively with Ed. Load this 
 
 ## THE MISSION
 
+### The One-Sentence Strategy (Prime Directive)
+
+> **"First AI win in 30 days. Then compound."**
+
+This is the filter for every decision. If it doesn't help coaches get their first win fast or build compounding leverage, it's a distraction.
+
+**Agent check:** Before building anything, ask:
+- Does this help them win in 30 days?
+- Does this compound over time?
+- If no to both → reconsider.
+
+### The Full Mission
+
 Transform established coaches ($30k+/month) into **AI Amplified Coaching Powerhouses** - safely, sanely, and in a way that feels like them.
 
 **The core promise:**
