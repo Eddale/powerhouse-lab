@@ -107,6 +107,8 @@ Ed's delivery framework has three layers:
 | **Upgrade Roadmap** | 90-day sequence of experiments |
 | **Leverage Skunkworks** | Controlled factory for building/testing assets |
 | **Founder AI Lab** | Always-on testing of what's working in AI |
+| **CFT (Critical Focus Time)** | 50-minute focus block based on attention science. One task, no interruptions. |
+| **Research Swarm** | Multi-angle parallel research - attacking a question from 3-5 simultaneous perspectives |
 
 ---
 
