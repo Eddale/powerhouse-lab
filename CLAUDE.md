@@ -364,6 +364,49 @@ allowed-tools: Read, Write, Edit, Glob, Grep
 - Do NOT put `ai-slop-detector` in `allowed-tools`
 - Claude discovers and invokes referenced skills automatically
 
+### Skill Registration Checklist
+
+**When a skill doesn't work, check these in order:**
+
+1. [ ] Skill folder exists in `skills/<name>/`
+2. [ ] SKILL.md has valid YAML frontmatter
+3. [ ] Symlinks created: `./scripts/setup-skills.sh`
+4. [ ] **Registered in settings:** `Skill(<name>)` in `.claude/settings.local.json`
+5. [ ] New terminal session started (settings refresh)
+
+**The pattern:**
+```
+Symlinks make a skill VISIBLE
+Settings registration makes a skill USABLE
+```
+
+Root cause 90% of the time: Step 4 is missing. The skill exists but isn't registered.
+
+### Dry Run Pattern (AskUserQuestion)
+
+For skills that process multiple items or trigger expensive operations:
+
+1. Read and classify all items
+2. Show preview table using AskUserQuestion
+3. Let user approve, modify, or skip
+4. Only then execute approved actions
+
+**Example preview:**
+```markdown
+| # | Item | Classification | Suggested Action |
+|---|------|----------------|------------------|
+| 1 | "Call dentist..." | TASK | → Ready |
+| 2 | "What if we..." | IDEA | → Ready: "Consider: [idea]" |
+| 3 | [link to article] | RESEARCH | → Spawn research-swarm? |
+
+Options: Approve all | Modify | Skip items
+```
+
+**Why it matters:**
+- Prevents runaway operations (12 research agents spawning unexpectedly)
+- Keeps user in control of their knowledge system
+- Batch processing without batch surprises
+
 ---
 
 ## KILL RULES
@@ -382,6 +425,22 @@ When killing a project:
 ---
 
 ## KNOWN GOTCHAS
+
+### Debugging Agent Failures
+
+When an agent doesn't work as expected, **fix the skill, not the agent.**
+
+**Diagnostic order:**
+1. **Test the skill standalone** - Run trigger phrase directly, without the agent
+2. **Check skill registration** - Is `Skill(<name>)` in settings.local.json?
+3. **Check skill tools** - Does allowed-tools have what the skill needs?
+4. **Only then check agent wiring** - Is skill in agent's `skills:` list?
+
+**Anti-pattern:** Adding "CRITICAL", "MUST", "IRON RULE" language to agents to force
+behavior. This masks the real problem and makes agents brittle.
+
+**The principle:** Agents orchestrate. Skills execute. If execution fails, the skill is
+broken - not the orchestration.
 
 ### Session Caching
 
@@ -428,4 +487,4 @@ When creating image prompts (hero images, carousels, etc.), save as markdown fil
 This file evolves. When we discover something that should be standard, I'll add it here.
 
 **Last updated:** January 2026
-**Version:** 2.0 - Added Iron Rule for daily notes (never Write, always Edit)
+**Version:** 2.1 - Added Skill Registration Checklist, Dry Run Pattern, Debugging Agent Failures
