@@ -1,25 +1,27 @@
 ---
-name: inbox-triage
-description: Processes Drafts Pro captures from the Captures folder, classifies content by intent, and routes to appropriate Obsidian destinations. Use when triaging captures, processing mobile notes, or as part of daily task review. Triggers on "triage captures", "process captures", "check my captures", "what's waiting".
-allowed-tools: Read, Glob, Grep, Edit, Write
+name: capture-triage
+description: Processes Drafts Pro captures from the Captures folder. Classifies by intent, shows preview for approval, routes to Ready as tasks. Use when triaging captures, processing mobile notes, or as part of daily review. Triggers on "triage captures", "process captures", "check my captures".
+allowed-tools: Read, Glob, Grep, Edit, Write, AskUserQuestion
 skills: mission-context
 ---
 
-# Inbox Triage
+# Capture Triage
 
 ## What This Does
 
-Turns your mobile captures into properly filed notes, tasks, and ideas - no manual sorting
-required.
+Turns mobile captures into actionable tasks in your Ready queue. Everything captured has
+intent - this skill makes it explicit so task-clarity-scanner can decide what's important.
 
 ## Who It's For
 
 Ed - capturing quick thoughts in Drafts Pro throughout the day.
 
-## The Problem It Solves
+## The Philosophy
 
-Mobile captures pile up in a folder. Without triage, they become noise. This skill reads
-each capture, understands intent, and routes it where it belongs.
+> Everything captured has intent. Route to Ready, let task-clarity-scanner decide what
+> moves to Someday/Maybe.
+
+No passive filing. Every capture becomes a decision point.
 
 ---
 
@@ -39,18 +41,16 @@ Contacts:   /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/CONTACT - *.m
 
 ### Step 1: Check Captures Folder (Root Only)
 
-**Important:** Only check files directly in Captures/, NOT subdirectories like Legacy/ or Processed/.
+**Important:** Only check files directly in Captures/, NOT subdirectories.
 
 ```bash
 ls /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/Captures/*.md 2>/dev/null
 ```
 
-This returns only root-level .md files. Do NOT use recursive glob patterns.
-
 If no files found: Report "No captures waiting" and stop.
 If files found: Continue to Step 2.
 
-### Step 2: Load Active Projects
+### Step 2: Load Context
 
 Pull active project names from mission-context skill AND:
 
@@ -58,21 +58,33 @@ Pull active project names from mission-context skill AND:
 Glob: /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/PROJECT - *.md
 ```
 
-Build a list of project names for matching (e.g., "BlackBelt", "Little Blue Report",
-"Powerhouse Lab").
+Build a list of project names for matching.
 
-### Step 3: Read Each Capture
+### Step 3: Read and Classify Each Capture
 
 For each `.md` file in Captures:
 1. Read full content
-2. Check for Drafts frontmatter (captured date, tags)
-3. Extract the main content
+2. Detect if already-processed (see Step 3a)
+3. Classify by intent (see Step 4)
+
+### Step 3a: Detect Already-Processed Content
+
+If capture content looks like a summary (has structure, headers, quotes sources):
+- Flag as `[PROCESSED]`
+- Will suggest routing as REFERENCE
+- Won't offer research-swarm (already researched)
+
+**Signals of processed content:**
+- Has markdown headers (##, ###)
+- Contains bullet lists with structured info
+- Quotes or attributes other sources
+- Looks like notes from a video/article
 
 ### Step 4: Classify Each Capture
 
 **Priority Rule:** Inline hints override auto-detection. Check for these FIRST:
 - `IDEA:` or `Idea:` → IDEA
-- `Research:` or `?` at end → RESEARCH
+- `Research:` → RESEARCH (triggers swarm option)
 - `for [Project Name]` → PROJECT_UPDATE
 - `Task:` or `TODO:` → TASK
 
@@ -81,60 +93,86 @@ For each `.md` file in Captures:
 | Signal | Classification |
 |--------|----------------|
 | Starts with verb (call, email, buy, check, send, schedule) | TASK |
-| Contains question mark | RESEARCH |
+| Contains `Research:` hint or explicit question needing investigation | RESEARCH |
 | "What if..." or speculative language | IDEA |
 | Mentions active project name | PROJECT_UPDATE |
 | Person's name + action context | CONTACT |
-| Short observation, no action implied | QUICK_THOUGHT |
+| Links, articles, saved content, observations | REFERENCE |
 
-**Confidence Levels:**
-- **High confidence:** Route automatically
-- **Medium confidence:** Route with `[?]` flag, include in summary
-- **Low confidence:** Ask Ed before routing
+### Step 5: Show Classification Preview (Dry Run)
 
-### Step 5: Route by Classification
+**This is the standard flow.** Present classifications using AskUserQuestion:
+
+```
+## Capture Triage Preview
+
+I've classified your [N] captures. Review and approve:
+
+| # | Capture | Classification | Suggested Action |
+|---|---------|----------------|------------------|
+| 1 | "Call dentist..." | TASK | → Ready: "Call dentist (MM-DD)" |
+| 2 | "What if we..." | IDEA | → Ready: "Consider: [idea] (MM-DD)" |
+| 3 | [PROCESSED] "Article summary..." | REFERENCE | → Ready: "Review: [title] (MM-DD)" |
+| 4 | "Research: how do..." | RESEARCH | → Spawn research-swarm? |
+
+Options:
+1. Approve all - Route as shown
+2. Modify - Change specific classifications
+3. Skip items - Don't route selected captures
+4. Spawn research for #4 - Launch research-swarm agent
+```
+
+**Key points:**
+- Show [PROCESSED] flag for already-summarized content
+- RESEARCH items ask if user wants swarm, don't auto-spawn
+- Let user approve, modify, or skip before any changes
+
+### Step 6: Route by Classification
+
+After approval, route each capture:
 
 | Classification | Destination | Format |
 |----------------|-------------|--------|
-| TASK | Daily note → `## Ready` | `- [ ] [content] (MM-DD)` |
-| IDEA | Daily note → `## Captures` | `- [IDEA] [content]` |
-| RESEARCH | Trigger research-swarm | See Step 6 |
-| PROJECT_UPDATE | Project file → `## Context Gathered` | Timestamped append |
-| QUICK_THOUGHT | Daily note → `## Scratch` | `- [content]` |
-| CONTACT | Create contact note | See Step 7 |
+| TASK | Ready | `- [ ] [action] (MM-DD)` |
+| IDEA | Ready | `- [ ] Consider: [idea] (MM-DD)` |
+| REFERENCE | Ready | `- [ ] Review: [title/summary] (MM-DD)` |
+| RESEARCH | If approved: spawn agent | See Step 7 |
+| PROJECT_UPDATE | Project file | Timestamped append to `## Context Gathered` |
+| CONTACT | Create note + Ready | `- [ ] Follow up with [Name] (MM-DD)` |
 
-### Step 6: Handle Research (Parallel Execution)
+### Step 7: Handle Research (Only When Requested)
 
-For EACH capture classified as RESEARCH:
+**Only spawn research-swarm if:**
+- User explicitly approved during Step 5 preview
+- Capture has `Research:` inline hint AND user confirmed
 
-1. Extract the research question
-2. Launch research-swarm in background:
+For each approved RESEARCH item:
 
 ```
 Task(
   description="Research: [Topic]",
   prompt="Research question: [Full capture content]
 
-  Use research-swarm pattern to investigate. Save findings to Zettelkasten.",
+  Use research-swarm pattern to investigate. Save findings to Zettelkasten.
+  When complete, add review task to Ready: '- [ ] Review: [[Research - Topic]] (MM-DD)'",
   subagent_type="research-swarm",
   run_in_background=true
 )
 ```
 
-3. Add placeholder to daily note Captures:
-   `- [RESEARCH] [Topic] - swarm running in background`
+Add placeholder to daily note:
+```
+- [RESEARCH] [Topic] - swarm running in background
+```
 
-**Critical:** If multiple RESEARCH items exist, launch ALL agents simultaneously. Do not
-wait for one to complete before starting the next.
-
-### Step 7: Handle Contacts
+### Step 8: Handle Contacts
 
 When a capture mentions a person with action context:
 
 1. Check if `CONTACT - [Name].md` exists
 2. If exists: Append to `## Interactions` section
-3. If new: Create contact note using template below
-4. Always add follow-up task to daily note Ready section
+3. If new: Create contact note using template
+4. Always add follow-up task to Ready
 
 **Contact Note Template:**
 
@@ -142,7 +180,7 @@ When a capture mentions a person with action context:
 ---
 type: contact
 created: YYYY-MM-DD
-source: inbox-triage
+source: capture-triage
 ---
 
 # [Person Name]
@@ -157,7 +195,7 @@ source: inbox-triage
 [Any implied next steps]
 ```
 
-### Step 8: Move to Processed
+### Step 9: Move to Processed
 
 After routing each capture:
 
@@ -167,77 +205,77 @@ mv "[Captures file]" "[Processed folder]"
 
 Never delete - always move to Captures/Processed/ as safety net.
 
-### Step 9: Generate Triage Summary
+### Step 10: Generate Triage Summary
 
 ```markdown
-## Inbox Triage - YYYY-MM-DD HH:MM
+## Capture Triage - YYYY-MM-DD HH:MM
 
-**Processed:** N items | **Research spawned:** M background agents
+**Processed:** N items | **Research spawned:** M (if any)
 
-| Capture | Classification | Routed To |
-|---------|----------------|-----------|
-| "Call dentist Mon..." | TASK | Daily note → Ready |
-| "What if hooks...?" | IDEA | Daily note → Captures |
-| "How do coaches u..." | RESEARCH | research-swarm (bg) |
+### Routed to Ready
+- [N] tasks
+- [N] ideas (Consider:)
+- [N] references (Review:)
 
-### Research Running in Background
-- [Topic 1] - spawned at HH:MM
-- [Topic 2] - spawned at HH:MM
-
-### Needs Review [?]
-- [Any low-confidence routing decisions]
+### Research Running
+- [Topic] - spawned at HH:MM
 
 ### Actions Taken
 - Moved N files to Captures/Processed/
-- Created CONTACT - [Name].md
-- Updated PROJECT - [Name].md
+- Created CONTACT - [Name].md (if any)
+- Updated PROJECT - [Name].md (if any)
 ```
 
 ---
 
 ## Examples
 
-### Example 1: Mixed Captures
+### Example 1: Dry Run Preview
 
-**Captures folder contains:**
+**Captures folder contains 4 files:**
+
 ```
-Capture-001.md: "Call dentist Monday about cleaning"
-Capture-002.md: "What if we did a 5-day hook challenge?"
-Capture-003.md: "How do successful coaches use AI for client onboarding?"
-Capture-004.md: "for BlackBelt - new testimonial from Sarah"
-```
-
-**Skill does:**
-1. Routes "Call dentist..." → TASK → Ready section
-2. Routes "What if..." → IDEA → Captures section
-3. Spawns research-swarm for "How do coaches..." → RESEARCH
-4. Appends testimonial to PROJECT - BlackBelt.md → PROJECT_UPDATE
-5. Moves all 4 files to Processed/
-6. Generates triage summary
-
-### Example 2: Contact Capture
-
-**Captures folder contains:**
-```
-Capture-005.md: "Follow up with John Smith about the proposal we discussed"
+1. "Call dentist Monday about cleaning"
+2. "What if we did a 5-day hook challenge?"
+3. [PROCESSED] "Summary of Karpathy video - 6 paradigm shifts..."
+4. "Research: how do successful coaches use AI?"
 ```
 
-**Skill does:**
-1. Detects person name + action context → CONTACT
-2. Creates `CONTACT - John Smith.md` with context
-3. Adds task to Ready: `- [ ] Follow up with John Smith about proposal (01-05)`
-4. Moves to Processed/
+**Skill shows:**
+
+```
+## Capture Triage Preview
+
+| # | Capture | Classification | Suggested Action |
+|---|---------|----------------|------------------|
+| 1 | "Call dentist..." | TASK | → Ready: "Call dentist Monday (01-05)" |
+| 2 | "What if we..." | IDEA | → Ready: "Consider: 5-day hook challenge (01-05)" |
+| 3 | [PROCESSED] "Summary of Karpathy..." | REFERENCE | → Ready: "Review: Karpathy video summary (01-05)" |
+| 4 | "Research: how do coaches..." | RESEARCH | → Spawn research-swarm? |
+
+Approve all, modify, or skip items?
+```
+
+### Example 2: After Approval
+
+User approves all, including research swarm for #4.
+
+**Result:**
+- Ready gets 3 new tasks + 1 research placeholder
+- Research-swarm spawns in background
+- All 4 files moved to Processed/
+- Summary generated
 
 ---
 
 ## Guidelines
 
-- Respect inline hints - they always override auto-detection
-- When confidence is low, flag with `[?]` and include in Needs Review section
-- Never delete capture files - always move to Processed/
-- For CONTACT: Always create a follow-up task, even if just "Follow up with [Name]"
-- Launch all RESEARCH agents in parallel - don't wait for sequential completion
-- The triage summary IS the audit trail - log everything
+- **Dry run is standard** - Always show preview, never auto-route
+- **Respect inline hints** - They override auto-detection
+- **Research-swarm is opt-in** - Don't auto-spawn, ask first
+- **[PROCESSED] content** - Flag summaries, suggest REFERENCE routing
+- **Everything to Ready** - Let task-clarity-scanner handle prioritization
+- **Never delete** - Always move to Processed/
 
 ---
 
@@ -245,10 +283,13 @@ Capture-005.md: "Follow up with John Smith about the proposal we discussed"
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 1.0 | 2025-01-05 | Initial build |
+| 1.0 | 2025-01-05 | Initial build as inbox-triage |
+| 2.0 | 2025-01-05 | Renamed to capture-triage, added dry run, AskUserQuestion flow, all routes to Ready |
 
 ---
 
 ## Notes & Learnings
 
-<!-- What we discovered building this. Update after each use. -->
+- Day 1 test processed 32 captures with backlog - dry run prevented overwhelm
+- [PROCESSED] detection helps avoid re-researching already-summarized content
+- Research-swarm opt-in prevents runaway agent spawning

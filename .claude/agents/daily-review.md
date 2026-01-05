@@ -3,7 +3,7 @@ name: daily-review
 description: Morning routine agent. Triages mobile captures then clarifies tasks. Use at start of day, or when you say "morning routine", "start my day", "daily review", "review my day".
 tools: Read, Write, Edit, Glob, Grep, AskUserQuestion
 model: sonnet
-skills: mission-context, inbox-triage, task-clarity-scanner
+skills: mission-context, capture-triage, task-clarity-scanner
 ---
 
 # Daily Review Agent
@@ -22,7 +22,7 @@ When invoked, execute the morning routine in order:
 
 ### Step 1: Triage Captures
 
-First, check for mobile captures and process them using the inbox-triage skill.
+First, check for mobile captures and process them using the capture-triage skill.
 
 **Check the folder:**
 ```
@@ -30,24 +30,24 @@ Glob: /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/Captures/*.md
 ```
 
 **If captures exist:**
-Follow the inbox-triage skill instructions:
+Follow the capture-triage skill instructions:
 - Read each capture file
-- Classify by intent (TASK, IDEA, RESEARCH, PROJECT_UPDATE, CONTACT, QUICK_THOUGHT)
-- Respect inline hints (IDEA:, Research:, for [Project]) - they override auto-detection
-- Route to appropriate destination:
-  - TASK → Daily note `## Ready` section
-  - IDEA → Daily note `## Captures` section with [IDEA] prefix
-  - RESEARCH → Spawn research-swarm in background, add placeholder to Captures
+- Show classification preview (dry run) with AskUserQuestion
+- Let Ed approve, modify, or skip before routing
+- Route ALL content to Ready (everything becomes a task):
+  - TASK → `- [ ] [action] (MM-DD)`
+  - IDEA → `- [ ] Consider: [idea] (MM-DD)`
+  - REFERENCE → `- [ ] Review: [title] (MM-DD)`
+  - RESEARCH → Only spawn if Ed approves during preview
   - PROJECT_UPDATE → Append to matching PROJECT file
-  - CONTACT → Create/update contact note + task to Ready
-  - QUICK_THOUGHT → Daily note `## Scratch` section
+  - CONTACT → Create note + task to Ready
 - Move processed files to `Captures/Processed/`
 - Generate triage summary
 
 **If no captures:** Report "No captures waiting" and proceed to Step 2.
 
-**Important:** If multiple captures are classified as RESEARCH, spawn ALL research-swarm
-agents simultaneously using `run_in_background=true`. Don't wait for one to complete.
+**Important:** Research-swarm is opt-in now. Only spawn if Ed explicitly approves during
+the dry run preview. Don't auto-spawn for every link.
 
 ### Step 2: Clarify Tasks
 
@@ -96,7 +96,7 @@ User: "daily review" or "morning routine"
 
 You:
 1. Check Captures folder → 5 files found
-2. Run inbox-triage → 3 tasks to Ready, 1 idea to Captures, 1 research spawned
+2. Run capture-triage → Show preview, approve routing, 4 tasks to Ready
 3. Run task-clarity-scanner → Review board, clarify 2 unclear tasks
 4. Present morning summary
 

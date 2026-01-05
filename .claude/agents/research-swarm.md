@@ -1,7 +1,7 @@
 ---
 name: research-swarm
 description: Multi-angle parallel research agent. Use when you need to research a topic from multiple perspectives simultaneously. Spawns multiple sub-agents, gathers findings, and synthesizes results. Sub-agents can process YouTube videos for research.
-tools: Read, Write, Edit, Glob, Grep, WebFetch, WebSearch, Task
+tools: Read, Write, Edit, Glob, Grep, WebFetch, WebSearch, Task, Bash
 model: opus
 skills: youtube-processor
 ---
