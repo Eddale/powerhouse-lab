@@ -69,7 +69,7 @@ prototypes/  →  skills/  →  [Own Repo]
 | Ship This = Win Day | The only metric that matters |
 | Prompt Whispering™ | Building AI tools through conversation |
 | Prompt Wrangling™ | Debugging and refinement |
-| Ultrathink / Research Swarm | Multi-angle parallel research - attacking a question from 3-5 simultaneous perspectives |
+| Research Swarm | Multi-angle parallel research - attacking a question from 3-5 simultaneous perspectives |
 | Zettelkasten Integration | Knowledge capture via daily notes and research docs in Obsidian |
 
 ### Output Formatting
@@ -232,7 +232,7 @@ Common gotcha: Skill says "run python3 script.py" but agent doesn't have `Bash` 
 
 ## RESEARCH WORKFLOWS
 
-### When to Use Ultrathink (Research Swarm)
+### When to Use Research Swarm
 
 Use the parallel research pattern (`.claude/agents/research-swarm.md`) when:
 - Topic needs 3+ distinct research angles
@@ -250,8 +250,8 @@ Use targeted research instead when:
 
 ### Research Output Pattern
 
-All Ultrathink outputs:
-1. Generate markdown report in Zettelkasten: `Ultrathink - [Topic] - YYYY-MM-DD.md`
+All Research Swarm outputs:
+1. Generate markdown report in Zettelkasten: `Research Swarm - [Topic] - YYYY-MM-DD.md`
 2. Link in daily note Captures section
 3. Mark original research tasks with inline findings: `→ **Finding:** [summary]. See [[doc]]`
 4. New tasks discovered go to Surfaced Tasks section
@@ -259,7 +259,7 @@ All Ultrathink outputs:
 ### The "More Planning = Less Coding" Pattern
 
 For complex skill builds or features:
-1. **Ultrathink first** - Generate research doc with open questions
+1. **Research Swarm first** - Generate research doc with open questions
 2. **Ed comments inline** - Answer questions directly in the doc using `> [!Note] AI CONTEXT` callouts
 3. **Read the commented doc** - All decisions are captured before coding starts
 4. **Build from spec** - Implementation becomes straightforward execution
@@ -274,7 +274,7 @@ This pattern works because:
 
 Ed's knowledge management lives in Obsidian:
 - **Daily notes:** `/Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/YYYY-MM-DD.md`
-- **Research docs:** Same folder, named `Ultrathink - [Topic] - YYYY-MM-DD.md`
+- **Research docs:** Same folder, named `Research Swarm - [Topic] - YYYY-MM-DD.md`
 - **Captures section:** Links to all research completed that day
 
 ### Zettelkasten Rule
@@ -512,4 +512,4 @@ When creating image prompts (hero images, carousels, etc.), save as markdown fil
 This file evolves. When we discover something that should be standard, I'll add it here.
 
 **Last updated:** January 2026
-**Version:** 2.2 - Added Automation Signals convention (override skill ask instructions)
+**Version:** 2.3 - Renamed Ultrathink→Research Swarm, Captures folder→Inbox folder

@@ -20,13 +20,16 @@ When invoked, execute the morning routine in order:
 
 ## The Pipeline
 
-### Step 1: Triage Captures
+### Step 1: Triage Captures (Background OK)
 
 First, check for mobile captures and process them using the capture-triage skill.
 
+**Note:** The reading and classification step can run in background. Only surface to user
+when the preview table is ready.
+
 **Check the folder:**
 ```
-Glob: /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/Captures/*.md
+Glob: /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/Inbox/*.md
 ```
 
 **If captures exist:**
@@ -41,7 +44,7 @@ Follow the capture-triage skill instructions:
   - RESEARCH → Only spawn if Ed approves during preview
   - PROJECT_UPDATE → Append to matching PROJECT file
   - CONTACT → Create note + task to Ready
-- Move processed files to `Captures/Processed/`
+- Move processed files to `Inbox/Processed/`
 - Generate triage summary
 
 **If no captures:** Report "No captures waiting" and proceed to Step 2.
@@ -49,9 +52,12 @@ Follow the capture-triage skill instructions:
 **Important:** Research-swarm is opt-in now. Only spawn if Ed explicitly approves during
 the dry run preview. Don't auto-spawn for every link.
 
-### Step 2: Clarify Tasks
+### Step 2: Clarify Tasks (Background OK)
 
 Next, run the task-clarity-scanner skill on today's daily note.
+
+**Note:** The initial scan and triage step can run in background. Only surface to user
+when the board status is ready to present.
 
 **Daily note location:**
 ```

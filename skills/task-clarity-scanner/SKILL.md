@@ -89,12 +89,17 @@ If stale items exist, flag them for decision (do, delegate, drop).
 If no file specified, use today's date to find the daily note in the Zettelkasten folder.
 Look for tasks in `## Today's 3` and `## Ready` sections.
 
-**Step 2: Quick Triage**
+**Step 2: Quick Triage (Background OK)**
+
+**This step can run in background.** Scan and categorize all tasks before surfacing to user.
+
 Briefly categorize tasks:
 - **Clear** - Ready to act on
 - **Unclear** - Needs clarification
 - **Stale** - Rolling 3+ days, needs decision
 - **Done** - Already completed, can skip
+
+Do not surface to user until triage is complete.
 
 **Step 3: Clarify One at a Time**
 For each unclear task, present it individually (NOT a wall of text):
@@ -322,9 +327,9 @@ Research tasks have a distinct completion format:
 - [x] ~~[Research Topic]~~ → **Finding:** [Summary]. See [[Document Name]]
 ```
 
-**Ultrathink Bundling:**
+**Research Swarm Bundling:**
 When you see 3+ related research tasks, suggest:
-"These research tasks are related and could run in parallel. Consider bundling as 'Ultrathink - [Topic] Research YYYY-MM-DD'"
+"These research tasks are related and could run in parallel. Consider bundling as 'Research Swarm - [Topic] - YYYY-MM-DD'"
 
 ## Examples
 

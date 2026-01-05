@@ -1,6 +1,6 @@
 ---
 name: capture-triage
-description: Processes Drafts Pro captures from the Captures folder. Classifies by intent, shows preview for approval, routes to Ready as tasks. Use when triaging captures, processing mobile notes, or as part of daily review. Triggers on "triage captures", "process captures", "check my captures".
+description: Processes Drafts Pro captures from the Inbox folder. Classifies by intent, shows preview for approval, routes to Ready as tasks. Use when triaging captures, processing mobile notes, or as part of daily review. Triggers on "triage captures", "process captures", "check my captures".
 allowed-tools: Read, Glob, Grep, Edit, Write, AskUserQuestion
 skills: mission-context
 ---
@@ -28,8 +28,8 @@ No passive filing. Every capture becomes a decision point.
 ## Paths
 
 ```
-Captures:   /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/Captures/
-Processed:  /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/Captures/Processed/
+Inbox:      /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/Inbox/
+Processed:  /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/Inbox/Processed/
 Daily note: /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/YYYY-MM-DD.md
 Projects:   /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/PROJECT - *.md
 Contacts:   /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/CONTACT - *.md
@@ -37,14 +37,27 @@ Contacts:   /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/CONTACT - *.m
 
 ---
 
+## Important: Naming Clarification
+
+| Term | What It Means |
+|------|---------------|
+| Inbox **folder** | `/Zettelkasten/Inbox/` - where Drafts Pro sends mobile notes |
+| Captures **section** | `## Captures` in daily note - links to docs created today |
+| Ready **destination** | `## Ready` section in daily note - where triaged tasks go |
+
+**Remember:** This skill reads from the Inbox FOLDER and routes to the Ready SECTION.
+Never add tasks to the Captures section.
+
+---
+
 ## Instructions
 
-### Step 1: Check Captures Folder (Root Only)
+### Step 1: Check Inbox Folder (Root Only)
 
-**Important:** Only check files directly in Captures/, NOT subdirectories.
+**Important:** Only check files directly in Inbox/, NOT subdirectories.
 
 ```bash
-ls /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/Captures/*.md 2>/dev/null
+ls /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/Inbox/*.md 2>/dev/null
 ```
 
 If no files found: Report "No captures waiting" and stop.
@@ -60,12 +73,16 @@ Glob: /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/PROJECT - *.md
 
 Build a list of project names for matching.
 
-### Step 3: Read and Classify Each Capture
+### Step 3: Read and Classify Each Capture (Background OK)
 
-For each `.md` file in Captures:
+**This step can run in background.** Read and classify all captures before surfacing to user.
+
+For each `.md` file in Inbox:
 1. Read full content
 2. Detect if already-processed (see Step 3a)
 3. Classify by intent (see Step 4)
+
+Do not surface to user until ALL files are read and classified.
 
 ### Step 3a: Detect Already-Processed Content
 
@@ -99,27 +116,45 @@ If capture content looks like a summary (has structure, headers, quotes sources)
 | Person's name + action context | CONTACT |
 | Links, articles, saved content, observations | REFERENCE |
 
-### Step 5: Show Classification Preview (Dry Run)
+### Step 5: Show Classification Preview (Two-Step)
 
-**This is the standard flow.** Present classifications using AskUserQuestion:
+**Iron Rule:** Never combine the preview table and decision options in a single message.
+Show the table first. Let user absorb. Then ask what to do.
+
+---
+
+#### Step 5a: Present the Table
+
+Show what you found. Let user absorb the information first:
 
 ```
 ## Capture Triage Preview
 
-I've classified your [N] captures. Review and approve:
+Found [N] captures. Here's how I've classified them:
 
-| # | Capture | Classification | Suggested Action |
-|---|---------|----------------|------------------|
-| 1 | "Call dentist..." | TASK | → Ready: "Call dentist (MM-DD)" |
-| 2 | "What if we..." | IDEA | → Ready: "Consider: [idea] (MM-DD)" |
-| 3 | [PROCESSED] "Article summary..." | REFERENCE | → Ready: "Review: [title] (MM-DD)" |
-| 4 | "Research: how do..." | RESEARCH | → Spawn research-swarm? |
+| # | File | Preview | Classification | Suggested Routing |
+|---|------|---------|----------------|-------------------|
+| 1 | note1.md | "Call dentist..." | TASK | Ready: Call dentist (MM-DD) |
+| 2 | note2.md | "What if we..." | IDEA | Ready: Consider: [idea] (MM-DD) |
+| 3 | summary.md | [PROCESSED] "Article about..." | REFERENCE | Ready: Review: [title] (MM-DD) |
+| 4 | question.md | "Research: how do..." | RESEARCH | Spawn research-swarm? |
+```
 
-Options:
-1. Approve all - Route as shown
-2. Modify - Change specific classifications
-3. Skip items - Don't route selected captures
-4. Spawn research for #4 - Launch research-swarm agent
+**Do not ask for a decision yet.** Let the user see and absorb the table first.
+
+---
+
+#### Step 5b: Ask for Decision
+
+After showing the table, ask ONE question using AskUserQuestion:
+
+```
+How would you like to proceed?
+
+1. **Approve all** - Route everything as shown
+2. **Go one-by-one** - Review each item individually
+3. **Modify** - Change specific classifications before routing
+4. **Skip all** - Don't process any captures right now
 ```
 
 **Key points:**
@@ -139,6 +174,26 @@ After approval, route each capture:
 | RESEARCH | If approved: spawn agent | See Step 7 |
 | PROJECT_UPDATE | Project file | Timestamped append to `## Context Gathered` |
 | CONTACT | Create note + Ready | `- [ ] Follow up with [Name] (MM-DD)` |
+
+---
+
+**Edit Instructions:**
+
+For each item routed to Ready:
+1. Open today's daily note at:
+   `/Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/YYYY-MM-DD.md`
+2. Find the `## Ready` section
+3. Use Edit tool to append the task in the format shown above
+4. **Do NOT add to `## Captures`** - that section is for document links only
+
+Example Edit operation:
+```
+old_string: "## Ready\n- [ ] existing task"
+new_string: "## Ready\n- [ ] existing task\n- [ ] [new task from capture] (01-06)"
+```
+
+**If creating PROJECT or CONTACT files:** Those files get created separately, and a
+LINK to them goes in Ready as a task (e.g., `- [ ] [[PROJECT - Name]] - brief desc`).
 
 ### Step 7: Handle Research (Only When Requested)
 
@@ -200,10 +255,10 @@ source: capture-triage
 After routing each capture:
 
 ```bash
-mv "[Captures file]" "[Processed folder]"
+mv "[Inbox file]" "[Processed folder]"
 ```
 
-Never delete - always move to Captures/Processed/ as safety net.
+Never delete - always move to Inbox/Processed/ as safety net.
 
 ### Step 10: Generate Triage Summary
 
@@ -221,7 +276,7 @@ Never delete - always move to Captures/Processed/ as safety net.
 - [Topic] - spawned at HH:MM
 
 ### Actions Taken
-- Moved N files to Captures/Processed/
+- Moved N files to Inbox/Processed/
 - Created CONTACT - [Name].md (if any)
 - Updated PROJECT - [Name].md (if any)
 ```
@@ -232,7 +287,7 @@ Never delete - always move to Captures/Processed/ as safety net.
 
 ### Example 1: Dry Run Preview
 
-**Captures folder contains 4 files:**
+**Inbox folder contains 4 files:**
 
 ```
 1. "Call dentist Monday about cleaning"
@@ -270,6 +325,8 @@ User approves all, including research swarm for #4.
 
 ## Guidelines
 
+- **Two-step preview** - Show table first, ask decision second. Never combine.
+- **Ready, not Captures** - All triaged items become tasks in `## Ready` section, not `## Captures`
 - **Dry run is standard** - Always show preview, never auto-route
 - **Respect inline hints** - They override auto-detection
 - **Research-swarm is opt-in** - Don't auto-spawn, ask first
@@ -285,6 +342,7 @@ User approves all, including research swarm for #4.
 |---------|------|---------|
 | 1.0 | 2025-01-05 | Initial build as inbox-triage |
 | 2.0 | 2025-01-05 | Renamed to capture-triage, added dry run, AskUserQuestion flow, all routes to Ready |
+| 2.1 | 2026-01-06 | Renamed folder Captures→Inbox, split Step 5 into two-step preview, explicit Ready section routing, background OK for classification |
 
 ---
 

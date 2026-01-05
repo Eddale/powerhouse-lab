@@ -118,7 +118,7 @@ Combine findings into a unified report:
 
 ### Step 5: Save and Report
 
-1. Save report to: `/Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/Research - [Topic] - YYYY-MM-DD.md`
+1. Save report to: `/Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/Research Swarm - [Topic] - YYYY-MM-DD.md`
 2. Add link to today's daily note in Captures section
 3. Report summary to Ed
 
