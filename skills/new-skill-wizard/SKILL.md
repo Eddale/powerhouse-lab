@@ -148,16 +148,51 @@ Work with them to fill in:
 
 Update the SKILL.md as you go.
 
-### Step 6: Test Prompt
+### Step 6: Create Testing Plan
+
+Before testing, create a testing plan the user (or an agent) can execute:
+
+```markdown
+## Testing Plan for <skill-name>
+
+### Pre-flight Checks
+- [ ] Skill appears in `.claude/skills/` symlinks
+- [ ] Skill registered in `settings.local.json`
+- [ ] New terminal session started (settings refresh)
+
+### Skill Discovery Test
+- [ ] Run: "What skills are available?"
+- [ ] Expected: <skill-name> appears in list with correct description
+
+### Basic Invocation Test
+- [ ] Run: "<trigger phrase>"
+- [ ] Expected: Skill activates, follows instructions
+
+### Happy Path Test
+- [ ] Input: <typical input scenario>
+- [ ] Expected output: <what should happen>
+
+### Edge Case Tests
+- [ ] Empty input: <what should happen>
+- [ ] Missing data: <what should happen>
+
+### Integration Test (if skill uses other skills/tools)
+- [ ] Verify dependent skills are also registered
+- [ ] Test full workflow end-to-end
+```
+
+Save this plan to `skills/<name>/references/TESTING.md` so it persists.
+
+**Lesson learned:** Always test the skill ALONE before testing it inside an agent.
+If the skill doesn't work standalone, adding it to an agent won't fix it.
+
+### Step 7: Execute Tests
 
 Tell them:
-> Ready to test! In a fresh session, try:
-> - "What skills are available?" (should list your new skill)
-> - Then try a prompt that should trigger it
->
+> Ready to test! Start a fresh terminal session, then run through the testing plan.
 > Come back and tell me what needs adjusting.
 
-### Step 7: Publish (When They're Happy)
+### Step 8: Publish (When They're Happy)
 
 ```bash
 git add skills/<name>/
@@ -171,7 +206,7 @@ git push origin main
 
 Tell them: "`<name>` is now live on main and available everywhere."
 
-### Step 8: Claude.ai Upload (Ask First)
+### Step 9: Claude.ai Upload (Ask First)
 
 Ask: "Want me to package this skill for Claude.ai?"
 
