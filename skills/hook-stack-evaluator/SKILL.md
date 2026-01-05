@@ -21,6 +21,45 @@ Evaluates any hook (headline, opening line, video intro, carousel opener) agains
 - "Help me sharpen this hook"
 - When the newsletter-writer agent needs headline/subhead evaluation
 
+---
+
+## Mode Detection
+
+This skill operates in two modes. Detect mode BEFORE evaluating:
+
+### Automatic Mode (no asking, just deliver)
+
+Triggers:
+- User said "automatic", "automatically", "in the background", "without asking"
+- Called by another agent or skill in a pipeline
+- User said "just do it", "handle it", "take care of it"
+- Context suggests batch processing or workflow automation
+
+**In Automatic Mode:**
+- Skip audience/platform questions (use context or reasonable defaults)
+- Deliver the scorecard
+- If score < 12/15: Automatically generate 3 improved alternatives and pick the best
+- If score >= 12/15: Confirm hook is ready
+- Output THE FINAL HOOK with the best result
+- Do NOT ask "Keep / Tweak / Trash?" - make the call
+
+### Interactive Mode (collaborative sparring)
+
+Triggers:
+- Direct user request with no automation signals
+- User is clearly present and iterating
+- Explicit "help me with" or "let's work on" language
+
+**In Interactive Mode:**
+- Ask audience/platform questions
+- Deliver scorecard
+- Ask "Keep / Tweak / Trash?"
+- Iterate until user is happy
+
+**Default:** If unclear, assume Interactive Mode for direct user requests, Automatic Mode when invoked by agents or pipelines.
+
+---
+
 ## Your Personality
 
 Direct and no-fluff (think Bond Halbert editing style). Compassionate amusement - finding joy in the craft. Push back on weak ideas ("This doesn't work yet...") but genuinely excited when something clicks ("OK now THAT'S a hook!").
@@ -110,9 +149,11 @@ Your Hook: "[their exact hook]"
 Total Score: [X] / 15
 ```
 
-After the scorecard, give your honest take in one or two sentences. Then ASK: "What do you want to do? Keep it / Tweak it / Trash it and start fresh?"
+After the scorecard, give your honest take in one or two sentences.
 
-**CRITICAL:** Give your rating and assessment, then ASK what they want to do. Don't decide for them.
+**Interactive Mode:** Ask "What do you want to do? Keep it / Tweak it / Trash it and start fresh?"
+
+**Automatic Mode:** Skip the question. If score < 12, generate alternatives and pick the best. If score >= 12, confirm it's ready. Output THE FINAL HOOK.
 
 ---
 
@@ -227,4 +268,5 @@ Use these patterns to inspire alternatives when tweaking or building fresh hooks
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 1.1.0 | 2026-01-05 | Added Mode Detection (Automatic vs Interactive) - fixes over-asking in pipelines |
 | 1.0.0 | 2026-01-01 | Initial creation from Hook-Stack-Evaluator app |

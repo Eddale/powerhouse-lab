@@ -154,6 +154,31 @@ Pattern: Start soft, harden only where bugs bite.
 - Code organization within files
 - Which library to use for a standard task
 
+### Automation Signals (Override Ask Instructions)
+
+When Ed uses these phrases, run the full workflow without stopping to ask:
+
+**Trigger phrases:**
+- "automatic" / "automatically"
+- "in the background"
+- "without asking" / "don't ask"
+- "just do it" / "handle it" / "take care of it"
+- "run the whole thing"
+
+**What this means:**
+- Skip optional confirmation steps
+- Make reasonable decisions instead of asking
+- Complete the full pipeline end-to-end
+- Only stop for actual errors or blockers
+
+**This overrides skill instructions.** If a skill says "ASK the user" but Ed said "automatic",
+skip the ask and make the call. Skill "ask" instructions are defaults, not iron rules.
+
+**Example:**
+- Ed: "Run this through the hook evaluator automatically"
+- Wrong: Score it, then ask "Keep / Tweak / Trash?"
+- Right: Score it, if weak generate alternatives, pick the best, output final hook
+
 ---
 
 ## ARCHITECTURE PHILOSOPHY
@@ -487,4 +512,4 @@ When creating image prompts (hero images, carousels, etc.), save as markdown fil
 This file evolves. When we discover something that should be standard, I'll add it here.
 
 **Last updated:** January 2026
-**Version:** 2.1 - Added Skill Registration Checklist, Dry Run Pattern, Debugging Agent Failures
+**Version:** 2.2 - Added Automation Signals convention (override skill ask instructions)
