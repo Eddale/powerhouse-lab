@@ -114,11 +114,25 @@ skills/<name>/
 
 ### Step 4: Wire It Up (Do This Automatically)
 
+**4a: Create symlinks for all platforms:**
 ```bash
 ./scripts/setup-skills.sh
 ```
 
-Tell them: "Skill is now visible to Claude Code, GitHub Copilot, OpenAI Codex, and Antigravity."
+**4b: Register with Claude Code (CRITICAL):**
+Add `"Skill(<name>)"` to `.claude/settings.local.json` in the `permissions.allow` array.
+
+```bash
+# Example: For a skill called "brand-voice"
+# Add this line to settings.local.json:
+"Skill(brand-voice)"
+```
+
+**Why this matters:** The symlinks make the skill *visible*, but Claude Code won't *use* it
+unless it's registered in settings.local.json. This is the step that was missing and caused
+inbox-triage to fail.
+
+Tell them: "Skill is now wired up. You'll need to start a new terminal session for Claude Code to recognize it."
 
 ### Step 5: Develop the Content Together
 
