@@ -37,14 +37,18 @@ Contacts:   /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/CONTACT - *.m
 
 ## Instructions
 
-### Step 1: Check Captures Folder
+### Step 1: Check Captures Folder (Root Only)
 
-```
-Glob: /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/Captures/*.md
+**Important:** Only check files directly in Captures/, NOT subdirectories like Legacy/ or Processed/.
+
+```bash
+ls /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/Captures/*.md 2>/dev/null
 ```
 
-If empty: Report "No captures waiting" and stop.
-If items: Continue to Step 2.
+This returns only root-level .md files. Do NOT use recursive glob patterns.
+
+If no files found: Report "No captures waiting" and stop.
+If files found: Continue to Step 2.
 
 ### Step 2: Load Active Projects
 
