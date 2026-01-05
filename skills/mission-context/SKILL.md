@@ -149,11 +149,12 @@ Ed's delivery framework has three layers:
 > "If I want it to *think* smart, use Python.
 > If I want it to *look* cool, use React."
 
-### Hardware (Apple House)
+### Hardware (Apple House... Mostly)
 - **Mac Studio M4 Pro:** Primary workstation
 - **iPhone 16 Pro Max:** Mobile
 - **Apple Vision Pro:** First generation
 - **iPad Pro 13-inch (M4):** Tablet
+- **ASUS ROG Ally X:** PC gaming handheld (AMD Z2 Extreme chip) - the one Windows device
 
 ### Development & Deployment
 - **Claude Code:** Primary AI coding partner (CLI)
