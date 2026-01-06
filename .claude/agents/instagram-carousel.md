@@ -97,6 +97,11 @@ The hook must have:
 3. Ensure winning hook creates an open loop
 4. Hook is 80-120 characters (substantial but scannable)
 
+**Audience grounding (optional):**
+Where it makes sense, include the target audience in the hook so they self-select.
+- Example: "For coaches and their teams, the bottleneck to AI leverage isn't technical skill."
+- Not every hook needs this - some hooks are universal. Use judgment.
+
 ---
 
 ### Phase 4: Select Visual Metaphor
@@ -155,6 +160,17 @@ The hook must have:
 
 **Value slides must TEACH something.** Not "Old advice kills" (slogan) but "The advice we got 10 years ago assumed clients would find us. Now they research for 8 months before reaching out." (teaching)
 
+**Hook/Turn Dependency Check:**
+After writing slides 1 and 2, verify the turn delivers an AHA:
+- Does the hook create a curiosity gap?
+- Does the turn reveal something NEW (not repeat the hook)?
+
+**Failure mode:** Hook already reveals the answer → Turn has nothing new → Slide 2 feels like repetition.
+
+**Fix pattern:** Split the hook across slides 1-2:
+- Slide 1: "[Audience], the [problem] isn't [obvious thing]." (creates gap)
+- Slide 2: "It's [surprising answer]. And that's what you do for a living." (delivers aha)
+
 **Engagement question (final slide):**
 - **High-status audience:** Invite expertise ("What did you STOP that made things click?")
 - **Low-status audience:** Invite connection ("Who else feels this?")
@@ -191,7 +207,8 @@ Apply the **Golden Test:** Would commenting make them look SMARTER or WEAKER?
 ```
 === REFERENCE IMAGE REQUIRED ===
 [ATTACH: Your reference photo here before generating]
-This image will be used to maintain consistent character appearance.
+This image is for FEATURES and CLOTHING consistency only - not poses.
+The prompt will specify poses and actions separately.
 ================================
 ```
 
@@ -225,6 +242,14 @@ ASPECT: 4:5
 - **Speech bubble:** When there's a narrator or voice speaking
 - **Bold overlay:** When it's a statement or teaching point
 - **Minimal/impact:** For punchy turn slides
+
+**Narrator camera direction:**
+When there's a narrator (main character), direct them to look at camera on key slides:
+- **Slide 1 (hook):** Looking directly at camera - establishing authority
+- **Slide 2 (turn):** Looking directly at camera - delivering the reveal
+- **Slide 7 (aha):** Looking directly at camera - landing the key insight
+
+Teaching slides (3-6): Narrator focuses on the visual metaphor/action. This creates rhythm - direct engagement on key moments, focused attention during teaching.
 
 ---
 
