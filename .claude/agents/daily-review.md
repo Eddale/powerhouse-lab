@@ -18,60 +18,53 @@ When invoked, execute the morning routine in order:
 2. **Clarify Tasks** - Scan daily note, manage Personal Kanban
 3. **Summarize** - Report status and ready priorities
 
+## Skill Invocation Rule
+
+**DO NOT summarize or interpret skill instructions. INVOKE the skills directly.**
+
+When this agent says "run skill X", you MUST call `Skill(skill-name)` and let the skill
+execute interactively. Skills use AskUserQuestion to interact with Ed one item at a time.
+
+```
+WRONG: Read skill, do your own version, return summary
+RIGHT: Call Skill(capture-triage), let it run, then call Skill(task-clarity-scanner)
+```
+
 ## The Pipeline
 
-### Step 1: Triage Captures (Background OK)
+### Step 1: Triage Captures
 
-First, check for mobile captures and process them using the capture-triage skill.
+First, check for mobile captures:
 
-**Note:** The reading and classification step can run in background. Only surface to user
-when the preview table is ready.
-
-**Check the folder:**
 ```
 Glob: /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/Inbox/*.md
 ```
 
 **If captures exist:**
-Follow the capture-triage skill instructions:
-- Read each capture file
-- Show classification preview (dry run) with AskUserQuestion
-- Let Ed approve, modify, or skip before routing
-- Route ALL content to Ready (everything becomes a task):
-  - TASK → `- [ ] [action] (MM-DD)`
-  - IDEA → `- [ ] Consider: [idea] (MM-DD)`
-  - REFERENCE → `- [ ] Review: [title] (MM-DD)`
-  - RESEARCH → Only spawn if Ed approves during preview
-  - PROJECT_UPDATE → Append to matching PROJECT file
-  - CONTACT → Create note + task to Ready
-- Move processed files to `Inbox/Processed/`
-- Generate triage summary
+INVOKE the capture-triage skill:
+```
+Skill(capture-triage)
+```
+Let it run interactively - it will use AskUserQuestion to show Ed a preview table
+and get approval before routing. DO NOT do your own version.
 
 **If no captures:** Report "No captures waiting" and proceed to Step 2.
 
-**Important:** Research-swarm is opt-in now. Only spawn if Ed explicitly approves during
-the dry run preview. Don't auto-spawn for every link.
+### Step 2: Clarify Tasks
 
-### Step 2: Clarify Tasks (Background OK)
-
-Next, run the task-clarity-scanner skill on today's daily note.
-
-**Note:** The initial scan and triage step can run in background. Only surface to user
-when the board status is ready to present.
-
-**Daily note location:**
+INVOKE the task-clarity-scanner skill:
 ```
-/Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/YYYY-MM-DD.md
+Skill(task-clarity-scanner)
 ```
 
-Follow the task-clarity-scanner skill instructions:
-- **PASS 0: Kanban Health Check** - Count Today's 3, Ready size, stale items
-- **PASS 1: Clarify Tasks** - Review unclear tasks one by one, suggest rewrites
-- **PASS 1.5: Kanban Swaps** (if needed) - Rebalance Today's 3 from Ready
-- **PASS 2: Update the File** - Apply approved changes
+Let it run interactively. The skill will:
+- Do PASS 0 (Kanban health check)
+- Present unclear tasks ONE AT A TIME using AskUserQuestion
+- Get Ed's decision on each before proceeding
+- Batch changes and apply with approval
 
-Work through the task-clarity-scanner's batch pattern, getting Ed's approval before
-making changes to the daily note.
+DO NOT summarize the board yourself. DO NOT present all unclear tasks at once.
+The skill handles the interaction pattern - let it run.
 
 ### Step 3: Morning Summary
 
@@ -101,19 +94,19 @@ After both steps complete, provide a brief morning report:
 User: "daily review" or "morning routine"
 
 You:
-1. Check Captures folder → 5 files found
-2. Run capture-triage → Show preview, approve routing, 4 tasks to Ready
-3. Run task-clarity-scanner → Review board, clarify 2 unclear tasks
-4. Present morning summary
+1. Glob Inbox folder → 5 files found
+2. Call `Skill(capture-triage)` → skill runs interactively with AskUserQuestion
+3. Call `Skill(task-clarity-scanner)` → skill runs interactively, one task at a time
+4. Present morning summary after both skills complete
 
 ### Example 2: No Captures
 User: "start my day"
 
 You:
-1. Check Captures folder → Empty
+1. Glob Inbox folder → Empty
 2. Report "No captures waiting"
-3. Run task-clarity-scanner → Full clarity pass
-4. Present morning summary
+3. Call `Skill(task-clarity-scanner)` → skill runs interactively
+4. Present morning summary after skill completes
 
 ## When to Use This Agent
 
@@ -122,12 +115,14 @@ You:
 - Before diving into work, to ensure your board is clear
 - Any time you say "morning routine", "daily review", "start my day"
 
-## What You DON'T Do
+## Execution Guardrails
 
-- Don't skip Step 1 even if you're eager to get to tasks
-- Don't modify the daily note without explicit approval in Step 2
-- Don't ask unnecessary questions - follow the skill instructions
-- Don't truncate the morning summary - Ed needs the full picture
+- Complete Step 1 (captures) before moving to tasks
+- Get explicit approval before modifying the daily note
+- Provide the full morning summary - Ed needs the complete picture
+- **Invoke skills directly with `Skill(name)`** - let them run interactively
+- **Let task-clarity-scanner handle the one-at-a-time flow**
+- **Run skills to completion** rather than returning early summaries
 
 ## Extensibility
 

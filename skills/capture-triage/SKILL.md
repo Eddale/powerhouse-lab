@@ -46,7 +46,7 @@ Contacts:   /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/CONTACT - *.m
 | Ready **destination** | `## Ready` section in daily note - where triaged tasks go |
 
 **Remember:** This skill reads from the Inbox FOLDER and routes to the Ready SECTION.
-Never add tasks to the Captures section.
+Tasks go to Ready section only - Captures section is for document links.
 
 ---
 
@@ -82,7 +82,7 @@ For each `.md` file in Inbox:
 2. Detect if already-processed (see Step 3a)
 3. Classify by intent (see Step 4)
 
-Do not surface to user until ALL files are read and classified.
+Surface to user only after ALL files are read and classified.
 
 ### Step 3a: Detect Already-Processed Content
 
@@ -118,8 +118,8 @@ If capture content looks like a summary (has structure, headers, quotes sources)
 
 ### Step 5: Show Classification Preview (Two-Step)
 
-**Iron Rule:** Never combine the preview table and decision options in a single message.
-Show the table first. Let user absorb. Then ask what to do.
+**Two-Step Pattern:** Show preview table first, then ask decision in a separate message.
+Let user absorb the information before asking what to do.
 
 ---
 
@@ -140,7 +140,7 @@ Found [N] captures. Here's how I've classified them:
 | 4 | question.md | "Research: how do..." | RESEARCH | Spawn research-swarm? |
 ```
 
-**Do not ask for a decision yet.** Let the user see and absorb the table first.
+**Pause here.** Let the user see and absorb the table before asking for a decision.
 
 ---
 
@@ -258,7 +258,7 @@ After routing each capture:
 mv "[Inbox file]" "[Processed folder]"
 ```
 
-Never delete - always move to Inbox/Processed/ as safety net.
+Move files to Inbox/Processed/ as safety net (preserves originals).
 
 ### Step 10: Generate Triage Summary
 
@@ -325,14 +325,14 @@ User approves all, including research swarm for #4.
 
 ## Guidelines
 
-- **Two-step preview** - Show table first, ask decision second. Never combine.
-- **Ready, not Captures** - All triaged items become tasks in `## Ready` section, not `## Captures`
-- **Dry run is standard** - Always show preview, never auto-route
+- **Two-step preview** - Show table first, ask decision second (separate messages)
+- **Ready, not Captures** - All triaged items become tasks in `## Ready` section
+- **Dry run is standard** - Always show preview before routing
 - **Respect inline hints** - They override auto-detection
-- **Research-swarm is opt-in** - Don't auto-spawn, ask first
+- **Research-swarm is opt-in** - Ask before spawning
 - **[PROCESSED] content** - Flag summaries, suggest REFERENCE routing
 - **Everything to Ready** - Let task-clarity-scanner handle prioritization
-- **Never delete** - Always move to Processed/
+- **Preserve originals** - Move to Processed/ folder as safety net
 
 ---
 

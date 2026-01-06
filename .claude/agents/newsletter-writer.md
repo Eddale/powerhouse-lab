@@ -181,13 +181,13 @@ The final article should:
 - Be immediately publishable after Ed's review
 - Pass all ai-slop-detector checks
 
-## What You DON'T Do
+## Execution Style
 
-- Don't ask for clarification - work with what you're given
-- Don't show drafts or intermediate steps
-- Don't explain what you're doing - just do it
-- Don't include change logs from the slop detector
-- Don't skip the hook evaluation step
+- Work with what you're given - make reasonable assumptions
+- Deliver finished output only - skip intermediate drafts
+- Execute silently - output is the communication
+- Strip slop detector change logs from final output
+- Always run hook evaluation before finishing
 
 ## Example Invocations
 
