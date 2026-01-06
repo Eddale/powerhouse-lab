@@ -74,7 +74,8 @@ prototypes/  →  skills/  →  [Own Repo]
 
 ### Output Formatting
 
-- Wrap prose at 90 characters with blank lines between paragraphs
+- **Soft wrap only** - Let text flow naturally, no hard line breaks mid-paragraph
+- Use blank lines between paragraphs for readability
 - Do not wrap tables or code blocks - keep them as-is
 - Short responses stay short; longer explanations get proper paragraph breaks
 
@@ -478,6 +479,32 @@ Claude Code caches certain definitions during a session:
 2. Re-test the agent
 
 This isn't a bug - it's how the runtime works. Just be aware.
+
+### Permission Path Syntax (Double Slash)
+
+Paths in `settings.local.json` permissions follow gitignore spec. **A leading `/` is relative to
+the settings file, not the filesystem root.**
+
+```
+WRONG: Read(/Users/eddale/**)     → Looks for ./Users/eddale/** (relative)
+RIGHT: Read(//Users/eddale/**)    → Looks for /Users/eddale/** (absolute)
+```
+
+The double slash `//` means "absolute filesystem path". Without it, permissions silently fail
+because the relative path doesn't exist.
+
+### Global vs Project Settings
+
+Two settings files, different purposes:
+
+| Location | Purpose | What Goes Here |
+|----------|---------|----------------|
+| `~/.claude/settings.local.json` | Universal | Read/Write/Edit home folder, WebSearch, git commands, common domains |
+| `.claude/settings.local.json` | Project-specific | Skill registrations, repo scripts, project-specific Bash commands |
+
+**Rule:** If you'd want the permission in ANY project, put it in global. Project settings add on top.
+
+Keep them in sync by design - universal stuff in global, project stuff in project. Don't duplicate.
 
 ### Claude.ai Sandbox
 
