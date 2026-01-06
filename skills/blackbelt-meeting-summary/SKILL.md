@@ -24,7 +24,7 @@ Processed transcripts move to `Transcripts/Processed/`.
 
 ### Step 1: Scan for Unprocessed Transcripts
 
-1. Read all `.md` files in the Transcripts folder (not Processed subfolder)
+1. Read all `.md` and `.txt` files in the Transcripts folder (not Processed subfolder)
 2. For each file, try to detect:
    - Client name (from filename or speaker names in transcript)
    - Session type (Game Plan, Velocity, Red) from filename or content
