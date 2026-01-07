@@ -609,14 +609,55 @@ Two settings files, different purposes:
 
 Keep them in sync by design - universal stuff in global, project stuff in project. Don't duplicate.
 
-### Claude.ai Sandbox
+### Settings File Hygiene
 
-Claude.ai (Mac client, web) has sandbox restrictions:
+The `.claude/settings.local.json` file grows organically as you approve commands. Left unchecked,
+it becomes bloated with one-off approvals that break the `/doctor` command.
+
+**Use wildcards, not specific commands:**
+```
+WRONG: Approving "git commit -m 'fix: something'" → saves full command with message
+RIGHT: "Bash(git:*)" → covers ALL git commands
+```
+
+**Never approve commands with secrets inline:**
+When Claude asks to run something like `AUTH_TOKEN="abc123" bird bookmarks`, say no and configure
+the secret properly (environment variable, config file). Approving saves the token to the
+permissions file permanently.
+
+**Periodic cleanup signals:**
+- `/doctor` shows "Unmatched quote in Bash pattern" errors
+- Settings file exceeds ~80 entries
+- You see full commit messages or file paths in the permissions list
+
+**The fix:** Review settings, keep wildcards and skill registrations, delete specific one-off
+commands that are already covered by wildcards.
+
+### Claude Runtime Landscape (CLI vs Web vs Desktop)
+
+Three different products, different CLAUDE.md behavior:
+
+| Product | CLAUDE.md? | Source | Best For |
+|---------|------------|--------|----------|
+| **Claude Code CLI** | ✅ Auto-loads | `~/.claude/` + `./` (merged) | Agentic coding in terminal |
+| **Claude Code Web** | ✅ Auto-loads | `./` from GitHub repo only | Remote/browser coding |
+| **Claude Desktop App** | ❌ No | N/A (different product) | Chat + light tasks |
+
+**Key implications:**
+
+1. **Keep CLAUDE.md in GitHub repos** - This ensures both CLI and Web see it
+2. **Global `~/.claude/CLAUDE.md`** - Only CLI sees this, Web cannot access your local filesystem
+3. **Claude Desktop ignores CLAUDE.md** - It treats GitHub files as context, not instructions
+
+**For this repo:** CLAUDE.md lives here in the project root. Works for CLI and Web. Claude Desktop
+users would need to manually reference it.
+
+**Claude.ai sandbox restrictions** (applies to Desktop and Web chat, NOT Claude Code):
 - Cannot reach external domains via WebFetch
 - Cannot run Bash commands
 - Limited filesystem access
 
-Skills that work in Claude Code may not work in Claude.ai. See mission-context for Runtime Differences.
+Skills that work in Claude Code CLI may not work in Claude.ai chat. See mission-context for details.
 
 ### Image Generation with Nano Banana Pro
 
@@ -642,4 +683,4 @@ When creating image prompts (hero images, carousels, etc.), save as markdown fil
 This file evolves. When we discover something that should be standard, I'll add it here.
 
 **Last updated:** January 2026
-**Version:** 2.5 - Added Tool Documentation section (GitHub = Single Source of Truth), autonomous improvement pipeline, docs/ as part of creation
+**Version:** 2.7 - Added Claude Runtime Landscape (CLI vs Web vs Desktop CLAUDE.md behavior)
