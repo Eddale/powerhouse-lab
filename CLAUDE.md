@@ -71,6 +71,8 @@ prototypes/  →  skills/  →  [Own Repo]
 | Prompt Wrangling™ | Debugging and refinement |
 | Research Swarm | Multi-angle parallel research - attacking a question from 3-5 simultaneous perspectives |
 | Zettelkasten Integration | Knowledge capture via daily notes and research docs in Obsidian |
+| Verify With Data | Prove something works with code, not just eyeballs |
+| Screenshots as Spec | Visual feedback that shows exactly what's wrong - accelerates debugging |
 
 ### Output Formatting
 
@@ -109,6 +111,7 @@ Pattern: Start soft, harden only where bugs bite.
 
 ### Before You Touch Code
 
+0. **Check git status** - Know the state before touching anything (uncommitted changes, untracked files)
 1. **Think through the problem** - Read the codebase for relevant files
 2. **Write a plan** to `tasks/todo.md` - A checklist you'll work through
 3. **Check in with me** - I verify the plan before you start
@@ -228,6 +231,14 @@ Common gotcha: Skill says "run python3 script.py" but agent doesn't have `Bash` 
 | `skill-build` | skills/ | Balanced - needs good docs |
 | `blackbelt-tool` | Own repo | Polish - client-facing |
 | `content-engine` | Either | Speed - function over form |
+
+### Dual Documentation Standard
+
+Every prototype should have:
+- **README.md** - Technical reference (file structure, deployment, dependencies)
+- **HOW-IT-WORKS.md** - Vibe Coder explanation (what it does, why it matters, in copywriter language)
+
+The README is for future-you debugging. The HOW-IT-WORKS is for present-you understanding.
 
 ---
 
@@ -450,6 +461,50 @@ When killing a project:
 
 ---
 
+## VERIFICATION PATTERNS
+
+### The "Verify With Data" Rule
+
+Don't assume code works. Prove it programmatically.
+
+**Pattern:**
+1. Deploy/run the thing
+2. Test with real inputs
+3. **Verify outputs with code** (not just eyeballs)
+
+**Example:** After generating a DOCX:
+```python
+from docx import Document
+doc = Document("output.docx")
+print(f"Tables: {len(doc.tables)}")  # Proves tables rendered
+print(f"Paragraphs: {len(doc.paragraphs)}")
+```
+
+This is the difference between "it should work" and "it does work."
+
+### Browser Testing with Claude in Chrome
+
+For deployed web apps, use browser automation to test end-to-end:
+1. Fill forms with real data
+2. Click buttons
+3. Verify downloads/outputs
+4. Screenshot results
+
+**Production is truth.** Local testing is useful, but the real test happens at the deployed URL.
+
+### The Ship → Test → Fix Loop
+
+Vercel deploys in 45 seconds. Use this:
+1. Deploy v1 (basic, maybe broken)
+2. Find issues in production
+3. Fix specific things
+4. Deploy v2
+5. Verify
+
+Faster than trying to get it perfect locally.
+
+---
+
 ## KNOWN GOTCHAS
 
 ### Debugging Agent Failures
@@ -539,4 +594,4 @@ When creating image prompts (hero images, carousels, etc.), save as markdown fil
 This file evolves. When we discover something that should be standard, I'll add it here.
 
 **Last updated:** January 2026
-**Version:** 2.3 - Renamed Ultrathink→Research Swarm, Captures folder→Inbox folder
+**Version:** 2.4 - Added Verification Patterns, Dual Documentation Standard, git status step 0, Leverage Asset Formula

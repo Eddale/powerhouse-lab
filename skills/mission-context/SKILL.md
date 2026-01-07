@@ -109,6 +109,8 @@ Ed's delivery framework has three layers:
 | **Founder AI Lab** | Always-on testing of what's working in AI |
 | **CFT (Critical Focus Time)** | 50-minute focus block based on attention science. One task, no interruptions. |
 | **Research Swarm** | Multi-angle parallel research - attacking a question from 3-5 simultaneous perspectives |
+| **Verify With Data** | Proving something works with code, not just eyeballs |
+| **Screenshots as Spec** | Visual feedback showing exactly what's wrong - accelerates everything |
 
 ---
 
@@ -214,6 +216,39 @@ Ed's delivery framework has three layers:
 - **Web:** Fetch and analyze URLs, search the web
 - **Git:** Full version control, commits, pushes
 - **Shell:** Run scripts, package skills, system automation
+- **Browser Automation:** Claude in Chrome MCP for end-to-end testing of deployed apps
+
+---
+
+## THE LEVERAGE ASSET FORMULA
+
+When building tools that do the lifting:
+
+| Step | Action |
+|------|--------|
+| 1. **Identify grunt work** | What's repetitive and tedious? |
+| 2. **Template it** | Create a prompt/process that produces consistent output |
+| 3. **Wrap in UI** | Make it accessible (form, CLI, skill) |
+| 4. **Deploy it** | Put it where it can be used (Vercel, Claude.ai, etc.) |
+| 5. **Document it** | README + HOW-IT-WORKS so future-you understands |
+
+**Replicable for:** SOPs, email sequences, workshop outlines, client intake forms, coaching frameworks, playbooks.
+
+---
+
+## HOW ED GIVES FEEDBACK
+
+**What works:**
+- Specific problem statements ("tables aren't rendering")
+- Screenshots showing the issue
+- Clear success criteria ("should look like X")
+
+**What slows things down:**
+- Vague descriptions ("something's off")
+- No visual reference
+- Moving targets
+
+**Screenshots aren't decoration - they're the spec.**
 
 ---
 
