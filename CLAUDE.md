@@ -240,6 +240,42 @@ Every prototype should have:
 
 The README is for future-you debugging. The HOW-IT-WORKS is for present-you understanding.
 
+### Tool Documentation (GitHub = Single Source of Truth)
+
+**Core principle:** Once a tool exists in GitHub, ALL documentation lives in GitHub.
+
+Why? Web and desktop Claude clients can't reliably access Zettelkasten. GitHub is accessible from everywhere.
+
+**Zettelkasten is for:** Session debriefs, daily captures, research swarm outputs - things that capture the *process*, not the *product*.
+
+**Every skill gets a `docs/` folder:**
+```
+skills/[skill-name]/
+├── SKILL.md              # Required - the skill itself
+├── docs/
+│   ├── README.md         # Technical reference (for Claude and devs)
+│   ├── GUIDE.md          # Business-friendly (Ed's voice, analogies)
+│   ├── ROADMAP.md        # Shipped history + future ideas
+│   └── plans/            # Improvement plans
+│       ├── current.md    # Active improvement
+│       └── archive/      # Decision log
+```
+
+**Document voice:**
+- **README.md** - Technical, factual, for debugging
+- **GUIDE.md** - Ed's voice, business coach analogies, explains the "why"
+- **ROADMAP.md** - Ed's voice, what's shipped, what's planned, what we learned
+
+**The improvement cycle:**
+1. Ed says "Improve [tool]: [description]"
+2. Claude reads docs/ROADMAP.md and docs/README.md
+3. Claude creates docs/plans/current.md with plan
+4. Ed approves verbally
+5. Claude executes (Ralph Wiggum loop if complex)
+6. Claude updates ROADMAP.md, archives plan, commits
+
+See `tasks/todo.md` for full pipeline documentation.
+
 ---
 
 ## RESEARCH WORKFLOWS
@@ -523,6 +559,24 @@ behavior. This masks the real problem and makes agents brittle.
 **The principle:** Agents orchestrate. Skills execute. If execution fails, the skill is
 broken - not the orchestration.
 
+### Positive Framing in Agent/Skill Instructions
+
+**Anti-pattern:** "DO NOT reimplement" or "DO NOT do your own version"
+**Problem:** Negative instructions prime the unwanted behavior (pink elephant problem)
+
+**Pattern that works:**
+- "The [skill-name] skill handles X, Y, Z"
+- "Continue when the skill completes"
+- Trust automatic skill discovery via description matching
+
+**Anti-pattern:** Showing implementation details before delegation
+**Problem:** Gives Claude the recipe to DIY instead of delegating
+
+**Pattern that works:**
+- Remove glob paths, file locations, and logic from agents
+- Let skills own their own implementation details
+- Agents describe WHAT happens, skills describe HOW
+
 ### Session Caching
 
 Claude Code caches certain definitions during a session:
@@ -594,4 +648,4 @@ When creating image prompts (hero images, carousels, etc.), save as markdown fil
 This file evolves. When we discover something that should be standard, I'll add it here.
 
 **Last updated:** January 2026
-**Version:** 2.4 - Added Verification Patterns, Dual Documentation Standard, git status step 0, Leverage Asset Formula
+**Version:** 2.5 - Added Tool Documentation section (GitHub = Single Source of Truth), autonomous improvement pipeline

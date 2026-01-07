@@ -159,7 +159,7 @@ How would you like to proceed?
 
 **Key points:**
 - Show [PROCESSED] flag for already-summarized content
-- RESEARCH items ask if user wants swarm, don't auto-spawn
+- RESEARCH items present in preview table with spawn option - user approves before spawning
 - Let user approve, modify, or skip before any changes
 
 ### Step 6: Route by Classification
