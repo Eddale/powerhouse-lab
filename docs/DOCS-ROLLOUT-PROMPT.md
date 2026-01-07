@@ -1,14 +1,14 @@
-# Docs Rollout Project - Claude Desktop Prompt
+# Docs Rollout Project
 
-Copy everything below the line into Claude Desktop after restarting it with MCP enabled.
+Run this in Claude Code CLI. Copy everything below the line as your prompt.
 
 ---
 
 ## PROJECT: Add docs/ folder to all tools in powerhouse-lab
 
-**Location:** `/Users/eddale/Documents/GitHub/powerhouse-lab`
+**Repo:** `/Users/eddale/Documents/GitHub/powerhouse-lab`
 
-**Summary destination:** `/Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/`
+**Zettelkasten:** `/Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/`
 
 ### Context
 
