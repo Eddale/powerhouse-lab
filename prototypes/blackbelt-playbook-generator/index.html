@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playbook Generator | BlackBelt</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black: #000000;
+      --gold: #EFBB39;
+      --gold-dark: #D4A62F;
+      --gold-glow: rgba(239, 187, 57, 0.3);
+      --blue: #00A2FF;
+      --white: #FFFFFF;
+      --gray-900: #0A0A0A;
+      --gray-800: #141414;
+      --gray-700: #1F1F1F;
+      --gray-600: #2A2A2A;
+      --gray-400: #666666;
+      --gray-300: #999999;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Subtle grid background */
+    .bg-pattern {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Gold glow effect */
+    .gold-glow {
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, var(--gold-glow) 0%, transparent 70%);
+      border-radius: 50%;
+      top: -200px;
+      right: -200px;
+      pointer-events: none;
+      z-index: 0;
+      animation: pulse 8s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.1); }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 60px 24px;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 32px;
+    }
+
+    .logo-img {
+      height: 58px;
+      width: auto;
+    }
+
+    h1 {
+      font-size: clamp(32px, 5vw, 48px);
+      font-weight: 900;
+      letter-spacing: -1px;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+
+    h1 .highlight {
+      color: var(--gold);
+      position: relative;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      color: var(--gray-300);
+      font-weight: 400;
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* Form Card */
+    .form-card {
+      background: linear-gradient(180deg, var(--gray-800) 0%, var(--gray-900) 100%);
+      border: 1px solid var(--gray-700);
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 24px 48px rgba(0,0,0,0.4);
+    }
+
+    .form-section {
+      margin-bottom: 32px;
+    }
+
+    .form-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .section-title {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--gray-700);
+    }
+
+    .form-row {
+      display: grid;
+      gap: 20px;
+    }
+
+    .form-row.two-col {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @media (max-width: 600px) {
+      .form-row.two-col {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--white);
+    }
+
+    label .optional {
+      font-weight: 400;
+      color: var(--gray-400);
+      font-size: 12px;
+      margin-left: 8px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid var(--gray-400);
+      border-radius: 8px;
+      color: var(--white);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 15px;
+      transition: all 0.2s ease;
+    }
+
+    input:hover, select:hover, textarea:hover {
+      border-color: var(--gray-300);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+      background: rgba(239, 187, 57, 0.05);
+      box-shadow: 0 0 0 3px var(--gold-glow);
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: var(--gray-400);
+    }
+
+    select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23666666' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 48px;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    /* Tool Chips */
+    .chips-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      background: var(--gray-900);
+      border: 1px solid var(--gray-600);
+      border-radius: 100px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--gray-300);
+      user-select: none;
+    }
+
+    .chip:hover {
+      border-color: var(--gray-400);
+      color: var(--white);
+    }
+
+    .chip.selected {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--black);
+    }
+
+    .chip-check {
+      width: 16px;
+      height: 16px;
+      border: 2px solid currentColor;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .chip.selected .chip-check {
+      background: var(--black);
+      border-color: var(--black);
+    }
+
+    .chip.selected .chip-check::after {
+      content: '✓';
+      font-size: 10px;
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    /* Submit Button */
+    .submit-btn {
+      width: 100%;
+      padding: 18px 32px;
+      background: var(--gold);
+      border: none;
+      border-radius: 8px;
+      color: var(--black);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 32px;
+    }
+
+    .submit-btn:hover {
+      background: var(--gold-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px var(--gold-glow);
+    }
+
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+
+    .submit-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* Loading State */
+    .loading-screen {
+      display: none;
+      text-align: center;
+      padding: 80px 40px;
+    }
+
+    .loading-screen.active {
+      display: block;
+    }
+
+    .loader {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 32px;
+      position: relative;
+    }
+
+    .loader-ring {
+      position: absolute;
+      inset: 0;
+      border: 3px solid var(--gray-700);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    .loader-ring:nth-child(2) {
+      inset: 8px;
+      border-top-color: var(--blue);
+      animation-duration: 1.5s;
+      animation-direction: reverse;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .loading-subtext {
+      color: var(--gray-400);
+      font-size: 14px;
+    }
+
+    .loading-steps {
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      max-width: 300px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .loading-step {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: var(--gray-800);
+      border-radius: 8px;
+      font-size: 14px;
+      color: var(--gray-400);
+      opacity: 0;
+      transform: translateX(-20px);
+      animation: stepIn 0.4s ease forwards;
+    }
+
+    .loading-step:nth-child(1) { animation-delay: 0.5s; }
+    .loading-step:nth-child(2) { animation-delay: 1.5s; }
+    .loading-step:nth-child(3) { animation-delay: 2.5s; }
+
+    .loading-step.done {
+      color: var(--gold);
+    }
+
+    @keyframes stepIn {
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .step-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--gray-700);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+    }
+
+    .loading-step.done .step-icon {
+      background: var(--gold);
+      color: var(--black);
+    }
+
+    /* Success State */
+    .success-screen {
+      display: none;
+    }
+
+    .success-screen.active {
+      display: block;
+    }
+
+    .success-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .success-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(239, 187, 57, 0.1);
+      border: 1px solid var(--gold);
+      border-radius: 100px;
+      color: var(--gold);
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .success-title {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .success-subtitle {
+      color: var(--gray-400);
+      font-size: 15px;
+    }
+
+    /* Download Buttons */
+    .download-buttons {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 600px) {
+      .download-buttons {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .download-btn {
+      padding: 16px 24px;
+      border-radius: 8px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .download-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .download-btn.primary {
+      background: var(--gold);
+      border: none;
+      color: var(--black);
+    }
+
+    .download-btn.primary:hover {
+      background: var(--gold-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px var(--gold-glow);
+    }
+
+    .download-btn.secondary {
+      background: transparent;
+      border: 1px solid var(--gray-600);
+      color: var(--white);
+    }
+
+    .download-btn.secondary:hover {
+      border-color: var(--white);
+      background: var(--gray-800);
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 32px;
+      color: var(--gray-400);
+      font-size: 14px;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .back-link:hover {
+      color: var(--white);
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      margin-top: 60px;
+      padding-top: 32px;
+      border-top: 1px solid var(--gray-800);
+      color: var(--gray-400);
+      font-size: 13px;
+    }
+
+    .footer a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    /* Animations */
+    .fade-in {
+      animation: fadeIn 0.6s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .form-card {
+      animation: slideUp 0.8s ease forwards;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-pattern"></div>
+  <div class="gold-glow"></div>
+
+  <div class="container">
+    <!-- Header -->
+    <header class="header fade-in">
+      <div class="logo">
+        <img src="assets/blackbelt-logo-white.png" alt="BlackBelt" class="logo-img">
+      </div>
+      <h1>Build Your <span class="highlight">Playbook</span></h1>
+      <p class="subtitle">Generate a professional onboarding playbook for any role in 30 seconds. No more reinventing the wheel.</p>
+    </header>
+
+    <!-- Form Screen -->
+    <div id="formScreen">
+      <div class="form-card">
+        <form id="playbookForm">
+          <!-- Company & Role -->
+          <div class="form-section">
+            <div class="section-title">The Basics</div>
+            <div class="form-row two-col">
+              <div class="form-group">
+                <label for="company">Company Name</label>
+                <input type="text" id="company" placeholder="e.g., Acme Coaching" required>
+              </div>
+              <div class="form-group">
+                <label for="role">Role Name</label>
+                <input type="text" id="role" placeholder="e.g., Appointment Setter" required>
+              </div>
+            </div>
+          </div>
+
+          <!-- Core Function -->
+          <div class="form-section">
+            <div class="section-title">Role Details</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="function">Core Function</label>
+                <select id="function" required>
+                  <option value="" disabled selected>Select their primary function...</option>
+                  <option value="sell-by-chat">Sell by Chat</option>
+                  <option value="customer-success">Customer Success</option>
+                  <option value="community">Community Management</option>
+                  <option value="operations">Operations / Integrator</option>
+                  <option value="closer">Sales Closer</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tools -->
+          <div class="form-section">
+            <div class="section-title">Tech Stack</div>
+            <div class="form-group">
+              <label>Tools They'll Use</label>
+              <div class="chips-container" id="toolsContainer">
+                <div class="chip" data-tool="GoHighLevel">
+                  <span class="chip-check"></span>
+                  GoHighLevel
+                </div>
+                <div class="chip" data-tool="Slack">
+                  <span class="chip-check"></span>
+                  Slack
+                </div>
+                <div class="chip" data-tool="Google Meet">
+                  <span class="chip-check"></span>
+                  Google Meet
+                </div>
+                <div class="chip" data-tool="Fathom">
+                  <span class="chip-check"></span>
+                  Fathom
+                </div>
+                <div class="chip" data-tool="Calendly">
+                  <span class="chip-check"></span>
+                  Calendly
+                </div>
+                <div class="chip" data-tool="Zoom">
+                  <span class="chip-check"></span>
+                  Zoom
+                </div>
+                <div class="chip" data-tool="Notion">
+                  <span class="chip-check"></span>
+                  Notion
+                </div>
+                <div class="chip" data-tool="ClickUp">
+                  <span class="chip-check"></span>
+                  ClickUp
+                </div>
+              </div>
+            </div>
+            <div class="form-group" style="margin-top: 16px;">
+              <label for="otherTools">Other Tools <span class="optional">Comma-separated</span></label>
+              <input type="text" id="otherTools" placeholder="e.g., Asana, Monday, Hubspot">
+            </div>
+          </div>
+
+          <!-- Compensation -->
+          <div class="form-section">
+            <div class="section-title">Compensation Structure <span class="optional" style="font-size: 10px; letter-spacing: 0.5px; font-weight: 500;">Optional</span></div>
+            <div class="form-row two-col">
+              <div class="form-group">
+                <label for="basePay">Base Pay <span class="optional">per month</span></label>
+                <input type="text" id="basePay" placeholder="e.g., $1,250">
+              </div>
+              <div class="form-group">
+                <label for="closeBonus">Close Bonus <span class="optional">per sale</span></label>
+                <input type="text" id="closeBonus" placeholder="e.g., $175">
+              </div>
+            </div>
+            <div class="form-row two-col" style="margin-top: 16px;">
+              <div class="form-group">
+                <label for="performanceThreshold">Performance Threshold <span class="optional">closes to hit</span></label>
+                <input type="text" id="performanceThreshold" placeholder="e.g., 6 closes">
+              </div>
+              <div class="form-group">
+                <label for="performanceBonus">Performance Bonus <span class="optional">at threshold</span></label>
+                <input type="text" id="performanceBonus" placeholder="e.g., $200">
+              </div>
+            </div>
+          </div>
+
+          <!-- Time Expectations -->
+          <div class="form-section">
+            <div class="section-title">Time Expectations <span class="optional" style="font-size: 10px; letter-spacing: 0.5px; font-weight: 500;">Optional</span></div>
+            <div class="form-row two-col">
+              <div class="form-group">
+                <label for="hoursPerWeek">Hours Per Week</label>
+                <input type="text" id="hoursPerWeek" placeholder="e.g., 40-50">
+              </div>
+              <div class="form-group">
+                <label for="workingHours">Working Hours</label>
+                <input type="text" id="workingHours" placeholder="e.g., 8 AM - 5 PM EST">
+              </div>
+            </div>
+            <div class="form-row" style="margin-top: 16px;">
+              <div class="form-group">
+                <label for="remoteRequirements">Remote Requirements <span class="optional">Optional</span></label>
+                <input type="text" id="remoteRequirements" placeholder="e.g., Strong Wi-Fi and quiet environment required">
+              </div>
+            </div>
+          </div>
+
+          <!-- Contact & Social -->
+          <div class="form-section">
+            <div class="section-title">Contact & Culture <span class="optional" style="font-size: 10px; letter-spacing: 0.5px; font-weight: 500;">Optional</span></div>
+            <div class="form-row two-col">
+              <div class="form-group">
+                <label for="contact">Manager / Contact</label>
+                <input type="text" id="contact" placeholder="e.g., Sarah Johnson">
+              </div>
+              <div class="form-group">
+                <label for="winsChannel">Wins Channel <span class="optional">Slack channel</span></label>
+                <input type="text" id="winsChannel" placeholder="e.g., #wins">
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="submit-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+            </svg>
+            Generate Playbook
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+      <div class="form-card">
+        <div class="loader">
+          <div class="loader-ring"></div>
+          <div class="loader-ring"></div>
+        </div>
+        <div class="loading-text">Building Your Playbook</div>
+        <div class="loading-subtext">This takes about 10 seconds...</div>
+
+        <div class="loading-steps">
+          <div class="loading-step" id="step1">
+            <span class="step-icon">1</span>
+            Analyzing role requirements...
+          </div>
+          <div class="loading-step" id="step2">
+            <span class="step-icon">2</span>
+            Generating onboarding structure...
+          </div>
+          <div class="loading-step" id="step3">
+            <span class="step-icon">3</span>
+            Finalizing your playbook...
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Success Screen -->
+    <div id="successScreen" class="success-screen">
+      <div class="success-header">
+        <div class="success-badge">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22,4 12,14.01 9,11.01"/>
+          </svg>
+          Playbook Ready
+        </div>
+        <h2 class="success-title" id="successTitle">Your Playbook is Ready!</h2>
+        <p class="success-subtitle">Download in your preferred format below.</p>
+      </div>
+
+      <div class="download-buttons">
+        <button class="download-btn primary" id="downloadPdf">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7,10 12,15 17,10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Download PDF
+        </button>
+        <button class="download-btn secondary" id="downloadDocx">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14,2 14,8 20,8"/>
+            <text x="7" y="17" font-size="6" font-weight="bold" fill="currentColor">W</text>
+          </svg>
+          Download DOCX
+        </button>
+        <button class="download-btn secondary" id="downloadMd">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14,2 14,8 20,8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+            <line x1="10" y1="9" x2="8" y2="9"/>
+          </svg>
+          Download Markdown
+        </button>
+      </div>
+
+      <a href="#" class="back-link" id="backLink">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"/>
+          <polyline points="12,19 5,12 12,5"/>
+        </svg>
+        Generate another playbook
+      </a>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      Powered by <a href="#">BlackBelt</a> • Built for coaches who ship
+    </footer>
+  </div>
+
+  <script>
+    // State
+    let selectedTools = [];
+    let generatedContent = '';
+
+    // DOM Elements
+    const formScreen = document.getElementById('formScreen');
+    const loadingScreen = document.getElementById('loadingScreen');
+    const successScreen = document.getElementById('successScreen');
+    const form = document.getElementById('playbookForm');
+    const toolsContainer = document.getElementById('toolsContainer');
+
+    // Tool chip selection
+    toolsContainer.addEventListener('click', (e) => {
+      const chip = e.target.closest('.chip');
+      if (!chip) return;
+
+      const tool = chip.dataset.tool;
+      chip.classList.toggle('selected');
+
+      if (selectedTools.includes(tool)) {
+        selectedTools = selectedTools.filter(t => t !== tool);
+      } else {
+        selectedTools.push(tool);
+      }
+    });
+
+    // Form submission
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Combine chip tools with other tools input
+      const otherToolsInput = document.getElementById('otherTools').value;
+      const otherTools = otherToolsInput
+        ? otherToolsInput.split(',').map(t => t.trim()).filter(t => t)
+        : [];
+      const allTools = [...selectedTools, ...otherTools];
+
+      const formData = {
+        company: document.getElementById('company').value,
+        role: document.getElementById('role').value,
+        function: document.getElementById('function').value,
+        tools: allTools,
+        contact: document.getElementById('contact').value,
+        // Compensation fields
+        basePay: document.getElementById('basePay').value,
+        closeBonus: document.getElementById('closeBonus').value,
+        performanceThreshold: document.getElementById('performanceThreshold').value,
+        performanceBonus: document.getElementById('performanceBonus').value,
+        // Time fields
+        hoursPerWeek: document.getElementById('hoursPerWeek').value,
+        workingHours: document.getElementById('workingHours').value,
+        remoteRequirements: document.getElementById('remoteRequirements').value,
+        // Culture
+        winsChannel: document.getElementById('winsChannel').value
+      };
+
+      // Show loading
+      formScreen.style.display = 'none';
+      loadingScreen.classList.add('active');
+
+      // Simulate API call (replace with real API)
+      await simulateGeneration(formData);
+
+      // Update success title with company/role
+      document.getElementById('successTitle').textContent =
+        `${formData.company} - ${formData.role} Playbook Ready!`;
+
+      // Show success
+      loadingScreen.classList.remove('active');
+      successScreen.classList.add('active');
+    });
+
+    // Store form data for downloads
+    let currentFormData = null;
+
+    // Simulate generation (replace with real API call)
+    async function simulateGeneration(data) {
+      currentFormData = data;
+
+      // Simulate steps
+      await sleep(1000);
+      document.getElementById('step1').classList.add('done');
+      await sleep(1500);
+      document.getElementById('step2').classList.add('done');
+      await sleep(1500);
+      document.getElementById('step3').classList.add('done');
+      await sleep(500);
+
+      // Generate markdown content
+      const toolsList = data.tools.length > 0
+        ? data.tools.map(t => `- [ ] ${t} → \`[INSERT LOOM LINK]\``).join('\n')
+        : '- [ ] Tools to be configured';
+
+      generatedContent = `# ${data.company} - ${data.role} Playbook
+
+> **Purpose:** Everything ${data.role} needs to self-onboard and succeed.
+> **How to use:** Work through each section in order. Each item links to a Loom video or document.
+
+---
+
+## 1. Company Foundation
+
+### Mission & Values
+- [ ] Watch: Company mission overview → \`[INSERT LOOM LINK]\`
+- [ ] Read: Our core values → \`[INSERT DOC LINK]\`
+- [ ] Watch: Who we serve (customer avatar) → \`[INSERT LOOM LINK]\`
+
+### Appearance & Communication
+- [ ] Read: Brand voice guidelines → \`[INSERT DOC LINK]\`
+- [ ] Watch: How we communicate with clients → \`[INSERT LOOM LINK]\`
+
+---
+
+## 2. Tech Setup (SOPs)
+
+### Essential Tools
+${toolsList}
+
+### Account Setup Checklist
+- [ ] Create company email
+- [ ] Set up 2FA on all accounts
+- [ ] Join relevant Slack channels
+- [ ] Connect calendar
+- [ ] Complete CRM training
+
+---
+
+## 3. Role Training: ${data.role}
+
+### The System You're Implementing
+- [ ] Watch: ${getFunctionName(data.function)} overview → \`[INSERT LOOM LINK]\`
+- [ ] Read: Our lead-to-close flow → \`[INSERT DOC LINK]\`
+
+### Product Knowledge
+- [ ] Watch: What we sell and why it works → \`[INSERT LOOM LINK]\`
+- [ ] Read: Client success stories → \`[INSERT DOC LINK]\`
+- [ ] Watch: Common objections and responses → \`[INSERT LOOM LINK]\`
+
+### Scripts & Frameworks
+- [ ] Watch: Script walkthrough → \`[INSERT LOOM LINK]\`
+- [ ] Practice: Record yourself doing outreach → Submit to manager
+
+---
+
+## 4. Daily Activities
+
+### Your Daily Rhythm
+| Time Block | Activity | Details |
+|------------|----------|---------|
+| First 30 min | Pipeline Review | Prioritize leads for the day |
+| Core hours | Outreach | Execute follow-ups and conversations |
+| End of day | Reporting | Update CRM and submit daily report |
+
+### How to Work the Pipeline
+- [ ] Watch: Pipeline overview → \`[INSERT LOOM LINK]\`
+- [ ] Watch: Daily workflow walkthrough → \`[INSERT LOOM LINK]\`
+
+---
+
+## 5. Scorecard & Compensation
+
+### Your KPIs
+| Metric | Target | How It's Measured |
+|--------|--------|-------------------|
+| Monthly conversations | 125+ | CRM tracking |
+| Appointments set | 25+ | Calendar bookings |
+| Show rate | 65%+ | Appointments kept / booked |
+
+### Compensation Structure
+${data.basePay ? `- **Base Pay:** ${data.basePay}/month (paid bi-monthly)` : '- **Base Pay:** [SET AMOUNT]/month'}
+${data.closeBonus ? `- **Close Bonus:** ${data.closeBonus} per sale from your booked appointments` : '- **Close Bonus:** [SET AMOUNT] per close'}
+${data.performanceThreshold && data.performanceBonus ? `- **Performance Accelerator:** Hit ${data.performanceThreshold} in one month → ${data.performanceBonus} bonus` : '- **Performance Bonus:** [SET THRESHOLD AND BONUS]'}
+
+** Commissions are never capped. Close more, earn more.
+
+### Time Expectations
+${data.hoursPerWeek ? `- This is a full-time role: **${data.hoursPerWeek} hours per week**` : '- Hours: [SET HOURS PER WEEK]'}
+${data.workingHours ? `- Working hours: **${data.workingHours}**` : '- Working hours: [SET WORKING HOURS]'}
+${data.remoteRequirements ? `- Remote requirements: ${data.remoteRequirements}` : '- Remote requirements: [SET REQUIREMENTS]'}
+
+### Client Success & Social Proof
+- [ ] Read: Client success stories → \`[INSERT DOC LINK]\`
+- [ ] Watch: Client testimonial compilation → \`[INSERT LOOM LINK]\`
+${data.winsChannel ? `- [ ] Join the wins channel: Slack ${data.winsChannel}` : '- [ ] Join the wins channel: Slack [SET CHANNEL]'}
+
+---
+
+## 6. Communication & Support
+
+### Who to Contact
+| Question Type | Contact | Channel |
+|---------------|---------|---------|
+| Day-to-day questions | ${data.contact || '[SET NAME]'} | Slack DM |
+| Technical issues | [SET NAME] | Slack #tech-support |
+| Urgent matters | ${data.contact || '[SET NAME]'} | Phone/text |
+
+### Weekly Check-ins
+- [ ] [Day/Time]: Team meeting
+- [ ] [Day/Time]: 1:1 with manager
+
+---
+
+## Completion Confirmation
+
+When you've completed all sections:
+1. Record a 2-minute Loom introducing yourself to the team
+2. Send to ${data.contact || '[manager]'} with subject: "[Name] - Onboarding Complete"
+3. Schedule your first check-in call
+
+**Welcome to the team!**
+`;
+    }
+
+    function getFunctionName(func) {
+      const names = {
+        'sell-by-chat': 'Sell by Chat',
+        'customer-success': 'Customer Success',
+        'community': 'Community Management',
+        'operations': 'Operations',
+        'closer': 'Sales Closing',
+        'other': 'Role'
+      };
+      return names[func] || 'Role';
+    }
+
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    // Back link
+    document.getElementById('backLink').addEventListener('click', (e) => {
+      e.preventDefault();
+      successScreen.classList.remove('active');
+      formScreen.style.display = 'block';
+      form.reset();
+      selectedTools = [];
+      // Reset all optional fields
+      document.getElementById('otherTools').value = '';
+      document.getElementById('basePay').value = '';
+      document.getElementById('closeBonus').value = '';
+      document.getElementById('performanceThreshold').value = '';
+      document.getElementById('performanceBonus').value = '';
+      document.getElementById('hoursPerWeek').value = '';
+      document.getElementById('workingHours').value = '';
+      document.getElementById('remoteRequirements').value = '';
+      document.getElementById('winsChannel').value = '';
+      document.querySelectorAll('.chip.selected').forEach(c => c.classList.remove('selected'));
+      document.querySelectorAll('.loading-step').forEach(s => s.classList.remove('done'));
+    });
+
+    // Download handlers
+    document.getElementById('downloadPdf').addEventListener('click', () => {
+      alert('PDF download would trigger here. In production, this calls the PDF generation API with @react-pdf/renderer.');
+    });
+
+    document.getElementById('downloadDocx').addEventListener('click', () => {
+      // In production, this would use a library like docx.js
+      // For now, we'll provide the markdown which can be opened in Word
+      alert('DOCX download would trigger here. In production, this uses docx.js to generate a Word document.\n\nTip: Upload the Markdown file to Google Drive and open with Google Docs!');
+    });
+
+    document.getElementById('downloadMd').addEventListener('click', () => {
+      if (!currentFormData) return;
+      const { company, role } = currentFormData;
+      const blob = new Blob([generatedContent], {type: 'text/markdown'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${company.replace(/\s+/g, '-')}-${role.replace(/\s+/g, '-')}-Playbook.md`;
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+  </script>
+</body>
+</html>

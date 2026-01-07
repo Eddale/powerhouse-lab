@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playbook PDF Template - Long Version</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: A4;
+      margin: 20mm 15mm 20mm 15mm; /* top right bottom left */
+    }
+
+    @page :first {
+      margin-top: 15mm; /* First page can have slightly less top margin */
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11pt;
+      line-height: 1.5;
+      color: #1a1a1a;
+      background: white;
+    }
+
+    .page {
+      width: 210mm;
+      padding: 20mm 25mm;
+      margin: 0 auto;
+      background: white;
+      position: relative;
+    }
+
+    @media print {
+      .page {
+        margin: 0;
+        padding: 15mm 20mm;
+      }
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8mm;
+      padding-bottom: 5mm;
+      border-bottom: 3px solid #EFBB39;
+    }
+
+    .header-left {
+      flex: 1;
+    }
+
+    .header-logo {
+      height: 32px;
+      margin-bottom: 4mm;
+    }
+
+    .header-title {
+      font-size: 24pt;
+      font-weight: 800;
+      color: #000;
+      letter-spacing: -0.5px;
+      margin-bottom: 2mm;
+    }
+
+    .header-role {
+      font-size: 14pt;
+      font-weight: 600;
+      color: #EFBB39;
+    }
+
+    .header-meta {
+      text-align: right;
+      font-size: 9pt;
+      color: #666;
+    }
+
+    .header-meta p {
+      margin-bottom: 1mm;
+    }
+
+    /* Purpose Box */
+    .purpose-box {
+      background: #f8f8f8;
+      border-left: 4px solid #EFBB39;
+      padding: 4mm 5mm;
+      margin-bottom: 8mm;
+      font-size: 10pt;
+    }
+
+    .purpose-box strong {
+      color: #000;
+    }
+
+    /* Sections */
+    .section {
+      margin-bottom: 8mm;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 4mm;
+    }
+
+    .section-number {
+      width: 28px;
+      height: 28px;
+      background: #000;
+      color: #EFBB39;
+      font-weight: 800;
+      font-size: 14pt;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 3mm;
+      flex-shrink: 0;
+    }
+
+    .section-title {
+      font-size: 14pt;
+      font-weight: 700;
+      color: #000;
+      flex: 1;
+      border-bottom: 2px solid #EFBB39;
+      padding-bottom: 1mm;
+    }
+
+    .subsection {
+      margin-bottom: 4mm;
+      margin-left: 31px;
+    }
+
+    .subsection-title {
+      font-size: 11pt;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 2mm;
+    }
+
+    /* Checklist */
+    .checklist {
+      list-style: none;
+      margin-left: 31px;
+    }
+
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 2mm;
+      font-size: 10pt;
+    }
+
+    .checkbox {
+      width: 14px;
+      height: 14px;
+      border: 2px solid #EFBB39;
+      margin-right: 3mm;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .checklist .action {
+      color: #666;
+      font-style: italic;
+    }
+
+    .example-text {
+      color: #888;
+      font-style: italic;
+      font-size: 9pt;
+      margin: 0.5rem 0 1rem 1.5rem;
+    }
+
+    .loom-link {
+      color: #00A2FF;
+      font-family: monospace;
+      font-size: 9pt;
+      background: #f0f8ff;
+      padding: 1px 4px;
+      border-radius: 2px;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 4mm;
+      margin-left: 31px;
+      font-size: 10pt;
+    }
+
+    table:not(.full-width) {
+      width: calc(100% - 31px);
+    }
+
+    th {
+      background: #000;
+      color: #EFBB39;
+      font-weight: 700;
+      text-align: left;
+      padding: 2mm 3mm;
+      font-size: 9pt;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    td {
+      padding: 2mm 3mm;
+      border-bottom: 1px solid #e0e0e0;
+      vertical-align: top;
+    }
+
+    tr:nth-child(even) td {
+      background: #fafafa;
+    }
+
+    /* Completion Box */
+    .completion-box {
+      background: #000;
+      color: white;
+      padding: 5mm;
+      margin-top: 6mm;
+      margin-left: 31px;
+    }
+
+    .completion-box h4 {
+      color: #EFBB39;
+      font-size: 11pt;
+      margin-bottom: 3mm;
+    }
+
+    .completion-box ol {
+      margin-left: 5mm;
+      font-size: 10pt;
+    }
+
+    .completion-box li {
+      margin-bottom: 2mm;
+    }
+
+    .completion-box .welcome {
+      margin-top: 4mm;
+      font-weight: 700;
+      color: #EFBB39;
+      font-size: 12pt;
+    }
+
+    /* Page break control */
+    .page-break {
+      page-break-before: always;
+    }
+
+    /* Each section starts on a new page (except the first one) */
+    .section {
+      page-break-before: always;
+      break-before: always;
+    }
+
+    .section:first-of-type {
+      page-break-before: auto;
+      break-before: auto;
+    }
+
+    /* Keep these together - never break mid-element */
+    .section-header,
+    .subsection,
+    .checklist li,
+    .completion-box,
+    .purpose-box {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    /* Tables: try to keep entire table together */
+    table {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    /* If table MUST break, at least repeat headers */
+    thead {
+      display: table-header-group;
+    }
+
+    /* Keep rows together */
+    tr {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    /* If a section MUST break, allow it after the header */
+    .section-header {
+      page-break-after: avoid;
+      break-after: avoid;
+    }
+
+    /* Subsections should stay with their content */
+    .subsection-title {
+      page-break-after: avoid;
+      break-after: avoid;
+    }
+
+    /* Keep subsection title with its following content */
+    .subsection {
+      page-break-after: avoid;
+      break-after: avoid;
+    }
+
+    /* Print styles */
+    @media print {
+      body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0; /* Let @page margins handle spacing */
+        margin: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <img src="assets/blackbelt-logo-black.png" alt="BlackBelt" class="header-logo">
+        <h1 class="header-title">Premium Coaching Co</h1>
+        <p class="header-role">Appointment Setter Playbook</p>
+      </div>
+      <div class="header-meta">
+        <p>Generated: January 7, 2026</p>
+        <p>Version 1.0</p>
+      </div>
+    </header>
+
+    <!-- Purpose -->
+    <div class="purpose-box">
+      <strong>Purpose:</strong> Everything your Appointment Setter needs to self-onboard and succeed.<br>
+      <strong>How to use:</strong> Work through each section in order. Each item links to a Loom video or document.
+    </div>
+
+    <!-- Section 1: Company Foundation -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-number">1</div>
+        <h2 class="section-title">Company Foundation</h2>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Mission & Values</h3>
+      </div>
+      <ul class="checklist">
+        <li><span class="checkbox"></span>Watch: Company mission overview → <span class="loom-link">[INSERT LOOM]</span></li>
+        <li><span class="checkbox"></span>Read: Our core values document → <span class="loom-link">[INSERT DOC]</span></li>
+        <li><span class="checkbox"></span>Watch: Who we serve (customer avatar deep dive) → <span class="loom-link">[INSERT LOOM]</span></li>
+        <li><span class="checkbox"></span>Watch: Our origin story and why we do this → <span class="loom-link">[INSERT LOOM]</span></li>
+        <li><span class="checkbox"></span>Read: Team handbook and culture guide → <span class="loom-link">[INSERT DOC]</span></li>
+      </ul>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Appearance & Communication</h3>
+      </div>
+      <ul class="checklist">
+        <li><span class="checkbox"></span>Read: Brand voice guidelines → <span class="loom-link">[INSERT DOC]</span></li>
+        <li><span class="checkbox"></span>Watch: How we communicate with clients → <span class="loom-link">[INSERT LOOM]</span></li>
+        <li><span class="checkbox"></span>Read: Email templates and approved responses → <span class="loom-link">[INSERT DOC]</span></li>
+        <li><span class="checkbox"></span>Watch: Tone and language do's and don'ts → <span class="loom-link">[INSERT LOOM]</span></li>
+      </ul>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Company Resources</h3>
+      </div>
+      <ul class="checklist">
+        <li><span class="checkbox"></span>Bookmark: Company wiki and knowledge base → <span class="loom-link">[INSERT LINK]</span></li>
+        <li><span class="checkbox"></span>Bookmark: Team directory with photos → <span class="loom-link">[INSERT LINK]</span></li>
+        <li><span class="checkbox"></span>Bookmark: Holiday calendar and PTO policy → <span class="loom-link">[INSERT LINK]</span></li>
+      </ul>
+    </section>
+
+    <!-- Section 2: Tech Setup -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-number">2</div>
+        <h2 class="section-title">Tech Setup (SOPs)</h2>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Essential Tools</h3>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 22%">Tool</th>
+            <th style="width: 33%">Purpose</th>
+            <th style="width: 45%">Setup Video</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>GoHighLevel</td>
+            <td>CRM & Lead Management</td>
+            <td><span class="loom-link">[INSERT LOOM]</span></td>
+          </tr>
+          <tr>
+            <td>Slack</td>
+            <td>Team Communication</td>
+            <td><span class="loom-link">[INSERT LOOM]</span></td>
+          </tr>
+          <tr>
+            <td>Google Meet</td>
+            <td>Client Calls</td>
+            <td><span class="loom-link">[INSERT LOOM]</span></td>
+          </tr>
+          <tr>
+            <td>Fathom</td>
+            <td>Call Recording & Notes</td>
+            <td><span class="loom-link">[INSERT LOOM]</span></td>
+          </tr>
+          <tr>
+            <td>Calendly</td>
+            <td>Appointment Scheduling</td>
+            <td><span class="loom-link">[INSERT LOOM]</span></td>
+          </tr>
+          <tr>
+            <td>Notion</td>
+            <td>Documentation & SOPs</td>
+            <td><span class="loom-link">[INSERT LOOM]</span></td>
+          </tr>
+          <tr>
+            <td>Loom</td>
+            <td>Video Messages & Training</td>
+            <td><span class="loom-link">[INSERT LOOM]</span></td>
+          </tr>
+          <tr>
+            <td>Instagram</td>
+            <td>DM Outreach</td>
+            <td><span class="loom-link">[INSERT LOOM]</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Account Setup Checklist</h3>
+      </div>
+      <ul class="checklist">
+        <li><span class="checkbox"></span>Create company email (firstname@premiumcoaching.co)</li>
+        <li><span class="checkbox"></span>Set up 2FA on all accounts (required for security)</li>
+        <li><span class="checkbox"></span>Join Slack channels: #general, #setters, #wins, #questions, #announcements</li>
+        <li><span class="checkbox"></span>Connect Google Calendar to Calendly</li>
+        <li><span class="checkbox"></span>Complete GHL CRM training certification</li>
+        <li><span class="checkbox"></span>Set up Fathom and connect to Google Meet</li>
+        <li><span class="checkbox"></span>Install Loom Chrome extension</li>
+        <li><span class="checkbox"></span>Request access to company Instagram account</li>
+      </ul>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Password & Security</h3>
+      </div>
+      <ul class="checklist">
+        <li><span class="checkbox"></span>Set up 1Password or LastPass for secure password storage</li>
+        <li><span class="checkbox"></span>Enable 2FA on personal email (for recovery)</li>
+        <li><span class="checkbox"></span>Read: Security policy and data handling → <span class="loom-link">[INSERT DOC]</span></li>
+      </ul>
+    </section>
+
+    <!-- Section 3: Role Training -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-number">3</div>
+        <h2 class="section-title">Role Training: Appointment Setter</h2>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">The System You're Implementing</h3>
+      </div>
+      <ul class="checklist">
+        <li><span class="checkbox"></span>Watch: Sell by Chat system overview (45 min) → <span class="loom-link">[INSERT LOOM]</span></li>
+        <li><span class="checkbox"></span>Read: Our lead-to-close flow diagram → <span class="loom-link">[INSERT DOC]</span></li>
+        <li><span class="checkbox"></span>Watch: Understanding the customer journey → <span class="loom-link">[INSERT LOOM]</span></li>
+        <li><span class="checkbox"></span>Watch: How setters and closers work together → <span class="loom-link">[INSERT LOOM]</span></li>
+      </ul>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Product Knowledge</h3>
+      </div>
+      <ul class="checklist">
+        <li><span class="checkbox"></span>Watch: What we sell and why it works → <span class="loom-link">[INSERT LOOM]</span></li>
+        <li><span class="checkbox"></span>Read: Program overview and pricing tiers → <span class="loom-link">[INSERT DOC]</span></li>
+        <li><span class="checkbox"></span>Watch: Client success stories compilation → <span class="loom-link">[INSERT LOOM]</span></li>
+        <li><span class="checkbox"></span>Read: Case studies with results → <span class="loom-link">[INSERT DOC]</span></li>
+        <li><span class="checkbox"></span>Watch: Common objections and responses → <span class="loom-link">[INSERT LOOM]</span></li>
+        <li><span class="checkbox"></span>Read: FAQ document for prospects → <span class="loom-link">[INSERT DOC]</span></li>
+      </ul>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Scripts & Frameworks</h3>
+      </div>
+      <ul class="checklist">
+        <li><span class="checkbox"></span>Watch: DM opener script walkthrough → <span class="loom-link">[INSERT LOOM]</span></li>
+        <li><span class="checkbox"></span>Watch: Qualification questions framework → <span class="loom-link">[INSERT LOOM]</span></li>
+        <li><span class="checkbox"></span>Watch: Booking the call script → <span class="loom-link">[INSERT LOOM]</span></li>
+        <li><span class="checkbox"></span>Watch: Follow-up sequence training → <span class="loom-link">[INSERT LOOM]</span></li>
+        <li><span class="checkbox"></span>Read: Script variations for different lead types → <span class="loom-link">[INSERT DOC]</span></li>
+        <li><span class="checkbox"></span><span class="action">Practice: Record yourself doing 5 mock DM conversations → Submit to manager</span></li>
+        <li><span class="checkbox"></span><span class="action">Practice: Role-play qualification calls with team member → Get sign-off</span></li>
+      </ul>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Lead Qualification Criteria</h3>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 25%">Criteria</th>
+            <th style="width: 35%">Qualified</th>
+            <th style="width: 40%">Not Qualified</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Business Stage</td>
+            <td>Established, has clients</td>
+            <td>Just an idea, no revenue</td>
+          </tr>
+          <tr>
+            <td>Revenue</td>
+            <td>$5k+/month</td>
+            <td>Under $5k/month</td>
+          </tr>
+          <tr>
+            <td>Investment Ready</td>
+            <td>Can invest in growth</td>
+            <td>Looking for free options</td>
+          </tr>
+          <tr>
+            <td>Timeline</td>
+            <td>Ready to start now</td>
+            <td>"Maybe in 6 months"</td>
+          </tr>
+          <tr>
+            <td>Decision Maker</td>
+            <td>Can decide themselves</td>
+            <td>Needs partner approval</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Section 4: Daily Activities -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-number">4</div>
+        <h2 class="section-title">Daily Activities</h2>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Your Daily Rhythm</h3>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 20%">Time Block</th>
+            <th style="width: 25%">Activity</th>
+            <th style="width: 55%">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>8:00 - 8:30</td>
+            <td>Pipeline Review</td>
+            <td>Check overnight responses, prioritize hot leads</td>
+          </tr>
+          <tr>
+            <td>8:30 - 9:00</td>
+            <td>Team Standup</td>
+            <td>Daily sync in Slack #setters channel</td>
+          </tr>
+          <tr>
+            <td>9:00 - 12:00</td>
+            <td>Outreach Block 1</td>
+            <td>New outreach + follow-ups (aim for 40 conversations)</td>
+          </tr>
+          <tr>
+            <td>12:00 - 1:00</td>
+            <td>Lunch Break</td>
+            <td>Step away, recharge</td>
+          </tr>
+          <tr>
+            <td>1:00 - 4:00</td>
+            <td>Outreach Block 2</td>
+            <td>Continue conversations + book calls (aim for 40 conversations)</td>
+          </tr>
+          <tr>
+            <td>4:00 - 4:30</td>
+            <td>CRM Cleanup</td>
+            <td>Update all lead statuses, add notes</td>
+          </tr>
+          <tr>
+            <td>4:30 - 5:00</td>
+            <td>Daily Report</td>
+            <td>Submit numbers in #setters, plan tomorrow</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Pipeline Training</h3>
+      </div>
+      <ul class="checklist">
+        <li><span class="checkbox"></span>Watch: Pipeline stages explained → <span class="loom-link">[INSERT LOOM]</span></li>
+        <li><span class="checkbox"></span>Watch: How to move leads through stages → <span class="loom-link">[INSERT LOOM]</span></li>
+        <li><span class="checkbox"></span>Watch: Daily workflow walkthrough → <span class="loom-link">[INSERT LOOM]</span></li>
+        <li><span class="checkbox"></span>Watch: Using automations effectively → <span class="loom-link">[INSERT LOOM]</span></li>
+      </ul>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Daily Report Template</h3>
+      </div>
+      <ul class="checklist">
+        <li><span class="checkbox"></span>Read: Daily report format and expectations → <span class="loom-link">[INSERT DOC]</span></li>
+        <li><span class="checkbox"></span>Bookmark: Daily report submission form → <span class="loom-link">[INSERT LINK]</span></li>
+      </ul>
+    </section>
+
+    <!-- Section 5: Scorecard -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-number">5</div>
+        <h2 class="section-title">Scorecard & Compensation</h2>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Your KPIs</h3>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Metric</th>
+            <th style="width: 20%">Daily</th>
+            <th style="width: 20%">Weekly</th>
+            <th style="width: 30%">Monthly</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Conversations Started</td>
+            <td>30+</td>
+            <td>150+</td>
+            <td>600+</td>
+          </tr>
+          <tr>
+            <td>Meaningful Replies</td>
+            <td>10+</td>
+            <td>50+</td>
+            <td>200+</td>
+          </tr>
+          <tr>
+            <td>Calls Booked</td>
+            <td>2+</td>
+            <td>10+</td>
+            <td>40+</td>
+          </tr>
+          <tr>
+            <td>Show Rate</td>
+            <td>-</td>
+            <td>65%+</td>
+            <td>65%+</td>
+          </tr>
+          <tr>
+            <td>Qualified Calls</td>
+            <td>-</td>
+            <td>8+</td>
+            <td>30+</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Compensation Structure</h3>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Component</th>
+            <th style="width: 25%">Amount</th>
+            <th style="width: 45%">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Base Salary</td>
+            <td>$1,250/month</td>
+            <td>Paid bi-weekly</td>
+          </tr>
+          <tr>
+            <td>Per Close Bonus</td>
+            <td>$175/close</td>
+            <td>Paid when client pays in full or first payment</td>
+          </tr>
+          <tr>
+            <td>Show Rate Bonus</td>
+            <td>$250/month</td>
+            <td>If show rate exceeds 75%</td>
+          </tr>
+          <tr>
+            <td>Top Performer Bonus</td>
+            <td>$500/month</td>
+            <td>Highest qualified calls on team</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="subsection">
+        <h3 class="subsection-title">On-Target Earnings (OTE)</h3>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Performance Level</th>
+            <th style="width: 25%">Closes/Month</th>
+            <th style="width: 45%">Total Monthly Earnings</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Minimum</td>
+            <td>4 closes</td>
+            <td>$1,950</td>
+          </tr>
+          <tr>
+            <td>Target</td>
+            <td>6 closes</td>
+            <td>$2,300</td>
+          </tr>
+          <tr>
+            <td>High Performer</td>
+            <td>8+ closes</td>
+            <td>$2,650+</td>
+          </tr>
+          <tr>
+            <td>Top Performer</td>
+            <td>10+ closes</td>
+            <td>$3,250+ (with bonuses)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p style="margin-top: 1rem; font-style: italic;">** Commissions are never capped. Close more, earn more.</p>
+      <p class="example-text">e.g., Jennifer: $1,250 base + $175/close + $200 accelerator at 6 closes = $2,500 OTE</p>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Time Expectations</h3>
+      </div>
+      <ul class="checklist" style="list-style: none;">
+        <li style="margin-bottom: 0.5rem;">• <strong>Hours:</strong> Full-time role, 40-50 hours per week</li>
+        <li style="margin-bottom: 0.5rem;">• <strong>Working Hours:</strong> 8 AM - 5 PM EST (1 hour break for lunch)</li>
+        <li style="margin-bottom: 0.5rem;">• <strong>Remote Requirements:</strong> Strong Wi-Fi and a quiet, professional environment required</li>
+      </ul>
+      <p class="example-text">e.g., Jennifer: Available 8 AM - 5 PM EST, work leads between 9 AM - 8 PM in lead's timezone</p>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Client Success & Social Proof</h3>
+      </div>
+      <ul class="checklist">
+        <li><span class="checkbox"></span>Read: Client success stories → <span class="loom-link">[INSERT DOC]</span></li>
+        <li><span class="checkbox"></span>Watch: Client testimonial compilation → <span class="loom-link">[INSERT LOOM]</span></li>
+        <li><span class="checkbox"></span>Join the wins channel: Slack #wins</li>
+      </ul>
+      <p class="example-text">e.g., Jennifer: #wins channel on Slack for celebrating closes and team motivation</p>
+    </section>
+
+    <!-- Section 6: Communication -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-number">6</div>
+        <h2 class="section-title">Communication & Support</h2>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Who to Contact</h3>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%">Question Type</th>
+            <th style="width: 30%">Contact</th>
+            <th style="width: 40%">Channel</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Day-to-day questions</td>
+            <td>Sarah Johnson (Sales Manager)</td>
+            <td>Slack DM</td>
+          </tr>
+          <tr>
+            <td>Script/messaging help</td>
+            <td>Mike Chen (Senior Setter)</td>
+            <td>Slack #setters</td>
+          </tr>
+          <tr>
+            <td>Technical/CRM issues</td>
+            <td>Tech Support</td>
+            <td>Slack #tech-support</td>
+          </tr>
+          <tr>
+            <td>HR/Payroll questions</td>
+            <td>Lisa Park (Operations)</td>
+            <td>Email</td>
+          </tr>
+          <tr>
+            <td>Urgent matters</td>
+            <td>Sarah Johnson</td>
+            <td>Phone: (555) 123-4567</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Meeting Schedule</h3>
+      </div>
+      <ul class="checklist">
+        <li><span class="checkbox"></span>Daily 8:30am: Team standup (Slack async)</li>
+        <li><span class="checkbox"></span>Monday 10am: Weekly team meeting (Google Meet)</li>
+        <li><span class="checkbox"></span>Wednesday 2pm: Training/roleplay session</li>
+        <li><span class="checkbox"></span>Friday 4pm: 1:1 with manager</li>
+        <li><span class="checkbox"></span>Monthly: All-hands company meeting (first Monday)</li>
+      </ul>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Escalation Process</h3>
+      </div>
+      <ul class="checklist">
+        <li><span class="checkbox"></span>Read: When and how to escalate issues → <span class="loom-link">[INSERT DOC]</span></li>
+        <li><span class="checkbox"></span>Watch: Handling difficult prospects → <span class="loom-link">[INSERT LOOM]</span></li>
+      </ul>
+    </section>
+
+    <!-- Completion Box -->
+    <div class="completion-box">
+      <h4>✓ Completion Confirmation</h4>
+      <ol>
+        <li>Complete all checklist items above (should take 2-3 days)</li>
+        <li>Record a 2-minute Loom introducing yourself to the team</li>
+        <li>Send to Sarah Johnson with subject: "[Your Name] - Onboarding Complete"</li>
+        <li>Schedule your first 1:1 check-in call</li>
+        <li>Post in #wins when you book your first call!</li>
+      </ol>
+      <p class="welcome">Welcome to the team! Let's crush it together! 🎯</p>
+    </div>
+
+  </div>
+</body>
+</html>
