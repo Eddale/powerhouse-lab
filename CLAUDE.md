@@ -571,6 +571,24 @@ behavior. This masks the real problem and makes agents brittle.
 **The principle:** Agents orchestrate. Skills execute. If execution fails, the skill is
 broken - not the orchestration.
 
+### Positive Framing in Agent/Skill Instructions
+
+**Anti-pattern:** "DO NOT reimplement" or "DO NOT do your own version"
+**Problem:** Negative instructions prime the unwanted behavior (pink elephant problem)
+
+**Pattern that works:**
+- "The [skill-name] skill handles X, Y, Z"
+- "Continue when the skill completes"
+- Trust automatic skill discovery via description matching
+
+**Anti-pattern:** Showing implementation details before delegation
+**Problem:** Gives Claude the recipe to DIY instead of delegating
+
+**Pattern that works:**
+- Remove glob paths, file locations, and logic from agents
+- Let skills own their own implementation details
+- Agents describe WHAT happens, skills describe HOW
+
 ### Session Caching
 
 Claude Code caches certain definitions during a session:
@@ -683,4 +701,4 @@ When creating image prompts (hero images, carousels, etc.), save as markdown fil
 This file evolves. When we discover something that should be standard, I'll add it here.
 
 **Last updated:** January 2026
-**Version:** 2.7 - Added Claude Runtime Landscape (CLI vs Web vs Desktop CLAUDE.md behavior)
+**Version:** 2.8 - Added positive framing pattern for agent/skill instructions

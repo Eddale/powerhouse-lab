@@ -99,10 +99,10 @@ Briefly categorize tasks:
 - **Stale** - Rolling 3+ days, needs decision
 - **Done** - Already completed, can skip
 
-Do not surface to user until triage is complete.
+Complete the full triage before presenting results to user.
 
 **Step 3: Clarify One at a Time**
-For each unclear task, present it individually (NOT a wall of text):
+Present each unclear task individually using this format:
 
 ```
 **Task:** "[the task]"
