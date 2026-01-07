@@ -240,6 +240,54 @@ Every prototype should have:
 
 The README is for future-you debugging. The HOW-IT-WORKS is for present-you understanding.
 
+### Tool Documentation (GitHub = Single Source of Truth)
+
+**Core principle:** Once a tool exists in GitHub, ALL documentation lives in GitHub.
+
+Why? Web and desktop Claude clients can't reliably access Zettelkasten. GitHub is accessible from everywhere.
+
+**Zettelkasten is for:** Session debriefs, daily captures, research swarm outputs - things that capture the *process*, not the *product*.
+
+**Documentation is part of creation, not a follow-up task.** When you create any new app, tool, agent, or skill, the `docs/` folder gets created at the same time. Shipping without docs is like shipping without tests - technically possible, but you're setting up future-you for pain.
+
+**Every skill gets a `docs/` folder:**
+```
+skills/[skill-name]/
+├── SKILL.md              # Required - the skill itself
+├── docs/
+│   ├── README.md         # Technical reference (for Claude and devs)
+│   ├── GUIDE.md          # Business-friendly (Ed's voice, analogies)
+│   ├── ROADMAP.md        # Shipped history + future ideas
+│   └── plans/            # Improvement plans
+│       ├── current.md    # Active improvement
+│       └── archive/      # Decision log
+```
+
+**Every prototype gets the same:**
+```
+prototypes/[name]/
+├── README.md             # Technical reference
+├── HOW-IT-WORKS.md       # Vibe coded explanation
+├── docs/
+│   ├── ROADMAP.md        # Future ideas + learnings
+│   └── plans/
+```
+
+**Document voice:**
+- **README.md** - Technical, factual, for debugging
+- **GUIDE.md / HOW-IT-WORKS.md** - Ed's voice, business coach analogies, explains the "why"
+- **ROADMAP.md** - Ed's voice, what's shipped, what's planned, what we learned
+
+**The improvement cycle:**
+1. Ed says "Improve [tool]: [description]"
+2. Claude reads docs/ROADMAP.md and docs/README.md
+3. Claude creates docs/plans/current.md with plan
+4. Ed approves verbally
+5. Claude executes (Ralph Wiggum loop if complex)
+6. Claude updates ROADMAP.md, archives plan, commits
+
+See `tasks/todo.md` for full pipeline documentation.
+
 ---
 
 ## RESEARCH WORKFLOWS
@@ -594,4 +642,4 @@ When creating image prompts (hero images, carousels, etc.), save as markdown fil
 This file evolves. When we discover something that should be standard, I'll add it here.
 
 **Last updated:** January 2026
-**Version:** 2.4 - Added Verification Patterns, Dual Documentation Standard, git status step 0, Leverage Asset Formula
+**Version:** 2.5 - Added Tool Documentation section (GitHub = Single Source of Truth), autonomous improvement pipeline, docs/ as part of creation

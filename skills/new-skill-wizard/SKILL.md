@@ -43,14 +43,70 @@ Tell them: "Created branch `skill/<name>` from latest main."
 ### Step 3: Create the Skill Files (Do This Automatically)
 
 ```bash
-# Create skill folder with all optional subdirectories
-mkdir -p skills/<name>/{scripts,references,resources,assets}
+# Create skill folder with all subdirectories including docs/
+mkdir -p skills/<name>/{scripts,references,resources,assets,docs/plans/archive}
 
 # Add .gitkeep files so empty folders are tracked
 touch skills/<name>/scripts/.gitkeep
 touch skills/<name>/references/.gitkeep
 touch skills/<name>/resources/.gitkeep
 touch skills/<name>/assets/.gitkeep
+touch skills/<name>/docs/plans/.gitkeep
+touch skills/<name>/docs/plans/archive/.gitkeep
+```
+
+**Create documentation files (part of shipping, not a follow-up):**
+
+Create `skills/<name>/docs/README.md`:
+```markdown
+# <Name> - Technical Reference
+
+## What It Does
+[One paragraph description]
+
+## Dependencies
+**Tools required:** [List from allowed-tools]
+
+## Usage
+**Trigger phrases:**
+- [phrase 1]
+- [phrase 2]
+
+## Testing
+[How to verify it works]
+```
+
+Create `skills/<name>/docs/GUIDE.md`:
+```markdown
+# <Name> - How It Works
+
+## The One-Sentence Version
+[Elevator pitch]
+
+## Why This Exists
+[The problem it solves - use business coach analogies]
+
+## How You Use It
+[Step by step, in human terms]
+```
+
+Create `skills/<name>/docs/ROADMAP.md`:
+```markdown
+# <Name> - Roadmap
+
+## Shipped
+| Version | Date | What Changed |
+|---------|------|--------------|
+| v1.0 | [today] | Initial release |
+
+## Planned
+- [ ] [Future improvement ideas]
+
+## Ideas (Not Committed)
+- [Parking lot stuff]
+
+## What We've Learned
+[To be filled in as we use it]
 ```
 
 Create `skills/<name>/SKILL.md`:
@@ -105,12 +161,21 @@ in SKILL.md, detailed docs in `references/` folder.
 **Folder structure created:**
 ```
 skills/<name>/
-├── SKILL.md        # The skill instructions
-├── scripts/        # Executable Python/Bash (runs without loading into context)
-├── references/     # Docs Claude loads when needed
-├── resources/      # Templates and data files
-└── assets/         # Binary files, images, logos
+├── SKILL.md              # The skill instructions
+├── docs/
+│   ├── README.md         # Technical reference (for Claude and devs)
+│   ├── GUIDE.md          # Business-friendly (Ed's voice, analogies)
+│   ├── ROADMAP.md        # Shipped history + future ideas
+│   └── plans/            # Improvement plans
+│       └── archive/      # Completed plans (decision log)
+├── scripts/              # Executable Python/Bash
+├── references/           # Docs Claude loads when needed
+├── resources/            # Templates and data files
+└── assets/               # Binary files, images, logos
 ```
+
+**Documentation is part of creation.** The docs/ folder enables the autonomous improvement
+cycle - Claude can read ROADMAP.md and README.md to understand how to improve the skill.
 
 ### Step 4: Wire It Up (Do This Automatically)
 
@@ -147,6 +212,13 @@ Work with them to fill in:
 - Guidelines (rules to follow)
 
 Update the SKILL.md as you go.
+
+**Also update the docs/ files as you develop:**
+- `docs/README.md` - Fill in technical details as they emerge
+- `docs/GUIDE.md` - Write the "why" explanation in Ed's voice with analogies
+- `docs/ROADMAP.md` - Add any future ideas that come up during development
+
+The docs should be complete by the time you ship, not added later.
 
 ### Step 6: Create Testing Plan
 

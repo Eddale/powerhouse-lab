@@ -201,3 +201,363 @@ I'll provide exact test prompts for each skill when we get there.
 - [Anthropic Skills GitHub](https://github.com/anthropics/skills)
 - [Claude Code Skills Docs](https://code.claude.com/docs/en/skills)
 - [Claude Cookbooks - Skills Development](https://github.com/anthropics/claude-cookbooks/blob/main/skills/notebooks/03_skills_custom_development.ipynb)
+
+---
+---
+
+# Documentation & Autonomous Improvement Pipeline
+
+**Created:** 2026-01-08
+**Status:** Planning (awaiting Ed's approval)
+
+## The Vision
+
+Enable Ed to kick off improvement cycles from any Claude interface (web, desktop, CLI) that run completely autonomously through plan → code → test → fix loops.
+
+**Core Principle: GitHub is the Single Source of Truth**
+
+Once a tool exists in GitHub, ALL documentation lives in GitHub:
+- Planning docs
+- Improvement plans
+- Roadmaps
+- Technical docs
+- Business-friendly guides
+
+**Why:** Web and desktop Claude clients can't reliably access Zettelkasten. GitHub is accessible from everywhere.
+
+**Zettelkasten is for:** Session debriefs, daily captures, research swarm outputs - things that capture the *process*, not the *product*.
+
+---
+
+## Part 1: Documentation Structure
+
+### Pre-Tool (Before GitHub)
+
+Ideas and early brainstorming can live anywhere - Zettelkasten, conversations, notes.
+
+**Transition point:** The moment you create a folder in `skills/`, `prototypes/`, or `.claude/agents/`, all documentation moves to GitHub.
+
+### Post-Tool (In GitHub)
+
+**Every tool gets a `docs/` folder with three core files:**
+
+```
+skills/newsletter-coach/
+├── SKILL.md              # Required - the skill itself
+├── docs/
+│   ├── README.md         # Technical reference (for Claude and devs)
+│   ├── GUIDE.md          # Business-friendly explanation (vibe coded)
+│   ├── ROADMAP.md        # Ideas for future features + shipped history
+│   └── plans/            # Improvement plans (current and archived)
+│       ├── current.md    # Active improvement being worked on
+│       └── archive/      # Completed plans (decision log)
+├── scripts/
+├── references/
+├── resources/
+└── assets/
+```
+
+**For Prototypes:**
+```
+prototypes/blackbelt-playbook-generator/
+├── README.md             # Technical reference
+├── HOW-IT-WORKS.md       # Vibe coded explanation
+├── docs/
+│   ├── ROADMAP.md        # Future ideas
+│   └── plans/
+└── src/
+```
+
+**For Agents:**
+```
+.claude/agents/
+├── research-swarm.md     # Agent definition
+└── docs/
+    └── research-swarm/
+        ├── README.md
+        ├── GUIDE.md
+        ├── ROADMAP.md
+        └── plans/
+```
+
+### Document Templates
+
+**README.md (Technical):**
+```markdown
+# [Tool Name]
+
+## What It Does
+[One paragraph]
+
+## Architecture
+[Diagram or explanation]
+
+## Dependencies
+[What it needs]
+
+## Usage
+[How to invoke]
+
+## Testing
+[How to verify it works]
+```
+
+**GUIDE.md (Business-Friendly):**
+```markdown
+# [Tool Name] - How It Works
+
+## The One-Sentence Version
+[Like an elevator pitch]
+
+## Why This Exists
+[The problem it solves]
+
+## How You Use It
+[Step by step, in human terms]
+
+## What It's NOT
+[Scope clarity]
+```
+
+**ROADMAP.md (Future Ideas):**
+```markdown
+# [Tool Name] - Roadmap
+
+## Shipped
+| Version | Date | What Changed |
+|---------|------|--------------|
+| v1.0 | 2026-01-08 | Initial release |
+
+## Planned
+- [ ] Add X feature - [brief why]
+- [ ] Improve Y - [brief why]
+
+## Ideas (Not Committed)
+- Maybe add Z for [use case]
+- Consider integrating with W
+
+## Decision Log
+Link to archived plans in `plans/archive/`
+```
+
+**plans/current.md (Active Improvement):**
+```markdown
+# Improvement Plan - [Tool Name]
+
+**Status:** Draft / Approved / In Progress / Complete
+**Created:** YYYY-MM-DD
+**Approved:** [date or pending]
+
+## Requested Change
+[What Ed asked for]
+
+## Current State Analysis
+[What exists now]
+
+## Proposed Changes
+1. [Specific change 1]
+2. [Specific change 2]
+
+## Files Affected
+- path/to/file1.md
+- path/to/file2.py
+
+## Testing Strategy
+- [ ] Unit tests: [what to test]
+- [ ] Integration: [how to verify end-to-end]
+- [ ] Browser test: [if UI involved]
+
+## Completion Criteria
+[Exact conditions that mean "done"]
+
+## Approval
+- [ ] Ed approves this plan
+
+## Execution Log
+[Claude adds notes during execution]
+```
+
+---
+
+## Part 2: Autonomous Improvement Pipeline
+
+### The Dream Workflow
+
+```
+1. Ed triggers improvement (from any Claude interface)
+   "Improve newsletter-coach: add word count limit"
+   ↓
+2. Claude reads docs/ROADMAP.md and docs/README.md
+   ↓
+3. Claude creates docs/plans/current.md with plan
+   ↓
+4. Claude asks for approval (or Ed checks async)
+   ↓
+5. Once approved, Claude Code runs improvement:
+   - Ralph Wiggum loop with clear completion criteria
+   - Automated testing (unit tests, Claude in Chrome for UI)
+   - Self-correcting iteration
+   ↓
+6. Claude updates ROADMAP.md, archives plan, commits
+   ↓
+7. Summary added to Ed's daily note (session debrief)
+```
+
+### Implementation Components
+
+**1. Improvement Trigger:**
+```
+"Improve [tool-name]: [description]"
+```
+
+Works from any interface because all context is in GitHub.
+
+**2. Ralph Wiggum Integration:**
+
+Once plan is approved:
+```bash
+/ralph-loop "Execute the improvement plan at [path/to/docs/plans/current.md].
+
+Steps:
+1. Read the plan file
+2. Implement each proposed change
+3. Run tests after each change
+4. If tests fail, debug and fix
+5. Update docs/ROADMAP.md with shipped item
+6. Move plan to docs/plans/archive/[date]-[name].md
+7. Commit with descriptive message
+
+Output <promise>IMPROVEMENT_COMPLETE</promise> when:
+- All proposed changes implemented
+- All tests passing
+- ROADMAP.md updated
+- Plan archived
+- Changes committed" \
+--max-iterations 30 \
+--completion-promise "IMPROVEMENT_COMPLETE"
+```
+
+**3. Testing Protocol:**
+
+| Test Type | Tool | When |
+|-----------|------|------|
+| Unit tests | Bash (pytest, jest) | After each code change |
+| Skill tests | Direct invocation | After SKILL.md changes |
+| UI tests | Claude in Chrome | For deployed prototypes |
+| Integration | Combined | Before completion |
+
+**4. Claude in Chrome Testing:**
+```
+1. Deploy to Vercel (45-second cycle)
+2. Navigate to deployed URL
+3. Fill forms / click buttons
+4. Verify output matches expected
+5. Screenshot as evidence
+6. If fail: fix and redeploy
+```
+
+---
+
+## Part 3: Implementation Phases
+
+### Phase 1: Documentation Structure
+- [ ] Create `docs/` folder in 2-3 existing skills as pattern
+- [ ] Write README.md, GUIDE.md, ROADMAP.md for those skills
+- [ ] Create plans/ folder structure
+- [ ] Update CLAUDE.md with new conventions
+- [ ] Test: Can Claude find docs from web/desktop client?
+
+### Phase 2: Improvement Skill
+- [ ] Create `improve-tool` skill that:
+  - Reads tool's docs/ROADMAP.md for context
+  - Reads tool's docs/README.md for architecture
+  - Creates docs/plans/current.md with plan
+  - Asks for approval
+- [ ] Test from web client
+
+### Phase 3: Ralph Wiggum Integration
+- [ ] Create standard prompt template for improvements
+- [ ] Define completion criteria patterns
+- [ ] Test with simple improvement
+- [ ] Document cost expectations
+
+### Phase 4: Full Pipeline Test
+- [ ] End-to-end: trigger → plan → approve → execute → complete
+- [ ] Session debrief captures summary in Zettelkasten
+- [ ] Document workflow in CLAUDE.md
+
+---
+
+## Constraints & Considerations
+
+### Agent Skill Framework Compatibility
+The `docs/` folder doesn't conflict with Anthropic's skill spec:
+- SKILL.md stays at root (required)
+- `docs/` is just another subfolder (allowed)
+- Contents loaded via Read tool, not automatic context
+
+### Cost Control
+Ralph Wiggum loops can be expensive:
+- Always set `--max-iterations`
+- Simple improvements: 10-15 iterations
+- Complex improvements: 30-50 iterations
+- Monitor and adjust
+
+### Approval Options
+1. **In-plan checkbox** - Ed marks `[x]` in current.md
+2. **Verbal** - "Approved, run it"
+3. **Async** - Check docs/plans/current.md, approve in next session
+
+### What Stays in Zettelkasten
+- Daily notes (tasks, wins, blockers)
+- Session debriefs
+- Research swarm outputs
+- Captures from mobile
+- Personal reflections
+
+### What Lives in GitHub
+- Tool documentation (README, GUIDE)
+- Roadmaps
+- Improvement plans
+- Decision logs
+- Test results
+- Anything a tool needs to improve itself
+
+---
+
+## Success Metrics
+
+1. **Accessibility:** Any Claude interface can read any tool's docs
+2. **Plan quality:** Plans detailed enough to execute without clarification
+3. **Autonomy rate:** % of improvements completing without intervention
+4. **Cycle time:** Approval to completion
+5. **Error rate:** Improvements that introduce bugs (<5%)
+
+---
+
+## Kill Rules
+
+- If documentation overhead slows shipping: simplify structure
+- If Ralph loops cost >$20 for simple improvements: adjust iteration limits
+- If approval friction blocks progress: make lighter
+- If autonomous changes introduce bugs: add more testing gates
+
+---
+
+## Decisions (Approved 2026-01-08)
+
+1. **Approval mechanism:** Verbal (we're in terminal)
+2. **First pilot:** newsletter-coach skill
+3. **Cost tolerance:** $20 while figuring it out
+4. **Next after pilot:** setter-playbook prototype
+5. **Voice for GUIDE.md/ROADMAP.md:** Ed's tone - business coach friendly with analogies and metaphors
+
+---
+
+## Next Steps
+
+1. ✅ Plan approved
+2. Create docs/ for newsletter-coach as the pattern
+3. Apply same pattern to setter-playbook
+4. Build the `improve-tool` skill
+5. Test end-to-end with one simple improvement
