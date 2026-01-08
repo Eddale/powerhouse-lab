@@ -124,9 +124,18 @@ points-reviewed: [promise, guarantee, bonuses, payment-plan, urgency]
 
 ---
 
-## Final Step: AI Slop Check
+## Final Step: AI Slop Check (MANDATORY)
 
-Before delivering output, run through the ai-slop-detector skill to eliminate:
+**Before presenting the review to Ed or saving to Zettelkasten, run the feedback through
+the ai-slop-detector skill.**
+
+This is not optional. The workflow is:
+1. Draft the review
+2. Invoke the ai-slop-detector skill on the draft
+3. Present the cleaned version to Ed
+4. Save the cleaned version to Zettelkasten
+
+The ai-slop-detector will catch and fix:
 - "Overall," or "In summary," conclusions
 - Rule-of-three patterns
 - Editorializing phrases ("Worth considering:", "It's important to note")

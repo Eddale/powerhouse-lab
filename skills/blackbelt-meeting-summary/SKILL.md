@@ -59,7 +59,7 @@ For each approved transcript:
 
 2. **Generate summary** using the template below (250-400 words)
 
-3. **Run through ai-slop-detector skill** to clean up AI patterns
+3. **Run through ai-slop-detector skill (MANDATORY)** - This is not optional. Invoke the ai-slop-detector skill on the draft before saving or presenting to Ed
 
 4. **Save to Zettelkasten:**
    - Filename: `Meeting Summary - [Client] - [Type] - YYYY-MM-DD.md`
@@ -170,7 +170,7 @@ Source: [[Original Transcript Filename]]
 - Keep total length tight (target 250-400 words).
 - No hyperlinks in the Trainings section.
 - If a role isn't stated, add a brief clarifier only when obvious from transcript.
-- Always run through ai-slop-detector before saving.
+- Always run through ai-slop-detector before saving. This is mandatory, not optional.
 
 ---
 
