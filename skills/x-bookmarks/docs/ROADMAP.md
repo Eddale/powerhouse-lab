@@ -17,6 +17,8 @@ The vision: smart categorization. If a bookmark is a YouTube video, automaticall
 
 These are on the list. Not "someday maybe" - actually planned.
 
+- [ ] **X Article Content Fetching** - Use `bird read <url> --json` to fetch actual content from X articles and quoted tweets. Currently we only capture the link (`x.com/i/article/...`) but not the content. bird CLI can fetch this where WebFetch fails due to auth requirements. This would give us the full text for X articles, quoted tweets, and any other X.com content.
+
 - [ ] **YouTube Auto-Processing** - When a bookmark contains a YouTube URL, optionally run it through youtube-processor before dropping to Inbox. Arrive with transcript and summary already done.
 
 - [ ] **Thread Unrolling** - For bookmarked threads (multi-tweet content), fetch the entire thread and drop as a single combined file.
@@ -54,6 +56,8 @@ Building this skill taught us a few things:
 **Deduplication prevents noise.** Using tweet ID in the filename makes deduplication trivial. If `x-123456.md` exists, skip it.
 
 **Drop to Inbox, not Ready.** The skill doesn't make routing decisions. It drops raw material. Let the user (via capture-triage) decide what matters.
+
+**bird read solves X.com content access.** WebFetch fails on X.com URLs due to auth requirements. But `bird read <url> --json` can fetch any X post or article content. This is the solve for getting actual content from X articles and quoted posts.
 
 ## Decision Log
 
