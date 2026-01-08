@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>You Can't Book A Call | Black Belt</title>
+  <meta name="description" content="We fired the sales team. The document does the fighting now.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="You Can't Book A Call">
+  <meta property="og:description" content="Try to book a call. I dare you.">
+  <meta property="og:type" content="website">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --gold: #fabf19;
+      --gold-light: #fcd34d;
+      --gold-dark: #d4a017;
+      --bg: #F5F5F5;
+      --text: #0A0A0A;
+      --text-muted: #6B6B6B;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* Mobile Blocker */
+    .mobile-blocker {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #0A0A0A;
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 32px;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .mobile-blocker-emoji {
+      font-size: 64px;
+      display: block;
+      margin-bottom: 24px;
+    }
+
+    .mobile-blocker h2 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: white;
+    }
+
+    .mobile-blocker p {
+      font-size: 16px;
+      color: #888;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 768px) {
+      .mobile-blocker {
+        display: flex;
+      }
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 32px 48px;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+
+    .logo img {
+      height: 32px;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .nav-btn {
+      padding: 12px 24px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      background: transparent;
+      border: 1.5px solid rgba(0, 0, 0, 0.15);
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      background: var(--text);
+      color: white;
+      border-color: var(--text);
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 120px 48px 80px;
+      position: relative;
+    }
+
+    .hero-content {
+      text-align: center;
+      max-width: 900px;
+      position: relative;
+      z-index: 10;
+    }
+
+    h1 {
+      font-size: 104px;
+      font-weight: 800;
+      line-height: 0.88;
+      letter-spacing: -0.03em;
+      margin-bottom: 28px;
+      color: var(--text);
+    }
+
+    h1 .gold {
+      color: var(--gold);
+    }
+
+    .subheading {
+      font-size: 26px;
+      font-weight: 500;
+      color: var(--text-muted);
+      line-height: 1.5;
+      max-width: 700px;
+      margin: 0 auto 40px;
+    }
+
+    .subheading-bold {
+      display: block;
+      color: var(--text);
+      font-weight: 600;
+      margin-top: 8px;
+    }
+
+    /* Button Zone */
+    .button-zone {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 50;
+    }
+
+    .button-wrapper {
+      position: absolute;
+      left: 50%;
+      top: 68%;
+      transform: translate(-50%, -50%);
+      pointer-events: auto;
+      z-index: 51;
+      transition: none;
+    }
+
+    .button-wrapper.jumping {
+      animation: squash-stretch 0.35s ease;
+    }
+
+    @keyframes squash-stretch {
+      0% { transform: translate(-50%, -50%) scaleY(0.8) scaleX(1.1); }
+      30% { transform: translate(-50%, -50%) scaleY(1.15) scaleX(0.9); }
+      50% { transform: translate(-50%, -50%) scaleY(1.05) scaleX(0.95); }
+      100% { transform: translate(-50%, -50%) scaleY(1) scaleX(1); }
+    }
+
+    .book-call-btn {
+      padding: 20px 40px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 20px;
+      font-weight: 500;
+      color: #0A0A0A;
+      background: linear-gradient(180deg, #fcd34d 0%, #fabf19 100%);
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.15) inset,
+        0 4px 8px rgba(0, 0, 0, 0.15),
+        0 8px 24px rgba(0, 0, 0, 0.1);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .book-call-btn:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.15) inset,
+        0 6px 12px rgba(0, 0, 0, 0.2),
+        0 12px 32px rgba(0, 0, 0, 0.15);
+    }
+
+    .book-call-btn .arrow {
+      transition: transform 0.2s ease;
+    }
+
+    .book-call-btn:hover .arrow {
+      transform: translateX(3px);
+    }
+
+    .button-shadow {
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 20px;
+      background: radial-gradient(ellipse, rgba(0,0,0,0.15) 0%, transparent 70%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .slot-counter {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-top: 16px;
+    }
+
+    .slot-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--gold);
+      border-radius: 50%;
+    }
+
+    /* Screen shake */
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-3px); }
+      75% { transform: translateX(3px); }
+    }
+
+    .hero.shaking {
+      animation: shake 0.15s ease;
+    }
+
+    /* Taunt message - iMessage style pill */
+    .taunt {
+      position: absolute;
+      white-space: nowrap;
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Rounded', 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      color: #000000;
+      background: #E9E9EB;
+      padding: 10px 16px;
+      border-radius: 18px;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      pointer-events: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
+      z-index: 100;
+    }
+
+    .taunt.visible {
+      opacity: 1;
+    }
+
+    /* Why Section */
+    .why-section {
+      padding: 120px 48px;
+      background: #0A0A0A;
+      color: white;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 80px;
+    }
+
+    .section-header h2 {
+      font-size: 64px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+
+    .section-header h2 .gold {
+      color: var(--gold);
+    }
+
+    .section-header p {
+      font-size: 20px;
+      color: #888;
+    }
+
+    .reasons-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .reason-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 40px;
+      position: relative;
+    }
+
+    .reason-number {
+      font-size: 72px;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.08);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .reason-card h3 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--gold);
+    }
+
+    .reason-card p {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #999;
+    }
+
+    .reason-icon {
+      position: absolute;
+      top: 40px;
+      right: 40px;
+      font-size: 32px;
+      opacity: 0.5;
+    }
+
+    /* Stats Section */
+    .stats-section {
+      padding: 80px 48px;
+      background: var(--gold);
+    }
+
+    .stats-grid {
+      display: flex;
+      justify-content: center;
+      gap: 80px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 64px;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.03em;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 8px;
+    }
+
+    /* CTA Section */
+    .cta-section {
+      padding: 120px 48px;
+      background: #0A0A0A;
+      text-align: center;
+    }
+
+    .cta-section h2 {
+      font-size: 56px;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 24px;
+      letter-spacing: -0.02em;
+    }
+
+    .cta-section p {
+      font-size: 20px;
+      color: #888;
+      max-width: 600px;
+      margin: 0 auto 40px;
+      line-height: 1.6;
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 20px 40px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: #0A0A0A;
+      background: var(--gold);
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .cta-btn:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+    }
+
+    /* Footer */
+    footer {
+      padding: 32px 48px;
+      background: #0A0A0A;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      text-align: center;
+    }
+
+    footer p {
+      font-size: 14px;
+      color: #666;
+    }
+
+    footer a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    /* Caught Modal */
+    .caught-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 32px;
+    }
+
+    .caught-modal.visible {
+      display: flex;
+    }
+
+    .caught-content {
+      background: white;
+      border-radius: 24px;
+      padding: 48px;
+      max-width: 500px;
+      text-align: center;
+    }
+
+    .caught-emoji {
+      font-size: 64px;
+      margin-bottom: 24px;
+    }
+
+    .caught-content h2 {
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 16px;
+      color: var(--text);
+    }
+
+    .caught-content p {
+      font-size: 18px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .caught-tease {
+      margin-bottom: 24px;
+    }
+
+    .explosion-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      min-height: 120px;
+    }
+
+    .explosion-wrapper p {
+      margin-bottom: 0;
+    }
+
+    .caught-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 32px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: #0A0A0A;
+      background: var(--gold);
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .caught-btn:hover {
+      background: var(--gold-light);
+    }
+
+    /* Delayed reveal elements */
+    .reveal-delayed {
+      opacity: 0;
+      transform: scale(0) rotate(-10deg);
+    }
+
+    .reveal-delayed.explode {
+      animation: explosionReveal 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+      opacity: 1 !important;
+    }
+
+    @keyframes explosionReveal {
+      0% {
+        opacity: 0;
+        transform: scale(0) rotate(-10deg);
+        filter: blur(20px);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.15) rotate(2deg);
+        filter: blur(0);
+      }
+      70% {
+        transform: scale(0.95) rotate(-1deg);
+      }
+      85% {
+        transform: scale(1.02) rotate(0.5deg);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+        filter: blur(0);
+      }
+    }
+
+    /* Particle explosion container */
+    .particle-container {
+      position: absolute;
+      pointer-events: none;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    @keyframes particleExplode {
+      0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(var(--tx), var(--ty)) scale(0);
+        opacity: 0;
+      }
+    }
+
+    /* Ring burst effect */
+    .ring-burst {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 20px;
+      height: 20px;
+      border: 3px solid var(--gold);
+      border-radius: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .ring-burst.animate {
+      animation: ringExpand 0.6s ease-out forwards;
+    }
+
+    @keyframes ringExpand {
+      0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 1;
+        border-width: 8px;
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(15);
+        opacity: 0;
+        border-width: 1px;
+      }
+    }
+
+    /* Sparkle effect */
+    .sparkle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: var(--gold);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    @keyframes sparkle {
+      0%, 100% {
+        transform: scale(0);
+        opacity: 0;
+      }
+      50% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    /* Staggered button glow pulse */
+    .caught-btn.glow-pulse {
+      animation: glowPulse 0.5s ease-out;
+    }
+
+    @keyframes glowPulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(250, 191, 25, 0.7);
+      }
+      70% {
+        box-shadow: 0 0 0 20px rgba(250, 191, 25, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(250, 191, 25, 0);
+      }
+    }
+
+    /* Modal Nav */
+    .modal-nav {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 32px 48px;
+      z-index: 1001;
+    }
+
+    .modal-nav .logo img {
+      height: 32px;
+      filter: brightness(0) invert(1);
+    }
+
+    .modal-nav-btn {
+      color: white;
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .modal-nav-btn:hover {
+      background: white;
+      color: #0A0A0A;
+      border-color: white;
+    }
+  </style>
+</head>
+<body>
+  <!-- Mobile Blocker -->
+  <div class="mobile-blocker">
+    <div>
+      <span class="mobile-blocker-emoji">🖥️</span>
+      <h2>Desktop Only, Grasshopper</h2>
+      <p>This joke requires a mouse to chase the button.<br>Come back on desktop to try (and fail) to book a call.</p>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="logo">
+      <img src="assets/logo.png" alt="Black Belt">
+    </div>
+    <div class="nav-right">
+      <button class="nav-btn">Salesless Since 2024</button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" id="hero">
+    <div class="hero-content">
+      <h1>You Can't<br><span class="gold">Book A Call</span></h1>
+      <p class="subheading">
+        We fired the sales team.
+        <span class="subheading-bold">The document does the fighting now.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- Floating Button Zone -->
+  <div class="button-zone">
+    <div class="button-wrapper" id="buttonWrapper">
+      <button class="book-call-btn" id="bookCallBtn">
+        Book A Call <span class="arrow">→</span>
+      </button>
+      <div class="button-shadow" id="buttonShadow"></div>
+      <div class="taunt" id="taunt"></div>
+    </div>
+    <div class="slot-counter" id="slotCounter">
+      <span class="slot-dot"></span>
+      <span>0/0 Slots Available (We Don't Do Calls)</span>
+    </div>
+  </div>
+
+  <!-- Why Section -->
+  <section class="why-section">
+    <div class="section-header">
+      <h2>Why Can't You <span class="gold">Book A Call?</span></h2>
+      <p>We're glad you asked.</p>
+    </div>
+
+    <div class="reasons-grid">
+      <div class="reason-card">
+        <div class="reason-number">01</div>
+        <span class="reason-icon">📋</span>
+        <h3>We Locked Them In A Cupboard</h3>
+        <p>December 2024. Nine salespeople. One cupboard. 90 days of testing. Full pay, zero calls allowed. The experiment that changed everything.</p>
+      </div>
+
+      <div class="reason-card">
+        <div class="reason-number">02</div>
+        <span class="reason-icon">📄</span>
+        <h3>The Doc Wins Every Time</h3>
+        <p>Month one: beat their numbers. Month two: beat them again. Month three: doubled them. The document converts better than 9 humans combined.</p>
+      </div>
+
+      <div class="reason-card">
+        <div class="reason-number">03</div>
+        <span class="reason-icon">📅</span>
+        <h3>Because It's 2025, Bro</h3>
+        <p>Sales calls are built for a world where you had all the information. Now we have the internet, AI, and people who just want to know: does it work? How much? Done.</p>
+      </div>
+
+      <div class="reason-card">
+        <div class="reason-number">04</div>
+        <span class="reason-icon">⏱️</span>
+        <h3>Every 23 Hours</h3>
+        <p>Another Black Belt joins. Zero sales calls. Zero DM pouncing. Zero "just following up!" emails. Just a document that tells the truth and people who are ready.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="stats-section">
+    <div class="stats-grid">
+      <div class="stat">
+        <div class="stat-number">0</div>
+        <div class="stat-label">Salespeople</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">23h</div>
+        <div class="stat-label">Avg. Time Between Signups</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">90</div>
+        <div class="stat-label">Days To Prove It</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">∞</div>
+        <div class="stat-label">Peace of Mind</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <h2>Fine. Read The Document Instead.</h2>
+    <p>No pressure. No "just hopping on a quick call." No "I'll send you some times." Just the offer, explained clearly, ready when you are. If it's for you, you'll know. If it's not, no hard feelings.</p>
+    <a href="http://bit.ly/BlackBeltDeets" class="cta-btn" target="_blank">
+      Read The Offer Document <span>→</span>
+    </a>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>Built with 🤖 by <a href="#">Black Belt</a> • Proudly Salesless</p>
+  </footer>
+
+  <!-- Caught Modal -->
+  <div class="caught-modal" id="caughtModal">
+    <nav class="modal-nav">
+      <div class="logo">
+        <img src="assets/logo-white.png" alt="Black Belt">
+      </div>
+      <div class="nav-right">
+        <button class="nav-btn modal-nav-btn">Salesless Since 2024</button>
+      </div>
+    </nav>
+    <div class="caught-content">
+      <div class="caught-emoji">😱</div>
+      <h2>Wait... you actually caught it?</h2>
+      <p class="caught-tease">Fine. You earned a call.</p>
+      <div class="explosion-wrapper" style="position: relative;">
+        <div class="particle-container" id="particleContainer"></div>
+        <div class="ring-burst" id="ringBurst"></div>
+        <p class="reveal-delayed" id="revealText">Just kidding. Read the document.</p>
+        <a href="http://bit.ly/BlackBeltDeets" class="caught-btn reveal-delayed" id="revealBtn" target="_blank">
+          Read The Document <span>→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Elements
+    const hero = document.getElementById('hero');
+    const buttonWrapper = document.getElementById('buttonWrapper');
+    const bookCallBtn = document.getElementById('bookCallBtn');
+    const buttonShadow = document.getElementById('buttonShadow');
+    const slotCounter = document.getElementById('slotCounter');
+    const caughtModal = document.getElementById('caughtModal');
+
+    // Taunts - Black Belt / Karate themed
+    const taunts = [
+      { text: "OSS! TOO SLOW!", emoji: "🥋" },
+      { text: "WHITE BELT ENERGY", emoji: "🤍" },
+      { text: "SENSEI SAYS: READ THE DOC", emoji: "📜" },
+      { text: "TRAINED FOR THIS", emoji: "🧘" },
+      { text: "THE DOCUMENT WINS AGAIN", emoji: "🏆" },
+      { text: "NO KATA FOR YOU", emoji: "❌" },
+      { text: "WIPE ON, WIPE OFF", emoji: "🧽" },
+      { text: "SWEEP THE LEG? NAH", emoji: "🦵" }
+    ];
+
+    let tauntIndex = 0;
+
+    // Button state
+    let buttonPos = { x: window.innerWidth / 2, y: window.innerHeight * 0.68 };
+    let isJumping = false;
+    let invulnerable = false;
+    let jumpCount = 0;
+    const MAX_JUMPS = 10;
+    const taunt = document.getElementById('taunt');
+
+    // Detection radius
+    const DETECTION_RADIUS = 140;
+
+    // Update button position
+    function updateButtonPosition() {
+      buttonWrapper.style.left = `${buttonPos.x}px`;
+      buttonWrapper.style.top = `${buttonPos.y}px`;
+    }
+
+    // Update slot counter position
+    function updateSlotCounter() {
+      slotCounter.style.position = 'fixed';
+      slotCounter.style.left = `${buttonPos.x}px`;
+      slotCounter.style.top = `${buttonPos.y + 50}px`;
+      slotCounter.style.transform = 'translateX(-50%)';
+      slotCounter.style.zIndex = '51';
+    }
+
+    // Initialize positions
+    updateButtonPosition();
+    updateSlotCounter();
+
+    // Show taunt - position based on which side has more space
+    function showTaunt(mouseX) {
+      const currentTaunt = taunts[tauntIndex % taunts.length];
+      taunt.textContent = `${currentTaunt.text} ${currentTaunt.emoji}`;
+
+      // Position taunt on opposite side of mouse
+      taunt.style.bottom = '100%';
+      taunt.style.marginBottom = '12px';
+
+      if (mouseX < buttonPos.x) {
+        // Mouse is on left, taunt goes right
+        taunt.style.left = '100%';
+        taunt.style.right = 'auto';
+        taunt.style.marginLeft = '-12px';
+        taunt.style.transform = 'none';
+      } else {
+        // Mouse is on right, taunt goes left
+        taunt.style.left = 'auto';
+        taunt.style.right = '100%';
+        taunt.style.marginRight = '-12px';
+        taunt.style.transform = 'none';
+      }
+
+      taunt.classList.add('visible');
+      tauntIndex++;
+
+      setTimeout(() => {
+        taunt.classList.remove('visible');
+      }, 1500);
+    }
+
+    // Jump animation
+    function jumpTo(newPos, mouseX) {
+      if (isJumping || invulnerable) return;
+
+      isJumping = true;
+      invulnerable = true;
+
+      // Show shadow during jump
+      buttonShadow.style.opacity = '1';
+
+      // Add jumping class for squash/stretch
+      buttonWrapper.classList.add('jumping');
+
+      // Shake screen on takeoff
+      hero.classList.add('shaking');
+      setTimeout(() => hero.classList.remove('shaking'), 150);
+
+      // Animate to new position
+      const startX = buttonPos.x;
+      const startY = buttonPos.y;
+      const duration = 350;
+      const startTime = performance.now();
+
+      function animate(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+
+        // Easing
+        const eased = 1 - Math.pow(1 - progress, 3);
+
+        // Arc motion
+        const arcHeight = 80;
+        const arc = Math.sin(progress * Math.PI) * arcHeight;
+
+        buttonPos.x = startX + (newPos.x - startX) * eased;
+        buttonPos.y = startY + (newPos.y - startY) * eased - arc;
+
+        // Scale shadow based on height
+        const shadowScale = 1 - (arc / arcHeight) * 0.5;
+        buttonShadow.style.transform = `translateX(-50%) scale(${shadowScale})`;
+
+        updateButtonPosition();
+        updateSlotCounter();
+
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        } else {
+          // Landing
+          buttonWrapper.classList.remove('jumping');
+          buttonShadow.style.opacity = '0';
+
+          // Show taunt
+          showTaunt(mouseX);
+
+          // Shake on landing
+          hero.classList.add('shaking');
+          setTimeout(() => hero.classList.remove('shaking'), 150);
+
+          isJumping = false;
+
+          // Brief invulnerability after landing
+          setTimeout(() => {
+            invulnerable = false;
+          }, 200);
+        }
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    // Calculate escape position
+    function getEscapePosition(mouseX, mouseY) {
+      // Safe zone - where taunts are fully visible
+      const edgePadding = 200;
+      const minX = edgePadding;
+      const maxX = window.innerWidth - edgePadding;
+      const minY = 200;
+      const maxY = window.innerHeight - edgePadding;
+
+      // Check if button is near an edge
+      const nearLeftEdge = buttonPos.x < minX + 50;
+      const nearRightEdge = buttonPos.x > maxX - 50;
+      const nearTopEdge = buttonPos.y < minY + 50;
+      const nearBottomEdge = buttonPos.y > maxY - 50;
+      const nearEdge = nearLeftEdge || nearRightEdge || nearTopEdge || nearBottomEdge;
+
+      let newX, newY;
+
+      if (nearEdge) {
+        // Jump back toward center with some randomness
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight * 0.5;
+
+        // Add randomness so it's not always dead center
+        newX = centerX + (Math.random() - 0.5) * 300;
+        newY = centerY + (Math.random() - 0.5) * 200;
+      } else {
+        // Normal escape - away from mouse
+        const dx = buttonPos.x - mouseX;
+        const dy = buttonPos.y - mouseY;
+        const angle = Math.atan2(dy, dx);
+
+        // Jump distance
+        const jumpDistance = 200 + Math.random() * 100;
+
+        // Calculate new position
+        newX = buttonPos.x + Math.cos(angle) * jumpDistance;
+        newY = buttonPos.y + Math.sin(angle) * jumpDistance;
+      }
+
+      // Final bounds check - keep in safe zone
+      newX = Math.max(minX, Math.min(maxX, newX));
+      newY = Math.max(minY, Math.min(maxY, newY));
+
+      return { x: newX, y: newY };
+    }
+
+    // Mouse move handler
+    document.addEventListener('mousemove', (e) => {
+      const mouseX = e.clientX;
+      const mouseY = e.clientY;
+
+      // Calculate distance to button center
+      const dx = mouseX - buttonPos.x;
+      const dy = mouseY - buttonPos.y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      // Check if within detection radius (but only escape if under max jumps)
+      if (distance < DETECTION_RADIUS && !isJumping && !invulnerable && jumpCount < MAX_JUMPS) {
+        const escapePos = getEscapePosition(mouseX, mouseY);
+        jumpTo(escapePos, mouseX);
+        jumpCount++;
+
+        // Show "getting tired" taunts near the end
+        if (jumpCount === MAX_JUMPS - 2) {
+          taunt.textContent = "Getting... tired... 😮‍💨";
+          taunt.classList.add('visible');
+          setTimeout(() => taunt.classList.remove('visible'), 1500);
+        } else if (jumpCount === MAX_JUMPS - 1) {
+          taunt.textContent = "One more... and I'm done... 🥵";
+          taunt.classList.add('visible');
+          setTimeout(() => taunt.classList.remove('visible'), 1500);
+        } else if (jumpCount === MAX_JUMPS) {
+          taunt.textContent = "Fine. You win. Click me. 🏳️";
+          taunt.classList.add('visible');
+        }
+      }
+    });
+
+    // Explosion effect function
+    function triggerExplosion() {
+      const particleContainer = document.getElementById('particleContainer');
+      const ringBurst = document.getElementById('ringBurst');
+      const revealText = document.getElementById('revealText');
+      const revealBtn = document.getElementById('revealBtn');
+
+      // Clear any existing particles
+      particleContainer.innerHTML = '';
+
+      // Reset states
+      revealText.classList.remove('explode');
+      revealBtn.classList.remove('explode', 'glow-pulse');
+      ringBurst.classList.remove('animate');
+
+      // Trigger ring burst
+      ringBurst.classList.add('animate');
+
+      // Create particles
+      const colors = ['#fabf19', '#fcd34d', '#d4a017', '#ffffff', '#ffeb3b'];
+      const particleCount = 30;
+
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+
+        // Random position around center
+        const angle = (Math.PI * 2 * i) / particleCount + Math.random() * 0.5;
+        const distance = 80 + Math.random() * 120;
+        const tx = Math.cos(angle) * distance;
+        const ty = Math.sin(angle) * distance;
+
+        particle.style.cssText = `
+          left: 50%;
+          top: 50%;
+          background: ${colors[Math.floor(Math.random() * colors.length)]};
+          width: ${6 + Math.random() * 8}px;
+          height: ${6 + Math.random() * 8}px;
+          --tx: ${tx}px;
+          --ty: ${ty}px;
+          animation: particleExplode ${0.4 + Math.random() * 0.4}s ease-out forwards;
+          animation-delay: ${Math.random() * 0.1}s;
+        `;
+
+        particleContainer.appendChild(particle);
+      }
+
+      // Add sparkles
+      for (let i = 0; i < 12; i++) {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'sparkle';
+        sparkle.style.cssText = `
+          left: ${20 + Math.random() * 60}%;
+          top: ${20 + Math.random() * 60}%;
+          animation: sparkle ${0.3 + Math.random() * 0.3}s ease-out forwards;
+          animation-delay: ${0.1 + Math.random() * 0.3}s;
+        `;
+        particleContainer.appendChild(sparkle);
+      }
+
+      // Trigger text reveal with slight delay
+      setTimeout(() => {
+        revealText.classList.add('explode');
+      }, 100);
+
+      // Trigger button reveal with more delay
+      setTimeout(() => {
+        revealBtn.classList.add('explode');
+        // Add glow pulse after scale animation
+        setTimeout(() => {
+          revealBtn.classList.add('glow-pulse');
+        }, 600);
+      }, 250);
+
+      // Clean up particles after animation
+      setTimeout(() => {
+        particleContainer.innerHTML = '';
+      }, 1500);
+    }
+
+    // Click handler (if somehow clicked)
+    bookCallBtn.addEventListener('click', () => {
+      caughtModal.classList.add('visible');
+
+      // Reset reveal elements
+      const revealText = document.getElementById('revealText');
+      const revealBtn = document.getElementById('revealBtn');
+      revealText.classList.remove('explode');
+      revealBtn.classList.remove('explode', 'glow-pulse');
+
+      // Trigger explosion after 1 second
+      setTimeout(triggerExplosion, 1000);
+    });
+
+    // Close modal on click outside
+    caughtModal.addEventListener('click', (e) => {
+      if (e.target === caughtModal) {
+        caughtModal.classList.remove('visible');
+      }
+    });
+
+    // Handle window resize
+    window.addEventListener('resize', () => {
+      // Keep button in bounds
+      const padding = 120;
+      buttonPos.x = Math.max(padding, Math.min(window.innerWidth - padding, buttonPos.x));
+      buttonPos.y = Math.max(150, Math.min(window.innerHeight - padding, buttonPos.y));
+      updateButtonPosition();
+      updateSlotCounter();
+    });
+  </script>
+</body>
+</html>
