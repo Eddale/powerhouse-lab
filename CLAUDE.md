@@ -112,34 +112,38 @@ Pattern: Start soft, harden only where bugs bite.
 ### Before You Touch Code
 
 0. **Check git status** - Know the state before touching anything (uncommitted changes, untracked files)
-1. **Think through the problem** - Read the codebase for relevant files
-2. **Write a plan** to `tasks/todo.md` - A checklist you'll work through
-3. **Check in with me** - I verify the plan before you start
+1. **Parallel session check** (for builds/prototypes) - Ask Ed:
+   - "Are other Claude Code sessions running that might touch this repo?"
+   - If yes: "Should I work on a branch? Suggested name: `build/[feature-name]`"
+   - This prevents git conflicts when background builds are running
+2. **Think through the problem** - Read the codebase for relevant files
+3. **Write a plan** to `tasks/todo.md` - A checklist you'll work through
+4. **Check in with me** - I verify the plan before you start
 
 ### While You Work
 
-4. **Execute the todo items** - Mark complete as you go
-5. **Give me high-level summaries** - What changed and why
-6. **Keep changes minimal** - Every edit should be as small as possible
+5. **Execute the todo items** - Mark complete as you go
+6. **Give me high-level summaries** - What changed and why
+7. **Keep changes minimal** - Every edit should be as small as possible
 
 ### When You Finish
 
-7. **Add a review section** to `tasks/todo.md` - Summary of changes and any notes
+8. **Add a review section** to `tasks/todo.md` - Summary of changes and any notes
 
 ### End of Session (When Ed says "wrapping up", "end of session", "syncing", etc.)
 
-8. **Update daily notes:**
+9. **Update daily notes:**
    - Add any research reports to Captures section
    - **Mark completed tasks as done** (`- [x]`)
    - Log key decisions made
    - Flag any blockers or follow-ups
 
-9. **Complete git sync:**
-   - Check `git status` for any uncommitted changes
-   - Commit and push all work to GitHub
-   - Verify local and remote are aligned
+10. **Complete git sync:**
+    - Check `git status` for any uncommitted changes
+    - Commit and push all work to GitHub
+    - Verify local and remote are aligned
 
-10. **Package any new/modified skills:**
+11. **Package any new/modified skills:**
     - Run `./scripts/package-skill.sh <skill-name>` for each skill created or updated
     - Confirm ZIPs are in `dist/` folder ready for Claude.ai upload
     - Remind Ed which ZIPs need uploading
@@ -716,4 +720,4 @@ When creating image prompts (hero images, carousels, etc.), save as markdown fil
 This file evolves. When we discover something that should be standard, I'll add it here.
 
 **Last updated:** January 2026
-**Version:** 2.9 - Clarified skill vs settings refresh behavior (skills are instant, settings need new session)
+**Version:** 2.10 - Added parallel session check before builds (branch workflow to avoid git conflicts)
