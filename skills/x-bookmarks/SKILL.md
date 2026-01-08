@@ -140,9 +140,32 @@ Based on expanded URL:
 curl -s "https://api.github.com/repos/OWNER/REPO" | jq '{name, description, stargazers_count, language}'
 ```
 
-**For articles:** Use WebFetch to get page title and description:
+**For articles:** Fetch and summarize the full article content:
+
 ```
-WebFetch(url: "[expanded URL]", prompt: "Extract the page title and a 1-2 sentence summary")
+WebFetch(url: "[expanded URL]", prompt: "Extract the article title and main content, ignoring navigation, ads, and sidebars. Then summarize in this exact format:
+
+TITLE: [article title]
+SOURCE: [domain name]
+
+TL;DR: [One sentence core takeaway]
+
+KEY POINTS:
+- [Point 1]
+- [Point 2]
+- [Point 3]
+- [Point 4]
+- [Point 5]
+(include up to 7 points if the article warrants it)
+
+WHY IT MATTERS: [One sentence on relevance or application]")
+```
+
+**If WebFetch fails** (timeout, paywall, error): Still drop to Inbox with a note:
+```
+## Summary
+
+*Fetch failed - article may be paywalled or unavailable. Visit link to read.*
 ```
 
 **For videos:** Note for future transcription, capture title if visible.
@@ -155,7 +178,7 @@ For each processed bookmark, create a markdown file:
 
 **Filename:** `x-{id}.md` (e.g., `x-1234567890.md`)
 
-**Template:**
+**Template (non-article):**
 ```markdown
 ---
 source: x-bookmark
@@ -163,7 +186,7 @@ author: @{username}
 author_name: {display_name}
 tweet_url: https://x.com/{username}/status/{id}
 captured: {YYYY-MM-DD}
-link_type: {github|article|video|tweet|link}
+link_type: {github|video|tweet|link}
 ---
 
 {Tweet text}
@@ -173,7 +196,41 @@ link_type: {github|article|video|tweet|link}
 {Brief description or key info extracted}
 ```
 
-**Example output:**
+**Template (article with summary):**
+```markdown
+---
+source: x-bookmark
+author: @{username}
+author_name: {display_name}
+tweet_url: https://x.com/{username}/status/{id}
+captured: {YYYY-MM-DD}
+link_type: article
+article_title: "{Article Title}"
+article_source: {domain.com}
+---
+
+{Tweet text}
+
+**Linked:** [{Article Title}]({expanded_url})
+
+## Summary
+
+**TL;DR:** {One sentence core takeaway}
+
+**Key Points:**
+- {Point 1}
+- {Point 2}
+- {Point 3}
+- {Point 4}
+- {Point 5}
+
+**Why It Matters:** {Relevance or application}
+
+---
+*Auto-summarized by x-bookmarks*
+```
+
+**Example output (GitHub):**
 ```markdown
 ---
 source: x-bookmark
@@ -189,6 +246,40 @@ Just discovered this amazing tool for real-time transcription https://t.co/abc12
 **Linked:** [whisper-flow](https://github.com/dimastatz/whisper-flow)
 
 Real-time speech-to-text using OpenAI Whisper with streaming support. 2.3k stars, Python.
+```
+
+**Example output (Article):**
+```markdown
+---
+source: x-bookmark
+author: @paulg
+author_name: Paul Graham
+tweet_url: https://x.com/paulg/status/987654321
+captured: 2026-01-08
+link_type: article
+article_title: "How to Do Great Work"
+article_source: paulgraham.com
+---
+
+This might be the most important thing I've written https://t.co/xyz789
+
+**Linked:** [How to Do Great Work](https://paulgraham.com/greatwork.html)
+
+## Summary
+
+**TL;DR:** Great work comes from working on problems you're genuinely curious about, not from following a predetermined path.
+
+**Key Points:**
+- Curiosity is the compass - follow what genuinely interests you
+- Great work requires both ability and interest in a specific domain
+- You need to be working at the edge of your field to see good problems
+- Consistency compounds - small daily progress beats sporadic bursts
+- Avoid prestige traps - external validation often points away from important work
+
+**Why It Matters:** Framework for choosing what to work on and staying motivated long-term.
+
+---
+*Auto-summarized by x-bookmarks*
 ```
 
 ### Step 6: Report Summary
@@ -251,7 +342,8 @@ the separation clean and lets Ed decide when to triage.
 
 - Always check for duplicates before processing
 - Use tweet ID in filename for deduplication
-- Keep metadata extraction light - capture-triage handles classification
+- Articles get full summarization; other types stay light
+- If article fetch fails, still drop to Inbox with "fetch failed" note
 - Don't invoke capture-triage directly - just drop files
 - Report what was processed so Ed knows what's ready
 
@@ -262,3 +354,4 @@ the separation clean and lets Ed decide when to triage.
 | Version | Date | Changes |
 |---------|------|---------|
 | 1.0 | 2026-01-08 | Initial build - fetch, expand, drop to Inbox |
+| 1.2 | 2026-01-08 | Article summarization - auto-summarize articles before dropping to Inbox |

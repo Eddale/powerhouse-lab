@@ -6,12 +6,13 @@
 |---------|------|--------------|
 | v1.0 | 2026-01-08 | Initial build - fetch, expand, drop to Inbox |
 | v1.1 | 2026-01-08 | Added docs/ folder (README, GUIDE, ROADMAP) |
+| v1.2 | 2026-01-08 | Article summarization - auto-summarize articles with TL;DR, key points, relevance |
 
 ## The Vision
 
-Right now, X-bookmarks fetches and drops files. Processing is manual via capture-triage.
+X-bookmarks fetches, categorizes, and enriches bookmarks before dropping to Inbox. Articles now arrive pre-summarized so you know what's worth keeping without clicking through.
 
-The vision: smart categorization. If a bookmark is a YouTube video, automatically queue it for youtube-processor. If it's a thread worth summarizing, do that inline.
+Next: YouTube videos auto-processed with transcripts. Threads unrolled into single files. The goal is bookmarks that arrive ready to triage - not raw links that need research.
 
 ## Planned Improvements
 
@@ -28,8 +29,6 @@ These are on the list. Not "someday maybe" - actually planned.
 These are interesting but not proven necessary yet. Parking lot stuff.
 
 - **GitHub Star Auto-Analysis** - For GitHub repos, fetch more metadata: language, recent activity, what problem it solves.
-
-- **Article Summarization** - For bookmarked articles, optionally fetch and summarize before dropping to Inbox.
 
 - **Bookmark Removal** - After successfully processing, optionally remove from Twitter bookmarks to prevent reprocessing.
 
@@ -54,6 +53,8 @@ Building this skill taught us a few things:
 **Deduplication prevents noise.** Using tweet ID in the filename makes deduplication trivial. If `x-123456.md` exists, skip it.
 
 **Drop to Inbox, not Ready.** The skill doesn't make routing decisions. It drops raw material. Let the user (via capture-triage) decide what matters.
+
+**Graceful degradation matters.** Article summarization fails sometimes - paywalls, timeouts, blocked domains. The skill still drops the bookmark with a "fetch failed" note. Partial information is better than nothing.
 
 ## Decision Log
 

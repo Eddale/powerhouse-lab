@@ -2,7 +2,7 @@
 
 ## What It Does
 
-Fetches Twitter/X bookmarks via bird CLI, expands t.co links, extracts metadata, and drops them as markdown files into the Inbox folder. Capture-triage handles classification and routing from there.
+Fetches Twitter/X bookmarks via bird CLI, expands t.co links, extracts metadata, and drops them as markdown files into the Inbox folder. **Articles are automatically summarized** with TL;DR, key points, and relevance. Capture-triage handles classification and routing from there.
 
 ## Architecture
 
@@ -73,18 +73,20 @@ Get auth_token and ct0 from Twitter cookies in browser DevTools.
 3. **Expand** - Follow t.co redirects to real URLs
 4. **Categorize** - github/article/video/tweet/link
 5. **Metadata** - Extract title, description, stars (GitHub)
-6. **Write** - Drop as `x-{id}.md` files
-7. **Report** - Summary of what was processed
+6. **Summarize** - For articles: fetch content, generate TL;DR + 5-7 key points + relevance
+7. **Write** - Drop as `x-{id}.md` files
+8. **Report** - Summary of what was processed
 
 ## File Format
 
+**Standard format (non-article):**
 ```markdown
 ---
 source: x-bookmark
 author: @username
 tweet_url: https://x.com/user/status/123
 captured: YYYY-MM-DD
-link_type: github|article|video|tweet|link
+link_type: github|video|tweet|link
 ---
 
 {Tweet text}
@@ -92,6 +94,39 @@ link_type: github|article|video|tweet|link
 **Linked:** [title](expanded_url)
 
 {Brief description}
+```
+
+**Article format (with summary):**
+```markdown
+---
+source: x-bookmark
+author: @username
+tweet_url: https://x.com/user/status/123
+captured: YYYY-MM-DD
+link_type: article
+article_title: "Title"
+article_source: domain.com
+---
+
+{Tweet text}
+
+**Linked:** [Article Title](expanded_url)
+
+## Summary
+
+**TL;DR:** One sentence takeaway.
+
+**Key Points:**
+- Point 1
+- Point 2
+- Point 3
+- Point 4
+- Point 5
+
+**Why It Matters:** Relevance or application.
+
+---
+*Auto-summarized by x-bookmarks*
 ```
 
 ## Testing
@@ -102,3 +137,5 @@ link_type: github|article|video|tweet|link
 3. Check files created in Inbox/
 4. Verify t.co links expanded
 5. Confirm no duplicates created
+6. For article bookmarks: verify Summary section present with TL;DR, Key Points, Why It Matters
+7. For failed fetches: verify "fetch failed" note appears instead of summary

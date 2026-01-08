@@ -1,8 +1,18 @@
 # Plan: Article Summarization
 
 **Feature:** Automatically summarize articles before dropping to Inbox
-**Status:** Draft - awaiting approval
+**Status:** Completed
 **Created:** 2026-01-08
+**Approved:** 2026-01-08
+
+## Decisions Made
+
+| Question | Decision |
+|----------|----------|
+| Opt-in or Default? | **A: Default** - Summarize all articles automatically |
+| Paywall Handling? | **B: Partial OK** - Summarize whatever WebFetch can get |
+| Summary Length? | **B: Comprehensive** - TL;DR + 5-7 bullets + context |
+| When Fetch Fails? | **A: Graceful** - Drop to Inbox anyway, note "fetch failed" |
 
 ## The Problem
 
@@ -48,7 +58,7 @@ Process the fetched content:
 ```
 Summarize in this format:
 - **TL;DR:** One sentence core takeaway
-- **Key Points:** 3-5 bullet points
+- **Key Points:** 5-7 bullet points covering main ideas
 - **Why It Matters:** One sentence on relevance/application
 ```
 
@@ -79,6 +89,8 @@ article_source: medium.com
 - Point one
 - Point two
 - Point three
+- Point four
+- Point five
 
 **Why It Matters:** Relevance to Ed's work.
 
