@@ -159,7 +159,7 @@ Symmetry is close. Two of your Greens have three Blues each, one has two. Not a
 dealbreaker but if you can find a third Blue for that middle milestone it'll feel
 more balanced visually.
 
-The bones are solid here. These tweaks are polish, not reconstruction.
+These tweaks are polish, not reconstruction.
 ```
 
 ---
@@ -201,14 +201,25 @@ elements-reviewed: [yellow, reds, greens, blues, symmetry]
 
 ---
 
-## Final Step: AI Slop Check
+## Final Step: AI Slop Check (Mandatory)
 
-Before delivering output, run through the ai-slop-detector skill to eliminate:
+**Before presenting the review to Ed or saving to Zettelkasten, run the feedback through
+the ai-slop-detector skill.**
+
+This is not optional. The workflow is:
+1. Draft the review
+2. Invoke the ai-slop-detector skill on the draft
+3. Present the cleaned version to Ed
+4. Save the cleaned version to Zettelkasten
+
+The ai-slop-detector will catch and fix:
 - "Overall," or "In summary," conclusions
 - Rule-of-three patterns
 - Editorializing phrases ("Worth considering:", "It's important to note")
 - Generic evaluative language ("is strong", "is solid", "doing good work")
 - Em dashes (use commas or periods)
+- "Worth X" repetition
+- "is an interesting one" and similar AI hedges
 - Excessive qualifying language
 
 **The output should sound like Ed typed it in a Facebook comment, not like AI wrote it.**
