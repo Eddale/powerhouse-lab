@@ -1,7 +1,7 @@
 ---
 name: blackbelt-meeting-summary
-description: Processes BlackBelt coaching call transcripts and generates Basecamp-ready summaries. Use when "process meeting transcripts", "summarize BlackBelt meetings", "check for new transcripts".
-allowed-tools: Read, Write, Edit, Glob, Grep, AskUserQuestion
+description: Processes BlackBelt coaching call transcripts and generates Basecamp-ready summaries. Can post directly to Basecamp. Use when "process meeting transcripts", "summarize BlackBelt meetings", "check for new transcripts", "post to basecamp".
+allowed-tools: Read, Write, Edit, Glob, Grep, AskUserQuestion, Bash
 ---
 
 # BlackBelt Meeting Summary
@@ -9,8 +9,8 @@ allowed-tools: Read, Write, Edit, Glob, Grep, AskUserQuestion
 ## What This Does
 
 Processes transcripts from BlackBelt coaching calls (Game Plan, Velocity, Red) and generates
-summaries ready to paste into Basecamp. Follows the capture-triage pattern: scan → preview →
-confirm → process → output.
+summaries that can be posted directly to Basecamp or copied manually. Follows the capture-triage
+pattern: scan → preview → confirm → process → output → post.
 
 ## Watch Folder
 
@@ -83,6 +83,53 @@ Copy for Basecamp:
 ```
 
 Then show the summary in a fenced code block for easy copy/paste.
+
+### Step 5: Offer Basecamp Posting
+
+After displaying each summary, ask Ed if he wants to post directly to Basecamp:
+
+```
+Post this summary to Basecamp for [Client Name]?
+```
+
+Options:
+- Yes, post it
+- No, I'll paste manually
+
+**If yes:**
+
+1. Save the summary to a temp file
+2. Run the posting tool:
+   ```bash
+   python3 /Users/eddale/Documents/GitHub/powerhouse-lab/skills/blackbelt-meeting-summary/tools/post_to_basecamp.py \
+     --client "[Client Name]" \
+     --summary /tmp/summary.md \
+     --yes
+   ```
+3. Report success or failure
+4. Clean up temp file
+
+**If client not found:** The tool will show closest matches. Ask Ed to confirm the correct client.
+
+**Manual posting trigger:** Ed can also say "post summary to basecamp for [client]" with an existing summary to post it later.
+
+---
+
+## Basecamp Integration
+
+The skill can post summaries directly to client todos in the BB Onboarding Queue.
+
+**How it works:**
+- Searches for client by name across all onboarding groups
+- Fuzzy matching handles slight name variations
+- Posts as HTML comment on the client's todo
+- 8 team members get notified automatically
+
+**Requirements:**
+- Credentials configured in `~/.config/blackbelt-basecamp.yaml`
+- Access token refreshes automatically (valid for 10 years)
+
+**Tools location:** `skills/blackbelt-meeting-summary/tools/`
 
 ---
 

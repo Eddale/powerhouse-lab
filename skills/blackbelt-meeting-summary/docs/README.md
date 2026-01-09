@@ -26,11 +26,13 @@ blackbelt-meeting-summary/
 - `Glob` - Find transcripts in watch folder
 - `Grep` - Search transcript content for patterns
 - `AskUserQuestion` - Dry-run preview before processing
+- `Bash` - Run Basecamp posting tool
 
 **Related skills:**
 - `ai-slop-detector` - Cleans summaries before saving
 
-**No external APIs.** Pure transcript processing.
+**External APIs:**
+- Basecamp API (OAuth 2.0) - Post summaries directly to client todos
 
 ## Watch Folder
 
@@ -98,9 +100,31 @@ Processed transcripts move to `Transcripts/Processed/`.
 - [ ] No AI slop in final output
 - [ ] Original transcript moved to Processed/
 
+## Basecamp Integration
+
+Post summaries directly to client todos in the BB Onboarding Queue.
+
+**Setup:** Credentials stored in `~/.config/blackbelt-basecamp.yaml`
+
+**How it works:**
+1. Searches for client by name across all onboarding groups
+2. Fuzzy matches to handle name variations
+3. Posts as HTML comment on client's todo
+4. Team members subscribed to the todo get notified
+
+**Tools:** Located in `tools/` folder
+- `basecamp_client.py` - API client library
+- `post_to_basecamp.py` - CLI tool for posting
+
+**Manual usage:**
+```bash
+python3 tools/post_to_basecamp.py --client "Brad Twynham" --summary /path/to/summary.md
+python3 tools/post_to_basecamp.py --list-clients "Brad"  # Search for clients
+```
+
 ## Known Limitations
 
 - Requires readable transcript format (MacWhisper output works well)
 - Can't auto-detect client from speaker diarization
-- No Basecamp API integration - copy/paste required
 - Doesn't handle multi-client calls
+- Basecamp access token expires every 2 weeks (auto-refresh available)

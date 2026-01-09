@@ -1,7 +1,8 @@
 # Win The Day: Agent → Skill Redesign
 
 **Created:** 2026-01-09
-**Status:** Planning
+**Shipped:** 2026-01-10
+**Status:** Complete (v1.0)
 **Trigger:** Ed's daily non-negotiables requirement + research findings on agent overhead
 
 ## The Problem
@@ -116,12 +117,30 @@ skills/task-clarity-scanner/SKILL.md (existing)
 ## Next Steps
 
 1. [x] Ed answers open questions (done via AskUserQuestion session)
-2. [ ] Set up Google Calendar API access
-3. [ ] Set up Gmail API access
-4. [ ] Create morning-metrics skill (Substack + Calendar + Email + Revenue)
-5. [ ] Move win-the-day from `.claude/agents/` to `skills/`
-6. [ ] Update skill to call sub-skills inline
-7. [ ] Test full pipeline
+2. [x] Set up Google Calendar API access
+3. [x] Set up Gmail API access
+4. [x] Create morning-metrics skill (Substack + Calendar + Email + Revenue)
+5. [x] Move win-the-day from `.claude/agents/` to `skills/`
+6. [x] Update skill to call sub-skills inline
+7. [x] Test full pipeline (2026-01-10 morning routine)
+
+---
+
+## v1.0 Shipped - 2026-01-10
+
+**What's working:**
+- Gmail API: unread counts + important email preview
+- iCloud: unread counts
+- Google Calendar API: today + upcoming events from all calendars
+- Morning-metrics skill: `fetch_metrics.py` returns clean JSON
+- Win-the-day skill: orchestrates metrics → captures → tasks → summary
+- Capture-triage integration: checks Inbox folder
+- Task-clarity-scanner integration: reviews board status
+
+**Not yet built (v1.1 candidates):**
+- Substack stats (dashboard scrape via Claude in Chrome)
+- Revenue/Stripe daily awareness
+- Email intelligence (action-required filtering vs just unread count)
 
 ---
 

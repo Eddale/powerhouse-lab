@@ -7,6 +7,7 @@
 | v1.0 | 2025-12 | Initial transcript processing with template |
 | v1.1 | 2026-01 | Dry-run preview before processing |
 | v1.2 | 2026-01 | Added docs/ folder (README, GUIDE, ROADMAP) |
+| v2.0 | 2026-01-10 | **Basecamp API integration** - post summaries directly to client todos |
 
 ## The Vision
 
@@ -27,8 +28,6 @@ These are on the list. Not "someday maybe" - actually planned.
 ## Ideas (Not Committed)
 
 These are interesting but not proven necessary yet. Parking lot stuff.
-
-- **Basecamp API Integration** - Post summaries directly to Basecamp. Researched 2026-01-09: API supports this via `POST /messages.json`. Needs OAuth setup (~30-60 min one-time), then one-click posting. See [[Research - Basecamp API for Summaries]] when built.
 
 - **Waiting For Call Links** - When processing a call summary, auto-link it to any Waiting For items for that client. The Waiting For docs have a `call-links: []` frontmatter field ready for this. When summary is created, search for matching client name in `/Waiting For/` folder and append the call link. This builds a contact history over time.
 
@@ -57,6 +56,10 @@ Building this skill taught us a few things:
 **250-400 words is the sweet spot.** Shorter and you miss important context. Longer and nobody reads it. This range forces prioritization.
 
 **Running through slop detector matters.** AI-generated summaries sound generic. The cleanup pass makes them sound like notes you'd actually write.
+
+**Basecamp API is simpler than expected.** Despite no search API, the consistent todo naming convention (`DD.MM.YYYY | Client Name | (email) | Location`) makes fuzzy matching reliable. OAuth setup took ~15 min total. The refresh token lasts 10 years, so we won't need to re-auth for a long time.
+
+**Post to todos, not messages.** The BB Onboarding Queue uses a todo list structure with groups (Template, Holding Pen, For 1st Velocity, etc.). Clients move between groups but keep the same todo ID. Comments on todos notify all subscribers automatically.
 
 ## Decision Log
 
