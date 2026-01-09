@@ -596,6 +596,20 @@ broken - not the orchestration.
 - Let skills own their own implementation details
 - Agents describe WHAT happens, skills describe HOW
 
+### Directive Skill Instructions
+
+Skill steps land harder when written as directives with explicit workflows.
+
+**Vague:** "Run through ai-slop-detector to clean up"
+**Directive:** "Always invoke ai-slop-detector before presenting. The workflow: 1. Draft 2. Invoke 3. Present cleaned"
+
+The directive version:
+- States WHEN (always, before presenting)
+- Numbers the steps (creates a checklist)
+- Uses active verbs (invoke, draft, present)
+
+"Always" and numbered workflows get followed. Suggestions get skipped.
+
 ### Session Caching & Settings Refresh
 
 Skills and settings have different refresh behavior in Claude Code:
@@ -720,4 +734,4 @@ When creating image prompts (hero images, carousels, etc.), save as markdown fil
 This file evolves. When we discover something that should be standard, I'll add it here.
 
 **Last updated:** January 2026
-**Version:** 2.10 - Added parallel session check before builds (branch workflow to avoid git conflicts)
+**Version:** 2.11 - Added directive skill instructions pattern (always + numbered workflows)
