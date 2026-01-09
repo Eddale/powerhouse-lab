@@ -28,7 +28,9 @@ These are on the list. Not "someday maybe" - actually planned.
 
 These are interesting but not proven necessary yet. Parking lot stuff.
 
-- **Basecamp API Integration** - Post summaries directly to Basecamp. Would need auth setup and message thread selection.
+- **Basecamp API Integration** - Post summaries directly to Basecamp. Researched 2026-01-09: API supports this via `POST /messages.json`. Needs OAuth setup (~30-60 min one-time), then one-click posting. See [[Research - Basecamp API for Summaries]] when built.
+
+- **Waiting For Call Links** - When processing a call summary, auto-link it to any Waiting For items for that client. The Waiting For docs have a `call-links: []` frontmatter field ready for this. When summary is created, search for matching client name in `/Waiting For/` folder and append the call link. This builds a contact history over time.
 
 - **Call Trend Tracking** - Over time, track patterns across calls. "Christy mentioned confidence issues in 3 of last 5 Velocity calls."
 

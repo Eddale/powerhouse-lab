@@ -1,6 +1,6 @@
 ---
 name: task-clarity-scanner
-description: Scans daily notes using Personal Kanban structure. Clarifies tasks, manages Today's 3 vs Ready, flags stale items, and helps swap between columns. Use when reviewing todos, scanning task lists, or managing your Kanban board.
+description: Scans daily notes using Personal Kanban structure. Clarifies tasks, manages Today's 3 vs Ready, flags stale items, manages Waiting For items, and helps swap between columns. Use when reviewing todos, scanning task lists, or managing your Kanban board.
 allowed-tools: Read, Glob, Grep, Edit, Write, AskUserQuestion
 ---
 
@@ -52,6 +52,44 @@ The daily note has this structure:
 [Quick notes]
 ```
 
+## Waiting For System
+
+**Folder:** `/Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/Waiting For/`
+
+**File naming:** `WAITING - [Person Name] - [Topic].md`
+
+**Daily note format:**
+```
+## Waiting For
+- [[WAITING - John Smith - Contract Review]] - Follow up 01-12 (01-09)
+```
+
+### Name Consistency (Fuzzy Match)
+
+**Critical:** Before creating any Waiting For item, check for existing names to prevent fragmentation.
+
+**Process:**
+1. User provides a name (e.g., "Jon Smith")
+2. Grep existing Waiting For docs + CONTACT files for similar names:
+   ```
+   Glob: /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/Waiting For/WAITING - *.md
+   Glob: /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/CONTACT - *.md
+   ```
+3. Extract person names from filenames
+4. If similar names found (case-insensitive, partial match), show options:
+   ```
+   I found similar names in your system:
+   1. John Smith (2 existing Waiting For items)
+   2. Jonathan Smithson (1 contact)
+   3. New person: "Jon Smith"
+
+   Which one?
+   ```
+5. If user selects existing → use that exact spelling
+6. If new person → use user's spelling as canonical
+
+**Why:** Prevents "John" vs "Jon" fragmentation. First occurrence sets canonical spelling.
+
 ## Instructions
 
 This skill uses the **Batch Pattern** - clarify all tasks first, then execute work.
@@ -68,6 +106,16 @@ runs inbox-triage before this skill.
 1. **Count Today's 3** - Are there exactly 3 tasks? More? Fewer?
 2. **Check for stale items** - Any tasks marked `[STALE]`?
 3. **Review Ready size** - Is the backlog growing out of control?
+4. **Check Waiting For items** - Read individual docs, check follow-up dates
+
+**Waiting For Check:**
+```
+Glob: /Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/Waiting For/WAITING - *.md
+```
+For each file, read frontmatter to get `follow-up` date. Categorize:
+- **Overdue** - follow-up date before today
+- **Due today** - follow-up date is today
+- **Upcoming** - follow-up date in future
 
 Report findings:
 ```
@@ -75,11 +123,12 @@ Report findings:
 - Today's 3: [N] tasks (target: 3)
 - Ready: [N] tasks
 - Stale items: [N] (rolling 3+ days)
-- Waiting For: [N] blocked items
+- Waiting For: [N] items ([M] need follow-up: [X] overdue, [Y] due today)
 ```
 
 If Today's 3 has more than 3 items, offer to help prioritize.
 If stale items exist, flag them for decision (do, delegate, drop).
+If Waiting For items are due, PASS 1.6 will handle them.
 
 ---
 
@@ -119,6 +168,7 @@ Then ask ONE question with options:
 4. **Someday/Maybe** - Park it with #someday tag
 5. **Create project file** - Start a living doc for this task
 6. **Move to Ready** - Not for today, but keep visible
+7. **Move to Waiting For** - This is blocked/delegated (see Step 3c)
 
 Move to the next task after each response. Keep momentum.
 
@@ -179,6 +229,59 @@ linked-from: [[YYYY-MM-DD]]
    `- [ ] [[PROJECT - Task Name]] - [brief description]`
 
 4. **Offer to continue brainstorming** in the project file right now
+
+**Step 3c: Create Waiting For Item**
+When user selects "Move to Waiting For":
+
+1. **Gather info using AskUserQuestion:**
+   - Who are you waiting on?
+   - What are you waiting for? (brief description)
+   - When should you follow up? (suggest 3 days, 1 week, 2 weeks)
+
+2. **Run name fuzzy-match** (see Name Consistency section above)
+
+3. **Create the Waiting For doc** at:
+   `/Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/Waiting For/WAITING - [Person] - [Topic].md`
+
+   Using this template:
+   ```markdown
+   ---
+   type: waiting-for
+   person: [Name]
+   topic: [Brief description]
+   delegated: [Today's date]
+   follow-up: [Follow-up date]
+   status: waiting
+   call-links: []
+   tags: [waiting-for]
+   ---
+
+   # WAITING: [Person] - [Topic]
+
+   ## What I'm Waiting For
+   [Description from user input]
+
+   ## Context
+   - **Delegated:** [Today]
+   - **Follow-up:** [Follow-up date]
+   - **Original task:** [The task being moved]
+
+   ## Call History
+   <!-- Future: Auto-populated by bb-meeting-summary -->
+
+   ## Interaction Log
+   - [Today]: Created - [context]
+
+   ## Notes on [Person]
+   <!-- Add observations as you learn them -->
+   ```
+
+4. **Update daily note:**
+   - Remove original task from Today's 3 or Ready
+   - Add to `## Waiting For` section:
+     `- [[WAITING - Person - Topic]] - Follow up [date] ([today])`
+
+5. **Confirm:** "Created Waiting For item. Will surface for follow-up on [date]."
 
 **Step 4: Rewrite Principles**
 When suggesting rewrites:
@@ -241,6 +344,53 @@ Apply changes and confirm.
 
 ---
 
+### PASS 1.6: Waiting For Check
+
+**Run this if PASS 0 found items due for follow-up.**
+
+For each item that's overdue or due today:
+
+```
+### Follow-up Due
+
+**[[WAITING - John Smith - Contract Review]]**
+- **Waiting for:** Contract signature
+- **Delegated:** 01-05
+- **Due:** 01-09 (today)
+- **Days waiting:** 4
+
+Options:
+1. **Follow up now** - I'll add to Interaction Log, set new follow-up date
+2. **Snooze 3 days** - Push follow-up to [new date]
+3. **Snooze 1 week** - Push follow-up to [new date]
+4. **Resolve** - Item complete, move to Done Today
+5. **Skip** - Deal with this later
+```
+
+**If user selects "Follow up now":**
+1. Ask: "What's the new follow-up date?" (suggest 3 days, 1 week)
+2. Ask: "Brief note on follow-up action?" (optional)
+3. Update the Waiting For doc:
+   - Add to `## Interaction Log`: `- [Today]: Followed up - [note]`
+   - Update frontmatter `follow-up:` to new date
+4. Update daily note link with new follow-up date
+
+**If user selects "Resolve":**
+1. Ask: "Brief resolution note?" (optional)
+2. Update the Waiting For doc:
+   - Add to `## Interaction Log`: `- [Today]: Resolved - [note]`
+   - Update frontmatter `status:` to `resolved`
+3. Update daily note:
+   - Remove from `## Waiting For` section
+   - Add to `## Done Today`: `- [x] Resolved: [[WAITING - Person - Topic]]`
+
+**If user selects "Snooze":**
+1. Update frontmatter `follow-up:` to new date
+2. Update daily note link with new date
+3. Confirm: "Snoozed to [date]"
+
+---
+
 ### PASS 2: Update the File
 
 **Step 5: Batch the Changes**
@@ -260,6 +410,12 @@ Ready to update your daily note:
 ## Stale Items:
 - [Task] → Dropped
 - [Task] → Moved to Waiting For
+
+## Waiting For Changes:
+- [[WAITING - Person - Topic]] → Followed up, new date [date]
+- [[WAITING - Person - Topic]] → Resolved
+- [[WAITING - Person - Topic]] → Snoozed to [date]
+- New: [[WAITING - Person - Topic]] created
 
 ## New Tasks (surfaced):
 - [New task discovered]
