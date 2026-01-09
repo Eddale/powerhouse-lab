@@ -1,7 +1,7 @@
 ---
 name: instagram-carousel
 description: Turn articles into Instagram carousel packages with Nano Banana Pro prompts. Use when "create a carousel", "turn this into slides", "Instagram carousel from article".
-tools: Read, Write, Edit, Glob, Grep, AskUserQuestion
+tools: Read, Write, Edit, Glob, Grep, AskUserQuestion, Bash
 model: opus
 skills: mission-context, hook-stack-evaluator, ai-slop-detector
 ---
@@ -445,3 +445,102 @@ Linked in today's Captures section.
 
 Ready for image generation in Nano Banana Pro.
 ```
+
+---
+
+### Phase 13: Generate Images (Optional)
+
+**Trigger:** Only when Ed explicitly requests image generation.
+
+**Detection phrases:**
+- "generate images"
+- "create images"
+- "with images"
+- "automatic images"
+
+**If NOT triggered:** Stop after Phase 12. Prompts are ready for manual generation in AI Studio.
+
+**If triggered:**
+
+#### Step 1: Create Prompts JSON
+
+Extract prompts from the carousel output and save to a temp file:
+
+```
+/tmp/carousel_prompts_[timestamp].json
+```
+
+Format: Array of prompt strings (one per slide).
+
+#### Step 2: Show Approval Preview
+
+Present the prompts for Ed's review:
+
+```markdown
+## Image Generation Preview
+
+**Carousel:** [Title]
+**Slides:** [N]
+**Estimated cost:** ~$[N * 0.134]
+**Reference image:** Ed's default / [custom path]
+
+### Prompts to send to Google:
+
+1. [First ~80 chars of prompt 1]...
+2. [First ~80 chars of prompt 2]...
+[etc.]
+
+**Proceed with image generation?**
+```
+
+Wait for Ed's approval before continuing.
+
+#### Step 3: Generate Images
+
+Run the generation tool:
+
+```bash
+source ~/.zshrc && python3 skills/instagram-carousel/tools/generate_images.py \
+  /tmp/carousel_prompts_[timestamp].json \
+  ~/Downloads/carousel[YYMMDD] \
+  --ed \
+  --name [CarouselName]
+```
+
+**Arguments:**
+- `--ed`: Uses Ed's default reference image at `skills/instagram-carousel/assets/ed-reference.jpeg`
+- `--name`: Sets file naming (e.g., `Bonsai` → `Bonsai01.png`, `Bonsai02.png`)
+- For custom reference: Replace `--ed` with `--reference /path/to/image.jpg`
+
+**Output folder:** `~/Downloads/carousel[YYMMDD]/`
+**File naming:** `[Name]01.png`, `[Name]02.png`, etc.
+
+#### Step 4: Report Results
+
+```
+Images generated.
+
+Output: ~/Downloads/carousel[YYMMDD]/
+Files: [Name]01.png through [Name]08.png
+Cost: ~$[actual]
+
+[N]/[Total] slides generated successfully.
+[If any failed: "Failed slides: X, Y - prompts saved for manual generation"]
+```
+
+---
+
+### Image Generation Requirements
+
+**API Key:** `GOOGLE_API_KEY` must be set in environment (see `~/.zshrc`)
+
+**Model:** `gemini-3-pro-image-preview` (required for reliable text rendering)
+
+**Character Consistency:** Uses chat mode - reference image sent with first prompt, model maintains character across all subsequent images.
+
+**Cost:** ~$0.134 per image (~$1.07 per 8-slide carousel)
+
+**If generation fails:**
+- Prompts remain saved for manual generation in AI Studio
+- Report which slides failed
+- Ed can retry or generate manually

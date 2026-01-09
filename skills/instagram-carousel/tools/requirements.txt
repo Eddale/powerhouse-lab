@@ -1,0 +1,3 @@
+# Dependencies for carousel image generation
+google-generativeai>=0.8.0
+pillow>=10.0.0
