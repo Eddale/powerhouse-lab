@@ -6,6 +6,7 @@
 |---------|------|--------------|
 | v1.0 | 2026-01 | Initial agent replacing the skill version |
 | v1.1 | 2026-01-08 | Added docs/ folder (README, GUIDE, ROADMAP) |
+| v1.2 | 2026-01-10 | **Google API image generation** - Phase 13 auto-generates images via Gemini 3 Pro Image. Chat mode for character consistency. ~$1.07 per 8-slide carousel. |
 
 ## The Vision
 
@@ -19,6 +20,12 @@ Eventually:
 
 ## Planned Improvements
 
+### v2.0 - Auto Quality Check
+- [ ] **Slide Text Verification** - After generation, auto-read each image and check text rendering
+- [ ] **Auto-flag issues** - Detect garbled text, misspellings, missing words
+- [ ] **Selective regeneration** - Offer to regenerate only problematic slides while maintaining character consistency
+
+### Other Planned
 - [ ] **Template Library** - Pre-built carousel structures (listicle, story, framework, etc.)
 - [ ] **Hook A/B Testing** - Generate multiple hook options, let user choose
 - [ ] **Platform Variations** - Adapt same carousel for LinkedIn, Twitter threads
@@ -35,7 +42,7 @@ Eventually:
 
 **The skill → agent evolution was necessary.** Carousels require multi-step orchestration that's better suited to an agent than a skill. The agent can make decisions mid-process.
 
-**Character consistency is hard.** AI image generation struggles with consistent characters across multiple images. The reference image + explicit instruction approach helps but isn't perfect.
+**Character consistency is SOLVED.** Previously hard - AI would generate different people across slides. Fix: use `model.start_chat()` with `chat.send_message()` instead of individual `generate_content()` calls. Chat mode maintains "thought signatures" that preserve character across the session. Reference image sent with first prompt only.
 
 **Hook quality determines carousel success.** A mediocre carousel with a great hook outperforms a great carousel with a mediocre hook. The agent prioritizes hook extraction.
 
