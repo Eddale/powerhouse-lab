@@ -203,13 +203,32 @@ skills/                    <- You edit here (source of truth)
 
 ---
 
-## CURRENT SKILLS
+## CURRENT SKILLS (21 skills)
 
 | Skill | Description |
 |-------|-------------|
-| [newsletter-coach](newsletter-coach/) | Writing coach that turns daily experiences into newsletter drafts |
-| [new-skill-wizard](new-skill-wizard/) | Automates skill creation - just say "create a new skill called X" |
+| [ai-slop-detector](ai-slop-detector/) | Detects and removes AI writing patterns from text |
+| [blackbelt-meeting-summary](blackbelt-meeting-summary/) | Processes coaching transcripts → Basecamp summaries (can post directly via API) |
+| [capture-triage](capture-triage/) | Processes Drafts Pro captures, classifies and routes to Ready |
+| [hook-stack-evaluator](hook-stack-evaluator/) | Evaluates content hooks using The Hook Stack™ framework |
+| [instagram-carousel](instagram-carousel/) | DEPRECATED - Use instagram-carousel agent instead |
+| [kindle-sender](kindle-sender/) | Send Research Swarm docs to Kindle via email |
+| [magic-model-review](magic-model-review/) | Reviews Magic Model (Triangle) frameworks for BlackBelt coaches |
 | [mission-context](mission-context/) | Ed's business context, terminology, and mission |
+| [morning-metrics](morning-metrics/) | Daily metrics from Gmail, Calendar, and Substack |
+| [new-skill-wizard](new-skill-wizard/) | Automates skill creation with proper git workflow |
+| [newsletter-coach](newsletter-coach/) | Writing coach for turning experiences into newsletter drafts |
+| [offer-diamond-review](offer-diamond-review/) | Reviews Offer Diamonds for BlackBelt coaches |
+| [onboarding-doc-builder](onboarding-doc-builder/) | Creates role-specific onboarding playbooks |
+| [reflect](reflect/) | Self-improving skills system, analyzes for learnings |
+| [saleless-coach](saleless-coach/) | Salesless Experiment framework Q&A |
+| [task-clarity-scanner](task-clarity-scanner/) | Scans daily notes using Personal Kanban structure |
+| [webfluence](webfluence/) | Content web architecture framework diagnostics |
+| [win-the-day](win-the-day/) | Morning routine: metrics → triage → task clarity |
+| [x-bookmarks](x-bookmarks/) | Fetches Twitter/X bookmarks to Inbox folder |
+| [youtube-processor](youtube-processor/) | Process YouTube videos into Obsidian notes |
+
+*Last updated: 2026-01-10*
 
 ---
 

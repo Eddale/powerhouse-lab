@@ -16,6 +16,7 @@
 
 ## Ideas (Not Committed)
 
+- **receipt-forwarder skill** - Separate skill to forward receipts to Hubdoc (neonmarillion.ff80@app.hubdoc.com). Auto-detect PayPal, Uber, invoices, etc. and forward on demand. Keeps morning-metrics focused on reading, new skill handles actions.
 - Social media metrics (X followers, engagement)
 - Website analytics summary
 - BlackBelt community activity
@@ -29,6 +30,11 @@
 - OAuth Desktop app flow works well for CLI tools
 - Token persistence via pickle means one-time browser auth
 - IMAP is already working for both Gmail and iCloud (separate from API)
+
+### 2026-01-10 - iCloud IMAP Gotcha
+- **iCloud IMAP doesn't return message body with standard `RFC822` fetch** - returns empty `b'msgid ()'`
+- **Fix:** Use `BODY.PEEK[]` instead - works correctly and doesn't mark as read
+- This cost 4 debugging iterations; document for future reference
 
 ## Technical Decisions
 
