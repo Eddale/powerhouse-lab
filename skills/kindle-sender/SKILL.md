@@ -1,6 +1,6 @@
 ---
 name: kindle-sender
-description: Send Research Swarm documents to Kindle. Use when "send to Kindle", "send research to Kindle", "send someday-maybe to Kindle", "Kindle my research".
+description: Send Research Swarm documents to Kindle. Use when "send to Kindle", "send research to Kindle", "send someday-maybe to Kindle", "Kindle my research", "with links expanded".
 allowed-tools: Read, Bash, Glob, Write, AskUserQuestion
 ---
 
@@ -10,15 +10,17 @@ allowed-tools: Read, Bash, Glob, Write, AskUserQuestion
 
 Converts markdown documents from your Zettelkasten to EPUB and emails them to your Kindle for offline reading.
 
-**Two modes:**
+**Three modes:**
 1. **Research mode** - Send all Research Swarm docs linked in today's daily note
 2. **Review mode** - Send your Someday-Maybe.md backlog for Kindle review
+3. **Deep reading mode** - Send with `--expand-links` to include full content of all linked documents as an appendix
 
 ## When to Use
 
 - "Send my research to Kindle"
 - "Send today's research to Kindle"
 - "Send someday-maybe to Kindle"
+- "Send someday-maybe to Kindle with links expanded"
 - "Kindle my research"
 
 ## Prerequisites (One-Time Setup)
@@ -107,6 +109,23 @@ export GMAIL_APP_PASSWORD="your-app-password"
    python3 send_to_kindle.py --someday-maybe
    ```
 
+### For "Send someday-maybe to Kindle with links expanded"
+
+1. **Run with --expand-links flag for dry run:**
+   ```bash
+   cd /Users/eddale/Documents/GitHub/powerhouse-lab/skills/kindle-sender/tools
+   python3 send_to_kindle.py --someday-maybe --expand-links --dry-run
+   ```
+
+2. **Show preview with list of documents that will be expanded.**
+
+3. **Ask for confirmation, noting the expanded docs.**
+
+4. **If confirmed, send:**
+   ```bash
+   python3 send_to_kindle.py --someday-maybe --expand-links
+   ```
+
 ### For specific files
 
 User can also request specific files:
@@ -121,6 +140,7 @@ python3 send_to_kindle.py --files "Research Swarm - Topic.md" "Another Doc.md"
 | `--daily-note YYYY-MM-DD` | Send Research Swarm docs from that day's note |
 | `--someday-maybe` | Send the Someday-Maybe.md file |
 | `--files FILE1 FILE2...` | Send specific markdown files |
+| `--expand-links` | Include content of linked docs (wikilinks) as appendix |
 | `--dry-run` | Show what would be sent without sending |
 
 ## Troubleshooting
@@ -154,4 +174,18 @@ Claude: Will send Someday-Maybe.md (your parked projects and tasks backlog).
   Send to Kindle?
 User: Yes
 Claude: Sent Someday-Maybe.md to your Kindle.
+```
+
+**Example 3: Deep reading with expanded links**
+```
+User: Send someday-maybe to Kindle with links expanded
+Claude: Will send Someday-Maybe.md with 13 linked documents expanded:
+  - PROJECT - Email Agent
+  - Research - Claude Code Testing Infrastructure - 2026-01-06
+  - ...
+
+  The EPUB will include an appendix with the full content of each linked doc.
+  Send to Kindle?
+User: Yes
+Claude: Sent Someday-Maybe.md (with 13 referenced documents) to your Kindle.
 ```

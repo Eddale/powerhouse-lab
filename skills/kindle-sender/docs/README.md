@@ -50,17 +50,29 @@ python3 send_to_kindle.py --daily-note "2026-01-10"
 python3 send_to_kindle.py --someday-maybe --dry-run
 python3 send_to_kindle.py --someday-maybe
 
+# Someday-Maybe with linked documents expanded (includes full research content)
+python3 send_to_kindle.py --someday-maybe --expand-links --dry-run
+python3 send_to_kindle.py --someday-maybe --expand-links
+
 # Specific files
 python3 send_to_kindle.py --files "Research Swarm - Topic.md"
+
+# Specific files with links expanded
+python3 send_to_kindle.py --files "Someday-Maybe" --expand-links
 ```
 
 ## How It Works
 
 1. **Parse daily note** - Extracts `[[Research Swarm - *]]` wikilinks from Captures section
 2. **Find files** - Locates corresponding .md files in Zettelkasten
-3. **Convert to EPUB** - Uses pypandoc (Pandoc wrapper) with metadata
-4. **Email to Kindle** - SMTP via Gmail with "Convert" subject line
-5. **Amazon converts** - Send-to-Kindle service converts EPUB to Kindle format
+3. **Expand links (optional)** - If `--expand-links` flag is set:
+   - Finds all `[[wikilinks]]` in the document
+   - Loads content of each linked file
+   - Annotates original links with "(see Appendix)"
+   - Appends full content of linked docs as an appendix
+4. **Convert to EPUB** - Uses pypandoc (Pandoc wrapper) with metadata
+5. **Email to Kindle** - SMTP via Gmail with "Convert" subject line
+6. **Amazon converts** - Send-to-Kindle service converts EPUB to Kindle format
 
 ## Testing
 

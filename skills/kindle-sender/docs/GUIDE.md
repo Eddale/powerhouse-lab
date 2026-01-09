@@ -33,6 +33,13 @@ Build tools -> Use tools to review your backlog -> Decide what to build next -> 
 2. Claude sends your parked projects list
 3. Read it later, decide what's worth doing
 
+**For deep reading (the killer feature):**
+1. Say "Send someday-maybe to Kindle with links expanded"
+2. Claude finds all the `[[wikilinks]]` in the document
+3. It loads the actual content of each linked research doc
+4. Builds a combined EPUB: your original content + appendix with all the research
+5. Now you can actually read the research on your Kindle, not just see dead link text
+
 ## What Happens Under the Hood
 
 1. Claude reads your daily note
