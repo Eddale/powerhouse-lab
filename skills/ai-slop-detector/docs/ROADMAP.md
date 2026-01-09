@@ -17,6 +17,8 @@ The vision: a living pattern library that grows smarter over time, catching new 
 
 These are on the list. Not "someday maybe" - actually planned.
 
+- [ ] **Mandatory for Client-Facing Docs** - Proposals, pitches, anything with Ed's name on it. Learned from Ring Ring session: even well-written content had em-dash overuse, "leverage" x8, editorializing phrases. See [[Skill Plan - Client Proposal Workflow - 2026-01-09]].
+
 - [ ] **Integration with Newsletter Coach** - Auto-run slop detection before Phase 7 final output. No manual step needed.
 
 - [ ] **Severity Scoring** - Instead of just rewriting, show a "slop score" (1-10) so you know how AI-sounding the original was. Useful for tracking improvement over time.
@@ -50,6 +52,8 @@ Building this skill taught us a few things:
 **Less is more in cleanup.** Early versions tried to rewrite everything. The current version focuses on surgical removal of specific patterns. The text stays closer to the original intent.
 
 **The verification checklist matters.** Without a systematic check at the end, it's easy to miss patterns. The 10-point checklist in SKILL.md is doing real work.
+
+**Slop detection isn't enough for voice.** Ring Ring session (2026-01-09) showed that text can pass slop detection but still sound "corny" or salesy. Need a "friend test" after slop detection: would Ed actually say this to someone he's known for 10 years? Slop detector catches AI patterns; voice check catches tone mismatch.
 
 ## Decision Log
 
