@@ -59,11 +59,43 @@ task-clarity-scanner/
 | Done Today | Completed | None |
 | Captures | Document links | None |
 
-## The Three Passes
+## The Passes
 
-1. **Pass 0: Health Check** - Count Today's 3, flag stale items, review Ready size
-2. **Pass 1: Clarify** - One-by-one task clarification, project file creation
-3. **Pass 2: Update** - Batch changes, apply edits after approval
+1. **Pass 0: Health Check** - Count Today's 3, flag stale items, review Ready size, check Waiting For follow-ups
+2. **Pass 1: Clarify** - One-by-one task clarification, project file creation, move to Waiting For
+3. **Pass 1.5: Kanban Swaps** - Adjust Today's 3 vs Ready (optional)
+4. **Pass 1.6: Waiting For Check** - Surface overdue/due items, handle follow-ups, resolve completed items
+5. **Pass 2: Update** - Batch changes, apply edits after approval
+
+## Waiting For System
+
+**Folder:** `/Users/eddale/Documents/COPYobsidian/MAGI/Zettelkasten/Waiting For/`
+
+**File naming:** `WAITING - [Person Name] - [Topic].md`
+
+**Template fields:**
+```yaml
+type: waiting-for
+person: [Name]
+topic: [Brief description]
+delegated: YYYY-MM-DD
+follow-up: YYYY-MM-DD
+status: waiting | resolved
+call-links: []  # For future bb-meeting-summary integration
+tags: [waiting-for]
+```
+
+**Name consistency:** Before creating items, skill globs existing Waiting For + Contact files, extracts names, and shows fuzzy matches to prevent fragmentation (Jon/John problem).
+
+**Follow-up states:**
+- Overdue: follow-up date before today
+- Due today: follow-up date is today
+- Upcoming: follow-up date in future
+
+**Actions:**
+- Follow up → Update interaction log, set new follow-up date
+- Snooze → Push follow-up date
+- Resolve → Mark status: resolved, move to Done Today
 
 ## Task Categories
 

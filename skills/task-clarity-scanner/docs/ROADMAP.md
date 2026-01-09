@@ -8,6 +8,7 @@
 | v1.1 | 2026-01 | Added staleness tracking with (MM-DD) suffix |
 | v1.2 | 2026-01 | Added project file creation option |
 | v1.3 | 2026-01 | Added docs/ folder (README, GUIDE, ROADMAP) |
+| v1.4 | 2026-01-09 | Waiting For System: blocked item tracking, follow-up dates, name fuzzy-match, resolve flow |
 
 ## The Vision
 
@@ -39,6 +40,8 @@ These are interesting but not proven necessary yet. Parking lot stuff.
 
 - **Team Mode** - Waiting For items could integrate with team tools. "Sarah was supposed to send X - want to follow up?"
 
+- **Call Links** - When bb-meeting-summary processes a call, auto-link to Waiting For items for that client. Builds contact history over time. (Template already has `call-links: []` field ready.)
+
 - **Calendar Integration** - Know what meetings are coming. "You have 3 hours before your next call - here's what you could finish."
 
 ## What We've Learned
@@ -54,6 +57,10 @@ Building this skill taught us a few things:
 **Project files save tasks.** When something's too big to clarify, the project file upgrade prevents it from becoming stale. It's not a task anymore - it's a living document.
 
 **The health check catches drift.** Without it, Today's 3 slowly becomes Today's 7. The explicit count keeps the system honest.
+
+**Waiting For needs its own system.** Blocked items aren't tasks - they're dependencies. Mixing them with active work creates confusion. The separate Waiting For section keeps the board honest about what you can actually act on.
+
+**Name consistency prevents fragmentation.** The fuzzy-match check before creating Waiting For items catches spelling variations (Jon/John). First occurrence becomes canonical. Small friction that prevents big mess.
 
 ## Decision Log
 

@@ -59,6 +59,48 @@ Either:
 
 The skill surfaces stale items and asks: "Do it now, delegate, drop, reframe, or Someday?"
 
+## The Waiting For System
+
+Here's what kills productivity: tasks that aren't really tasks. They're dependencies.
+
+"Get contract signed" isn't something you can do right now. The ball is in someone else's court. But if you leave it on your list, it clutters your board. If you delete it, you forget to follow up.
+
+The Waiting For system solves this. When a task is blocked by someone else:
+
+1. Move it to Waiting For
+2. Set a follow-up date
+3. Forget about it
+
+The skill surfaces these items when follow-up is due. "You've been waiting 4 days for John's contract. Time to nudge?"
+
+**The Name Consistency Problem**
+
+Here's a real issue: you delegate something to "Jon Smith" today and "John Smith" next week. Now you have two records for the same person.
+
+The skill prevents this. When you create a Waiting For item, it checks your existing records: "I found 'John Smith' with 2 existing items. Is this the same person?"
+
+First occurrence sets the canonical spelling. Every future reference uses the same name.
+
+**The Waiting For Document**
+
+Each blocked item gets its own file with:
+- Who you're waiting on
+- What you're waiting for
+- When you delegated it
+- When to follow up
+- An interaction log (every follow-up gets timestamped)
+
+Over time, this becomes a lightweight CRM. You can see: "I've followed up with Sarah 3 times on this contract. She's slow."
+
+**The Daily Note Link**
+
+Your daily note shows a simple line:
+```
+- [[WAITING - John Smith - Contract Review]] - Follow up 01-12 (01-09)
+```
+
+Click the link to see the full context. The daily note stays clean.
+
 ## The Project File Upgrade
 
 Sometimes a task is too big to clarify inline. "Build client onboarding system" isn't a task - it's a project.
