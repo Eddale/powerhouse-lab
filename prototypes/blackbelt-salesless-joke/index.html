@@ -1024,7 +1024,7 @@
       requestAnimationFrame(animate);
     }
 
-    // Calculate escape position
+    // Calculate escape position - tests multiple angles to find best escape route
     function getEscapePosition(mouseX, mouseY) {
       // Safe zone - where taunts are fully visible
       const edgePadding = 200;
@@ -1033,42 +1033,60 @@
       const minY = 200;
       const maxY = window.innerHeight - edgePadding;
 
-      // Check if button is near an edge
-      const nearLeftEdge = buttonPos.x < minX + 50;
-      const nearRightEdge = buttonPos.x > maxX - 50;
-      const nearTopEdge = buttonPos.y < minY + 50;
-      const nearBottomEdge = buttonPos.y > maxY - 50;
-      const nearEdge = nearLeftEdge || nearRightEdge || nearTopEdge || nearBottomEdge;
+      // Base angle: direction away from mouse
+      const dx = buttonPos.x - mouseX;
+      const dy = buttonPos.y - mouseY;
+      const baseAngle = Math.atan2(dy, dx);
 
-      let newX, newY;
+      // Jump distance
+      const jumpDistance = 200 + Math.random() * 100;
 
-      if (nearEdge) {
-        // Jump back toward center with some randomness
-        const centerX = window.innerWidth / 2;
-        const centerY = window.innerHeight * 0.5;
+      // Test multiple escape angles (borrowed from riomadeit/evasive-button)
+      // 0 = straight away, then alternating offsets, Math.PI = toward mouse (last resort)
+      const angleOffsets = [0, 0.3, -0.3, 0.6, -0.6, 0.9, -0.9, 1.2, -1.2, Math.PI];
 
-        // Add randomness so it's not always dead center
-        newX = centerX + (Math.random() - 0.5) * 300;
-        newY = centerY + (Math.random() - 0.5) * 200;
-      } else {
-        // Normal escape - away from mouse
-        const dx = buttonPos.x - mouseX;
-        const dy = buttonPos.y - mouseY;
-        const angle = Math.atan2(dy, dx);
+      let bestPos = null;
+      let bestScore = -Infinity;
 
-        // Jump distance
-        const jumpDistance = 200 + Math.random() * 100;
+      for (const offset of angleOffsets) {
+        const testAngle = baseAngle + offset;
+        const testX = buttonPos.x + Math.cos(testAngle) * jumpDistance;
+        const testY = buttonPos.y + Math.sin(testAngle) * jumpDistance;
 
-        // Calculate new position
-        newX = buttonPos.x + Math.cos(angle) * jumpDistance;
-        newY = buttonPos.y + Math.sin(angle) * jumpDistance;
+        // Check if position is within safe bounds
+        const inBounds = testX >= minX && testX <= maxX && testY >= minY && testY <= maxY;
+
+        if (inBounds) {
+          // Score = distance from mouse (further is better)
+          const distFromMouse = Math.sqrt(
+            Math.pow(testX - mouseX, 2) + Math.pow(testY - mouseY, 2)
+          );
+
+          // Bonus for staying away from edges (more room to escape next time)
+          const edgeMarginX = Math.min(testX - minX, maxX - testX);
+          const edgeMarginY = Math.min(testY - minY, maxY - testY);
+          const edgeBonus = (edgeMarginX + edgeMarginY) * 0.3;
+
+          const score = distFromMouse + edgeBonus;
+
+          if (score > bestScore) {
+            bestScore = score;
+            bestPos = { x: testX, y: testY };
+          }
+        }
       }
 
-      // Final bounds check - keep in safe zone
-      newX = Math.max(minX, Math.min(maxX, newX));
-      newY = Math.max(minY, Math.min(maxY, newY));
+      // Fallback: if no angle works (cornered), jump to center with randomness
+      if (!bestPos) {
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight * 0.5;
+        bestPos = {
+          x: centerX + (Math.random() - 0.5) * 300,
+          y: centerY + (Math.random() - 0.5) * 200
+        };
+      }
 
-      return { x: newX, y: newY };
+      return bestPos;
     }
 
     // Mouse move handler
@@ -1193,8 +1211,8 @@
       revealText.classList.remove('explode');
       revealBtn.classList.remove('explode', 'glow-pulse');
 
-      // Trigger explosion after 1 second
-      setTimeout(triggerExplosion, 1000);
+      // Trigger explosion after 2 seconds
+      setTimeout(triggerExplosion, 2000);
     });
 
     // Close modal on click outside

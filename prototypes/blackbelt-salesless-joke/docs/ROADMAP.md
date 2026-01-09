@@ -12,15 +12,17 @@ A shareable, memorable way to tell the Salesless story. The interaction IS the m
 
 | Version | Date | What Changed |
 |---------|------|--------------|
+| v1.1 | 2026-01-09 | Smarter escape algorithm (multi-angle), 2-second explosion delay |
 | v1.0 | 2026-01-09 | Initial release - runaway button, karate taunts, explosion modal |
 
-### What V1 Does
+### What V1.1 Does
 
 - Runaway "Book A Call" button with physics animation
+- **Multi-angle escape algorithm** - tests 10 angles to find best escape route (inspired by riomadeit/evasive-button)
 - 8 karate-themed taunts in iMessage-style bubbles
-- Edge detection - button jumps back to center when cornered
+- Smart edge detection - button slips sideways along edges instead of just bouncing to center
 - Exhaustion mechanic - catchable after 10 jumps
-- Caught modal with 1-second delayed explosion effect
+- Caught modal with 2-second delayed explosion effect
 - CTA links to http://bit.ly/BlackBeltDeets
 - Mobile blocker with friendly message
 - Consistent Black Belt branding throughout
@@ -59,9 +61,11 @@ Building this taught us a few things:
 
 **The exhaustion mechanic creates narrative.** Jumps 8-10 telling you it's getting tired transforms a frustrating experience into a satisfying chase with a conclusion.
 
-**One-second delay on explosion matters.** Immediate reveal felt cheap. The pause creates anticipation, makes the punchline land harder.
+**Two-second delay on explosion matters.** Immediate reveal felt cheap. The pause creates anticipation, makes the punchline land harder. (Originally 1 second, bumped to 2 for better comedic timing.)
 
 **Single HTML file = instant deploys.** No build step means iterate in 45 seconds. Test live, fix, redeploy.
+
+**Steal algorithms, not libraries.** Found riomadeit/evasive-button with sophisticated multi-angle escape logic. Instead of importing the whole TypeScript package (would need build step), we lifted the core algorithm concept and adapted it. Best of both worlds: smarter behavior, zero dependencies.
 
 ---
 
