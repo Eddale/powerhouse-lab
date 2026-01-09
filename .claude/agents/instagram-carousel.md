@@ -203,14 +203,8 @@ Apply the **Golden Test:** Would commenting make them look SMARTER or WEAKER?
 
 **Load:** `skills/instagram-carousel/resources/prompt-templates.md`
 
-**SLIDE 1 ONLY - Reference Image Reminder:**
-```
-=== REFERENCE IMAGE REQUIRED ===
-[ATTACH: Your reference photo here before generating]
-This image is for FEATURES and CLOTHING consistency only - not poses.
-The prompt will specify poses and actions separately.
-================================
-```
+**Reference Images:**
+When a slide requires reference images for character consistency (Ed, other people), simply include "Reference images attached." as the first line of the prompt. No large block reminders needed - Ed will attach the relevant photos when generating in Nano Banana Pro.
 
 **All prompts use this structure:**
 
