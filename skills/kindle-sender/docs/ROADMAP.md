@@ -4,6 +4,7 @@
 
 | Version | Date | What Changed |
 |---------|------|--------------|
+| v1.2 | 2026-01-10 | Internal navigation: tappable links (↓) + back to index (↑) |
 | v1.1 | 2026-01-10 | `--expand-links` flag: include linked document content as appendix |
 | v1.0 | 2026-01-10 | Initial release: Research Swarm docs + Someday-Maybe support |
 
