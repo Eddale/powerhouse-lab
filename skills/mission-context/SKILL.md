@@ -93,6 +93,81 @@ Ed's delivery framework has three layers:
 
 ---
 
+## THE THREE STAGES (Data to Implementation)
+
+A framework for explaining AI leverage to coaching businesses:
+
+| Stage | Name | What It Is | The Unlock |
+|-------|------|------------|------------|
+| **1** | Data Chaos | Can't see what's happening | — |
+| **2** | Data Clarity | Can see what's happening | Dashboards, single source of truth |
+| **3** | Learning Loops | Insights automatically become implementations | **This is the game changer** |
+
+**Key insight:** Most data/insight services stop at Stage 2. The real unlock is Stage 3—where the CEO has an idea, encodes it in one sentence, and wakes up to find it implemented everywhere.
+
+**The difference:**
+- Stage 2 ends with "hope they act"
+- Stage 3 ends with "it just appears"
+
+**The tagline:** "Stage 2 is the eyes. Stage 3 is the nervous system that acts."
+
+**The Ash Maurya connection:** The agentic coding loop (Plan → Code → Test → Iterate) IS the business validation loop (Plan → Do → Check → Act). Same engine, different domain. Goal-driven iteration + feedback.
+
+**What Stage 3 looks like:**
+- Decision trees change automatically
+- Documents produced through AI systems get better every day
+- 1% improvements don't add—they multiply (exponential compounding)
+- Like opening your app and seeing a cool new feature—it's just there
+
+---
+
+## NEON MARILLION DESIGN SYSTEM
+
+The standard look and feel for web demos and prototypes.
+
+### Brand Color
+- **Primary:** Burnt Orange `#E85D04`
+- **Primary Light:** `#FFF4ED` (backgrounds, hover states)
+
+### Color Palette
+| Color | Hex | Usage |
+|-------|-----|-------|
+| Burnt Orange | `#E85D04` | Primary brand, CTAs, highlights |
+| Orange Light | `#FFF4ED` | Backgrounds, cards |
+| Charcoal | `#1C1917` | Primary text, headings |
+| Stone | `#78716C` | Secondary text |
+| Cream | `#FAFAF9` | Page backgrounds |
+| White | `#FFFFFF` | Cards, contrast areas |
+
+### Typography (Fontshare)
+```html
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+```
+
+| Font | Usage | Weights |
+|------|-------|---------|
+| **Clash Display** | Headings, hero text, brand name | 400, 500, 600, 700 |
+| **Satoshi** | Body copy, UI elements | 400, 500, 700 |
+
+### CSS Variables Template
+```css
+:root {
+    --orange: #E85D04;
+    --orange-light: #FFF4ED;
+    --charcoal: #1C1917;
+    --stone: #78716C;
+    --cream: #FAFAF9;
+    --white: #FFFFFF;
+    --font-display: 'Clash Display', sans-serif;
+    --font-body: 'Satoshi', sans-serif;
+}
+```
+
+### Reference Implementation
+See `prototypes/clear-insight-demo/index.html` for a complete example with scroll-triggered animations using Intersection Observer.
+
+---
+
 ## ED'S TERMINOLOGY (Use These)
 
 | Term | Meaning |
