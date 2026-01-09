@@ -66,6 +66,12 @@ def check_environment():
     }
 
 
+def slugify(name: str) -> str:
+    """Convert document name to URL-safe anchor ID."""
+    # "Research Swarm - Topic Name" → "research-swarm-topic-name"
+    return re.sub(r'[^a-z0-9]+', '-', name.lower()).strip('-')
+
+
 def expand_wikilinks(md_path: Path) -> Tuple[str, List[str]]:
     """
     Read markdown file and expand wikilinks by appending linked content.
@@ -74,7 +80,10 @@ def expand_wikilinks(md_path: Path) -> Tuple[str, List[str]]:
     - Combined markdown with original content + appendix of linked docs
     - List of document names that were expanded
 
-    Only goes one layer deep (no recursive expansion).
+    Features:
+    - Links become tappable jumps to appendix sections (with ↓ arrow)
+    - Each appendix section has "↑ Back to index" link
+    - Only goes one layer deep (no recursive expansion)
     """
     if not md_path.exists():
         return "", []
@@ -110,20 +119,29 @@ def expand_wikilinks(md_path: Path) -> Tuple[str, List[str]]:
                 if end_frontmatter != -1:
                     doc_content = doc_content[end_frontmatter + 3:].strip()
 
-            appendix_sections.append(f"\n\n---\n\n## {doc_name}\n\n{doc_content}")
+            # Add anchor ID to header and back-to-top link at end
+            anchor_id = slugify(doc_name)
+            back_link = "\n\n[↑ Back to index](#top)"
+            appendix_sections.append(
+                f"\n\n---\n\n## {doc_name} {{#{anchor_id}}}\n\n{doc_content}{back_link}"
+            )
             expanded_docs.append(doc_name)
 
     if not appendix_sections:
         return content, []
 
-    # Annotate original links with "(see Appendix)"
+    # Annotate original links with tappable markdown links (↓ arrow hint)
     def annotate_link(match):
         link_name = match.group(1)
         if link_name in expanded_docs:
-            return f"**{link_name}** _(see Appendix)_"
+            anchor_id = slugify(link_name)
+            return f"[{link_name} ↓](#{anchor_id})"
         return f"[[{link_name}]]"
 
     annotated_content = re.sub(pattern, annotate_link, content)
+
+    # Add top anchor for "back to index" navigation
+    annotated_content = f'<div id="top"></div>\n\n{annotated_content}'
 
     # Combine: original content + appendix
     combined = annotated_content + "\n\n---\n\n# Appendix: Referenced Documents" + "".join(appendix_sections)
