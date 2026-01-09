@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 """
-Fetch morning metrics from Gmail and Google Calendar.
+Fetch morning metrics from Gmail, iCloud Mail, and Google Calendar.
 Outputs JSON for Claude to format into a briefing.
 """
 
 import os
 import json
 import pickle
+import imaplib
+import email
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
@@ -99,6 +101,56 @@ def get_gmail_metrics(creds):
     except Exception as e:
         return {'status': 'error', 'error': str(e)}
 
+def get_icloud_metrics():
+    """Get iCloud Mail (eddale@mac.com) unread count via IMAP."""
+    try:
+        icloud_email = os.environ.get('ICLOUD_ADDRESS', 'eddale@mac.com')
+        icloud_password = os.environ.get('ICLOUD_APP_PASSWORD')
+
+        if not icloud_password:
+            return {'status': 'error', 'error': 'ICLOUD_APP_PASSWORD not set'}
+
+        # Connect to iCloud IMAP
+        imap = imaplib.IMAP4_SSL('imap.mail.me.com')
+        imap.login(icloud_email, icloud_password)
+
+        # Get unread count from INBOX
+        imap.select('INBOX')
+        _, messages = imap.search(None, 'UNSEEN')
+        unread_ids = messages[0].split() if messages[0] else []
+        unread_count = len(unread_ids)
+
+        # Get recent unread subjects (up to 5)
+        recent_unread = []
+        for msg_id in unread_ids[:5]:
+            _, msg_data = imap.fetch(msg_id, '(RFC822.HEADER)')
+            if msg_data and msg_data[0]:
+                msg = email.message_from_bytes(msg_data[0][1])
+                subject = msg.get('Subject', '(no subject)')
+                from_addr = msg.get('From', 'Unknown')
+                # Decode subject if needed
+                if subject:
+                    decoded = email.header.decode_header(subject)
+                    subject = ''.join(
+                        part.decode(charset or 'utf-8') if isinstance(part, bytes) else part
+                        for part, charset in decoded
+                    )
+                recent_unread.append({
+                    'subject': subject[:100],  # Truncate long subjects
+                    'from': from_addr
+                })
+
+        imap.logout()
+
+        return {
+            'email': icloud_email,
+            'unread_total': unread_count,
+            'recent_unread': recent_unread,
+            'status': 'ok'
+        }
+    except Exception as e:
+        return {'status': 'error', 'error': str(e)}
+
 def get_calendar_metrics(creds):
     """Get today's calendar events."""
     try:
@@ -164,6 +216,7 @@ def main():
         'timestamp': datetime.now().isoformat(),
         'date': datetime.now().strftime('%B %d, %Y'),
         'gmail': {},
+        'icloud': {},
         'calendar': {}
     }
 
@@ -172,7 +225,10 @@ def main():
         output['gmail'] = get_gmail_metrics(creds)
         output['calendar'] = get_calendar_metrics(creds)
     except Exception as e:
-        output['error'] = str(e)
+        output['google_error'] = str(e)
+
+    # iCloud doesn't need Google creds
+    output['icloud'] = get_icloud_metrics()
 
     print(json.dumps(output, indent=2))
 
