@@ -410,6 +410,11 @@ When searching for files Ed mentions, check these locations in order:
 | `ICLOUD_ADDRESS` | iCloud email address | (future email tools) |
 | `ICLOUD_APP_PASSWORD` | iCloud app password | (future email tools) |
 
+**Config file credentials** (too long for env vars):
+| File | Purpose | Used By |
+|------|---------|---------|
+| `~/.config/blackbelt-basecamp.yaml` | Basecamp OAuth tokens + project IDs | blackbelt-meeting-summary |
+
 **Pattern for new credentials:**
 1. Check if similar credential already exists
 2. Use consistent naming (`SERVICE_CREDENTIAL_TYPE`)
@@ -733,22 +738,44 @@ users would need to manually reference it.
 
 Skills that work in Claude Code CLI may not work in Claude.ai chat. See mission-context for details.
 
-### Image Generation with Nano Banana Pro
+### Image Generation
 
-When generating carousel images or any multi-image set with a consistent character:
-1. **Reference image required** - Upload photo with first prompt
-2. **Add consistency instruction** - Include "maintain consistent character appearance from reference" in all prompts
-3. **Test before finalizing** - Generate in Google AI Studio, verify quality, then commit
-4. **API consideration** - Programmatic reference image upload is an unsolved problem for automation
+**Two approaches:**
 
-**Prompt language:** Use "the man from the reference image" not "you" - Nano Banana Pro doesn't understand second person.
+| Approach | When to Use | Tool |
+|----------|-------------|------|
+| Manual (AI Studio) | Quick one-offs, experimentation | Google AI Studio web UI |
+| Automated (API) | Carousels, batch generation | `instagram-carousel` agent Phase 13 |
 
-**Saving prompts for Ed:**
-When creating image prompts (hero images, carousels, etc.), save as markdown file in Zettelkasten:
+**For manual generation (Nano Banana Pro in AI Studio):**
+- Upload reference photo with first prompt
+- Use "the man from the reference image" not "you"
+- Include "maintain consistent character appearance" in prompts
+
+**For automated generation (API via instagram-carousel agent):**
+- Trigger with "generate images" or "with images"
+- Uses `gemini-3-pro-image-preview` model (required for reliable text)
+- Chat mode maintains character consistency across slides
+- Cost: ~$0.134/image (~$1.07 per 8-slide carousel)
+- Output: `~/Downloads/carouselYYMMDD/` with content-based naming
+
+**The character consistency fix (technical):**
+```python
+# Wrong - loses context between calls
+model.generate_content(prompt1)
+model.generate_content(prompt2)
+
+# Right - chat maintains character
+chat = model.start_chat()
+chat.send_message([reference_image, prompt1])
+chat.send_message(prompt2)  # remembers character
+```
+
+**Saving manual prompts:**
+When creating image prompts manually, save as markdown file in Zettelkasten:
 - Location: `Hero Image Prompt - [Title] - YYYY-MM-DD.md`
 - Put the prompt in a code block for one-click copy
 - Include metadata: article, platform, aspect ratio, model
-- Add to daily note Captures section
 
 ---
 
@@ -757,4 +784,4 @@ When creating image prompts (hero images, carousels, etc.), save as markdown fil
 This file evolves. When we discover something that should be standard, I'll add it here.
 
 **Last updated:** January 2026
-**Version:** 2.12 - Added environment variables reference table (reuse existing credentials)
+**Version:** 2.13 - Updated image generation section (API automation now working via chat mode)
