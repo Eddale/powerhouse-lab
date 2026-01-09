@@ -393,6 +393,29 @@ When searching for files Ed mentions, check these locations in order:
 - **IDE:** Antigravity (Google's IDE) with Claude extension
 - **Also using:** Claude Code directly
 
+### Environment Variables (Credentials)
+
+**Before defining new env vars, check `~/.zshrc` for existing ones.** Reuse what's already configured.
+
+| Variable | Purpose | Used By |
+|----------|---------|---------|
+| `GMAIL_ADDRESS` | Gmail sender address | kindle-sender, email tools |
+| `GMAIL_APP_PASSWORD` | Gmail app password (not regular password) | kindle-sender, email tools |
+| `KINDLE_EMAIL` | Send-to-Kindle address (@kindle.com) | kindle-sender |
+| `GOOGLE_API_KEY` | Google AI Studio / Gemini API | instagram-carousel (image gen) |
+| `GOOGLE_CREDENTIALS_PATH` | OAuth credentials file path | Google API tools |
+| `GOOGLE_TOKEN_PATH` | OAuth token pickle path | Google API tools |
+| `AUTH_TOKEN` | X/Twitter auth token | x-bookmarks |
+| `CT0` | X/Twitter CSRF token | x-bookmarks |
+| `ICLOUD_ADDRESS` | iCloud email address | (future email tools) |
+| `ICLOUD_APP_PASSWORD` | iCloud app password | (future email tools) |
+
+**Pattern for new credentials:**
+1. Check if similar credential already exists
+2. Use consistent naming (`SERVICE_CREDENTIAL_TYPE`)
+3. Document in this table when adding new ones
+4. Never hardcode in SKILL.md or Python scripts
+
 ### The Vibe Coder Rule
 > "If I want it to *think* smart, use Python.
 > If I want it to *look* cool, use React."
@@ -734,4 +757,4 @@ When creating image prompts (hero images, carousels, etc.), save as markdown fil
 This file evolves. When we discover something that should be standard, I'll add it here.
 
 **Last updated:** January 2026
-**Version:** 2.11 - Added directive skill instructions pattern (always + numbered workflows)
+**Version:** 2.12 - Added environment variables reference table (reuse existing credentials)
