@@ -37,21 +37,32 @@ SOMEDAY_MAYBE_FILE = ZETTELKASTEN_PATH / "Someday-Maybe.md"
 
 def check_environment():
     """Verify all required environment variables are set."""
-    required = ["KINDLE_EMAIL", "GMAIL_USER", "GMAIL_APP_PASSWORD"]
-    missing = [var for var in required if not os.environ.get(var)]
+    # Support both GMAIL_USER and GMAIL_ADDRESS (Ed uses GMAIL_ADDRESS)
+    gmail_user = os.environ.get("GMAIL_USER") or os.environ.get("GMAIL_ADDRESS")
+    kindle_email = os.environ.get("KINDLE_EMAIL")
+    gmail_password = os.environ.get("GMAIL_APP_PASSWORD")
+
+    missing = []
+    if not kindle_email:
+        missing.append("KINDLE_EMAIL")
+    if not gmail_user:
+        missing.append("GMAIL_USER or GMAIL_ADDRESS")
+    if not gmail_password:
+        missing.append("GMAIL_APP_PASSWORD")
 
     if missing:
         print(f"ERROR: Missing environment variables: {', '.join(missing)}")
         print("\nAdd these to ~/.zshrc:")
-        for var in missing:
-            print(f'  export {var}="your-value"')
+        print('  export KINDLE_EMAIL="your-name@kindle.com"')
+        print('  export GMAIL_ADDRESS="your-email@gmail.com"')
+        print('  export GMAIL_APP_PASSWORD="your-app-password"')
         print("\nThen run: source ~/.zshrc")
         sys.exit(1)
 
     return {
-        "kindle_email": os.environ["KINDLE_EMAIL"],
-        "gmail_user": os.environ["GMAIL_USER"],
-        "gmail_password": os.environ["GMAIL_APP_PASSWORD"],
+        "kindle_email": kindle_email,
+        "gmail_user": gmail_user,
+        "gmail_password": gmail_password,
     }
 
 
