@@ -152,59 +152,82 @@ def get_icloud_metrics():
         return {'status': 'error', 'error': str(e)}
 
 def get_calendar_metrics(creds):
-    """Get today's calendar events."""
+    """Get today's calendar events from ALL visible calendars."""
     try:
         service = build('calendar', 'v3', credentials=creds, cache_discovery=False)
 
-        # Get today's date range in local timezone
-        now = datetime.now(timezone.utc)
+        # Get all calendars
+        calendars = service.calendarList().list().execute()
+        calendar_list = []
+        for cal in calendars.get('items', []):
+            calendar_list.append({
+                'id': cal['id'],
+                'name': cal.get('summary', 'Unknown')
+            })
 
-        # Start of today (midnight local time)
+        # Get today's date range
+        now = datetime.now(timezone.utc)
         today_start = now.replace(hour=0, minute=0, second=0, microsecond=0)
         today_end = today_start + timedelta(days=1)
-
-        # Get events for today
-        events_result = service.events().list(
-            calendarId='primary',
-            timeMin=today_start.isoformat(),
-            timeMax=today_end.isoformat(),
-            singleEvents=True,
-            orderBy='startTime'
-        ).execute()
-
-        events = []
-        for event in events_result.get('items', []):
-            start = event['start'].get('dateTime', event['start'].get('date'))
-            events.append({
-                'time': start,
-                'summary': event.get('summary', 'No title'),
-                'location': event.get('location', ''),
-            })
-
-        # Also get upcoming events (next 7 days) for context
         week_end = today_start + timedelta(days=7)
-        upcoming_result = service.events().list(
-            calendarId='primary',
-            timeMin=now.isoformat(),
-            timeMax=week_end.isoformat(),
-            maxResults=10,
-            singleEvents=True,
-            orderBy='startTime'
-        ).execute()
 
-        upcoming = []
-        for event in upcoming_result.get('items', []):
-            start = event['start'].get('dateTime', event['start'].get('date'))
-            upcoming.append({
-                'time': start,
-                'summary': event.get('summary', 'No title'),
-            })
+        # Collect events from ALL calendars
+        today_events = []
+        upcoming_events = []
+
+        for cal in calendar_list:
+            # Today's events
+            try:
+                events_result = service.events().list(
+                    calendarId=cal['id'],
+                    timeMin=today_start.isoformat(),
+                    timeMax=today_end.isoformat(),
+                    singleEvents=True,
+                    orderBy='startTime'
+                ).execute()
+
+                for event in events_result.get('items', []):
+                    start = event['start'].get('dateTime', event['start'].get('date'))
+                    today_events.append({
+                        'time': start,
+                        'summary': event.get('summary', 'No title'),
+                        'calendar': cal['name'],
+                        'location': event.get('location', ''),
+                    })
+            except:
+                pass  # Skip calendars we can't read
+
+            # Upcoming events (next 7 days)
+            try:
+                upcoming_result = service.events().list(
+                    calendarId=cal['id'],
+                    timeMin=now.isoformat(),
+                    timeMax=week_end.isoformat(),
+                    maxResults=20,
+                    singleEvents=True,
+                    orderBy='startTime'
+                ).execute()
+
+                for event in upcoming_result.get('items', []):
+                    start = event['start'].get('dateTime', event['start'].get('date'))
+                    upcoming_events.append({
+                        'time': start,
+                        'summary': event.get('summary', 'No title'),
+                        'calendar': cal['name'],
+                    })
+            except:
+                pass
+
+        # Sort by time
+        today_events.sort(key=lambda x: x['time'])
+        upcoming_events.sort(key=lambda x: x['time'])
 
         return {
-            'today_count': len(events),
-            'today_events': events,
-            'upcoming_count': len(upcoming),
-            'upcoming_events': upcoming,
+            'calendars': [c['name'] for c in calendar_list],
+            'today_count': len(today_events),
+            'today_events': today_events,
+            'upcoming_count': len(upcoming_events),
+            'upcoming_events': upcoming_events[:15],  # Limit to 15
             'status': 'ok'
         }
     except Exception as e:
