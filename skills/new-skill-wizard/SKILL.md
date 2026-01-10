@@ -278,7 +278,27 @@ git push origin main
 
 Tell them: "`<name>` is now live on main and available everywhere."
 
-### Step 9: Claude.ai Upload (Ask First)
+### Step 9: Update Master Skill List
+
+Add the new skill to `skills/README.md`:
+
+1. **Update the count** in the "CURRENT SKILLS (N skills)" heading
+2. **Add a row** to the table in alphabetical order:
+   ```
+   | [<name>](<name>/) | <one-line description> |
+   ```
+3. **Update the date** at the bottom: `*Last updated: YYYY-MM-DD*`
+
+Commit and push:
+```bash
+git add skills/README.md
+git commit -m "docs: Update master skill list (N skills) + <name>"
+git push origin main
+```
+
+Tell them: "Added `<name>` to the master skill list."
+
+### Step 10: Claude.ai Upload (Ask First)
 
 Ask: "Want me to package this skill for Claude.ai?"
 
