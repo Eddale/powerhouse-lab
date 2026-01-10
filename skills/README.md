@@ -203,7 +203,7 @@ skills/                    <- You edit here (source of truth)
 
 ---
 
-## CURRENT SKILLS (21 skills)
+## CURRENT SKILLS (22 skills)
 
 | Skill | Description |
 |-------|-------------|
@@ -221,6 +221,7 @@ skills/                    <- You edit here (source of truth)
 | [offer-diamond-review](offer-diamond-review/) | Reviews Offer Diamonds for BlackBelt coaches |
 | [onboarding-doc-builder](onboarding-doc-builder/) | Creates role-specific onboarding playbooks |
 | [reflect](reflect/) | Self-improving skills system, analyzes for learnings |
+| [retrospective](retrospective/) | Weekly Done column review with reflection questions |
 | [saleless-coach](saleless-coach/) | Salesless Experiment framework Q&A |
 | [task-clarity-scanner](task-clarity-scanner/) | Scans daily notes using Personal Kanban structure |
 | [webfluence](webfluence/) | Content web architecture framework diagnostics |
@@ -228,7 +229,7 @@ skills/                    <- You edit here (source of truth)
 | [x-bookmarks](x-bookmarks/) | Fetches Twitter/X bookmarks to Inbox folder |
 | [youtube-processor](youtube-processor/) | Process YouTube videos into Obsidian notes |
 
-*Last updated: 2026-01-10*
+*Last updated: 2026-01-11*
 
 ---
 
